@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EFADC" default="manifest" basedir=".">
+
+    <target name="manifest" description="Create Manifest">
+		<property name="version.num" value="1.0"/>
+		<buildnumber file="build.num"/>
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		
+		<manifest file="${output.path}/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}"/>
+			<attribute name="Main-Class" value="org.jlab.EFADC.EFADC_Client"/>
+			<attribute name="Implementation-Version" value="${version.num} b${build.number}"/>
+			<attribute name="Built-Date" value="${TODAY}"/>
+		</manifest>
+
+    </target>
+
+</project>
