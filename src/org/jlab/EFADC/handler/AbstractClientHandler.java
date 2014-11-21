@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 
 
 public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler {
-
-	private static final Logger logger = Logger.getLogger("global");
 	
 	int lastEventID;
 	int eventCount;
@@ -41,7 +39,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 	public void SetCMP(boolean val) {
 		isCMP = val;
-		Logger.getLogger("global").info("SetCMP " + val);
+		//Logger.getLogger("global").info("SetCMP " + val);
 		if (isCMP && m_Aggregator == null) {
 			m_Aggregator = new EFADC_EventAggregator(10);
 			m_Aggregator.setHandler((ClientHandler)this);
@@ -65,35 +63,35 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	@Override
 	public void channelBound(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			logger.info(e.toString());
+			Logger.getLogger("global").info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			logger.info(e.toString());
+			Logger.getLogger("global").info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			logger.info(e.toString());
+			Logger.getLogger("global").info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			logger.info(e.toString());
+			Logger.getLogger("global").info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelUnbound(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			logger.info(e.toString());
+			Logger.getLogger("global").info(e.toString());
 		}
 	}
 
@@ -175,7 +173,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 	public void registersReceived(RegisterSet regs) {
 		if (regs instanceof EFADC_RegisterSet) {
-			Logger.getLogger("global").info(":EFADC_RegisterSet:");
+			Logger.getLogger("global").info("::registersReceived::EFADC_RegisterSet:");
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
@@ -189,7 +187,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			isCMP = false;
 
 		} else if (regs instanceof CMP_RegisterSet) {
-			Logger.getLogger("global").info(":CMP_RegisterSet:");
+			Logger.getLogger("global").info("::registersReceived::CMP_RegisterSet");
 
 			StringBuilder strB = new StringBuilder();
 
@@ -208,7 +206,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				}
 
 
-				Logger.getLogger("global").info(eRegs.toString());
+				//Logger.getLogger("global").info(eRegs.toString());
 
 				/*
 				strB.append("[" + i + "] ");
@@ -226,7 +224,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			}
 
 			if (isCMP == false) {
-				Logger.getLogger("global").info("Set IsCMP true");
+				//Logger.getLogger("global").info("Set IsCMP true");
 				SetCMP(true);
 			}
 		}

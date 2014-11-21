@@ -56,7 +56,8 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			}
 
 			return null;
-		}
+		} //else
+			//Logger.getLogger("global").info("decodeFrame()");
 		
 		switch (type) {
 			case 0x0301:
@@ -174,7 +175,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				//Calculate total frame size, when reading from the CMP, first register that normally belongs to all EFADCs is only read once
 				int frameSize = CMP_RegisterSet.DATA_SIZE_READ_BYTES + (nADC * (EFADC_RegisterSet.DATA_SIZE_BYTES));
 
-				//Logger.getLogger("global").info(String.format("CMP Reg Decode, %04x regHeader, %d ADC's, %d frame size, %d readable", regHeader, nADC, frameSize, buf.readableBytes()));
+				Logger.getLogger("global").info(String.format("CMP Reg Decode, %04x regHeader, %d ADC's, %d frame size, %d readable", regHeader, nADC, frameSize, buf.readableBytes()));
 
 				if (buf.readableBytes() < frameSize + 4) {
 					Logger.getLogger("global").warning(String.format("Not enough bytes in buffer to read CMP regs, need %d have %d", frameSize + 4, buf.readableBytes()));

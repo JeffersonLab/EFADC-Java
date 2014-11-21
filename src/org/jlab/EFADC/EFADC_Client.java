@@ -277,7 +277,7 @@ public class EFADC_Client implements Client {
 		try {
 			p.remove("handler");
 		} catch (NoSuchElementException e) {
-			Logger.getLogger("global").info("No existing handler to remove");
+			Logger.getLogger("global").info("setHandler :: No existing handler to remove");
 		}
 
 		p.addLast("handler", handler);
@@ -455,10 +455,11 @@ public class EFADC_Client implements Client {
 		//Write 0x1404 to all ADCs
 		m_Registers.setRegister(20, 0x1401);
 
-		SendSetRegisters(0);
+		SendSetRegisters(1);
+		SendSetRegisters(2);
 
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -466,10 +467,11 @@ public class EFADC_Client implements Client {
 		//Write 0xFF01 to all ADCs
 		m_Registers.setRegister(20, 0xFF01);
 
-		SendSetRegisters(0);
+		SendSetRegisters(1);
+		SendSetRegisters(2);
 
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -487,10 +489,11 @@ public class EFADC_Client implements Client {
 		//Write 0x1400 to all ADCs
 		m_Registers.setRegister(20, 0x1400);
 
-		SendSetRegisters(0);
+		SendSetRegisters(1);
+		SendSetRegisters(2);
 
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -498,10 +501,11 @@ public class EFADC_Client implements Client {
 		//Write 0xFF01 to all ADCs
 		m_Registers.setRegister(20, 0xFF01);
 
-		SendSetRegisters(0);
+		SendSetRegisters(1);
+		SendSetRegisters(2);
 
 		try {
-			Thread.sleep(1);
+			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -533,16 +537,20 @@ public class EFADC_Client implements Client {
 	}
 
 
-	public void SetANDCoincident(int detA, int detB, boolean val) {
+	public void SetANDCoincident(int detA, int detB, boolean val, boolean reverse) {
+
+		/*
 		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
 		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(CMP_RegisterSet.MatrixType.AND);
 
 		matrix.setCoincident(detA, detB, val, false);
+		*/
 
+		SetCoincident(detA, detB, val, reverse, CMP_RegisterSet.MatrixType.AND);
 	}
 
-	public void SetORCoincident(int detA, int detB, boolean val) {
+	public void SetORCoincident(int detA, int detB, boolean val, boolean reverse) {
 		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
 		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(CMP_RegisterSet.MatrixType.OR);
@@ -552,13 +560,21 @@ public class EFADC_Client implements Client {
 	}
 
 
-	public void SetCoincident(int detA, int detB, boolean val, boolean opposite, CMP_RegisterSet.MatrixType type) {
+	public void SetCoincident(int detA, int detB, boolean val, boolean reverse, CMP_RegisterSet.MatrixType type) {
 
 		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
 		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(type);
 
-		matrix.setCoincident(detA, detB, val, opposite);
+		matrix.setCoincident(detA, detB, val, reverse);
+
+		/*
+		Logger.getLogger("global").info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
+				detA, detB,
+				val ? "ON" : "OFF",
+				type == CMP_RegisterSet.MatrixType.AND ? "AND" : "OR",
+				reverse ? "YES" : "NO"));
+		*/
 	}
 
 
@@ -792,6 +808,7 @@ public class EFADC_Client implements Client {
 		int adcDet = det;
 
 		if (IsCMP()) {
+
 			CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
 			int adc = (int)(det / 4.0) + 1;
@@ -806,7 +823,10 @@ public class EFADC_Client implements Client {
 				Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
 			}
 
+			Logger.getLogger("global").info(String.format("Setting CMP Threshold, chan %d, adc %d, det %d, value %d", det, adc, adcDet, thresh));
+
 		} else {
+			Logger.getLogger("global").info("Setting EFADC Threshold");
 			adcReg = (EFADC_RegisterSet)m_Registers;
 		}
 

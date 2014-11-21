@@ -50,6 +50,7 @@ public class Test {
 
 		public int nEventSets = 0;
 		public int nEvents = 0;
+		public int nSingleEvents = 0;
 
 		TestClientHandler() {
 			eventQueue = new LinkedBlockingQueue<>();
@@ -88,6 +89,10 @@ public class Test {
 		@Override
 		public void eventSetReceived(EventSet set) {
 			//Logger.getLogger("global").info("Got EventSet of size: " + set.size());
+
+			if (set.size() == 1) {
+				nSingleEvents++;
+			}
 
 			nEventSets++;
 
@@ -144,6 +149,9 @@ public class Test {
 			e.printStackTrace();
 		}
 
+		Logger.getLogger("Registers after Init()");
+		m_Client.ReadRegisters();
+
 
 		Logger.getLogger("global").info("Running pedestal acquisition...");
 		pedestals();
@@ -154,9 +162,18 @@ public class Test {
 
 		int eventCount = testHandler.getEventQueue().drainTo(events);
 
-		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d",
-				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets));
+		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
+				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
 
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Logger.getLogger("Registers after acquisition");
+		m_Client.ReadRegisters();
 	}
 
 
@@ -166,37 +183,43 @@ public class Test {
 		//Sync behavior has changed with the master/slave setup
 		//m_Client.SetSync(true);
 
-		m_Client.SetThreshold(0, 1000);
-		m_Client.SetThreshold(1, 1000);
-		m_Client.SetThreshold(2, 1000);
-		m_Client.SetThreshold(3, 1000);
-		m_Client.SetThreshold(4, 1000);
-		m_Client.SetThreshold(5, 1000);
-		m_Client.SetThreshold(6, 1000);
-		m_Client.SetThreshold(7, 1000);
-		m_Client.SetIntegrationWindow(25);
-		m_Client.SetNSB(194);
-		m_Client.SetMode(0);
-
-		m_Client.SetIdentityMatrix();
-
-		m_Client.SendSetRegisters(1);
-		m_Client.SendSetRegisters(2);
-
-		//Logger.getLogger("global").info("--- Reading Registers ---");
-		//m_Client.ReadRegisters();
-
-
 		m_Client.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
 										 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
-
 
 
 		// This should be called last because it internally calls SendSetRegisters
 		m_Client.SetADCNegative();
 
-		//m_Client.SendSetRegisters(false);
+		m_Client.SetThreshold(0, 1000);
+		m_Client.SetThreshold(1, 1001);
+		m_Client.SetThreshold(2, 1002);
+		m_Client.SetThreshold(3, 1003);
+		m_Client.SetThreshold(4, 1004);
+		m_Client.SetThreshold(5, 1005);
+		m_Client.SetThreshold(6, 1006);
+		m_Client.SetThreshold(7, 1007);
+		m_Client.SetIntegrationWindow(25);
 
+		m_Client.SetNSB(50);
+		m_Client.SetMode(0);
+
+		m_Client.SetIdentityMatrix();
+
+		m_Client.SendSetRegisters(1);
+
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+		}
+
+		m_Client.SendSetRegisters(2);
+
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+
+		}
 
 	}
 
@@ -234,11 +257,12 @@ public class Test {
 	private void pedestals() {
 
 		//Adjust coincidence window widths so the self triggering correlates
-		m_Client.SetCoincidenceWindowWidth(255);
+		m_Client.SetCoincidenceWindowWidth(50);
 
 
 		m_Client.SetSelfTrigger(true, 200);	// ~10Khz trigger
-		m_Client.SendSetRegisters(0);		// Need to send to all efadcs
+		m_Client.SendSetRegisters(1);		// Need to send to all efadcs
+		m_Client.SendSetRegisters(2);
 
 		try {
 			Thread.sleep(100);
@@ -257,7 +281,8 @@ public class Test {
 		stopAcquisition();
 
 		m_Client.SetSelfTrigger(false, 200);
-		m_Client.SendSetRegisters(0);
+		m_Client.SendSetRegisters(1);
+		m_Client.SendSetRegisters(2);
 	}
 
 

@@ -37,6 +37,8 @@ public class CMP_RegisterSet extends RegisterSet {
 
 	int m_NumADC;
 	int m_SelectedADC;
+	short m_CMPRxBufLimit = 50;	// this value works for summing mode
+	short m_EthernetReadbackBufFullThreshold = 1352;
 
 	public int[] status;
 	public ArrayList<EFADC_RegisterSet> adc;
@@ -203,7 +205,8 @@ public class CMP_RegisterSet extends RegisterSet {
 		try {
 			EFADC_RegisterSet efadcRegs = getADCRegisters(m_SelectedADC == 0 ? 1 : m_SelectedADC);	// selected adc index is 1 greater because 0 selects all
 
-			//Logger.getLogger("global").info(String.format("ADC %d Int Window: %d", m_SelectedADC, efadcRegs.getIntegrationWindow()));
+			//Logger.getLogger("global").info(String.format("CMP_RegisterSet:encode()\n\tADC %d Int Window: %d\n\tCoincidenceWidth: %d",
+			//		m_SelectedADC, efadcRegs.getIntegrationWindow(), efadcRegs.getCoincidenceWindowWidth()));
 
 			// Encode selected EFADC register set
 			buffer.writeBytes(efadcRegs.encode(false));	// dont encode 5a5a header
@@ -363,9 +366,36 @@ public class CMP_RegisterSet extends RegisterSet {
 	CmpRxBufFull = The smallest of the above calculations
 
 	 */
-	short getCMPRxBufLimit() {
-		return 50;
+	public short getCMPRxBufLimit() {
 
+		int nWordsPerTrigger = (getRegister(REG_2)  & 0x01FF) + 1;
+
+		// Count
+		int nORbits = 0;
+		int nANDbits = 32;
+		int nMode = 0;
+
+		int opt1 = (int)(1000 / (nWordsPerTrigger + 2)) - 3;
+		int opt2 = 500;
+
+		if (nMode == 0) {
+			int opt3 = (int)(4000 / ((nANDbits * 2) + 10)) - 1;
+			int opt4 = (int)(2000 / ((nANDbits * 2) + 10)) - 1;
+
+		} else {
+
+			int opt3 = (int)(4000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
+			int opt4 = (int)(2000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
+		}
+
+
+
+		return m_CMPRxBufLimit;
+	}
+
+
+	public void setCMPRxBufLimit(short val) {
+		m_CMPRxBufLimit = val;
 	}
 
 
@@ -385,8 +415,13 @@ public class CMP_RegisterSet extends RegisterSet {
 	RdBckBufFull_TH = RdBckBufFull_TH * ((NumberOfAdcChannelHasData*2)+10);
 
 	 */
-	short getEthernetReadbackBufFullThreshold() {
-		return 1352;
+	public short getEthernetReadbackBufFullThreshold() {
+		return m_EthernetReadbackBufFullThreshold;
+	}
+
+
+	public void setEthernetReadbackBufFullThreshold(short val) {
+		m_EthernetReadbackBufFullThreshold = val;
 	}
 
 }

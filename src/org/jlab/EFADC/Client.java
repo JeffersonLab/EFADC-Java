@@ -20,8 +20,8 @@ public interface Client {
 
 	public void SetCoincidenceWindowWidth(int width);
 
-	public void SetANDCoincident(int detA, int detB, boolean val);
-	public void SetORCoincident(int detA, int detB, boolean val);
+	public void SetANDCoincident(int detA, int detB, boolean val, boolean reverse);
+	public void SetORCoincident(int detA, int detB, boolean val, boolean reverse);
 
 	public void SetIdentityMatrix();
 	public void SetZeroMatrix();
@@ -53,6 +53,8 @@ public interface Client {
 	public void SetRawOutputFile(String filename) throws IOException;
 
 	public void cleanup();
+
+	public RegisterSet getRegisterSet();
 
 	public void setHandler(ClientHandler handler);
 

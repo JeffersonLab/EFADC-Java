@@ -97,7 +97,7 @@ public class Connector {
 			if (m_ConnectState == ConnectState.CONNECTING) {
 				m_ConnectState = ConnectState.CONNECTED;
 
-				Logger.getLogger("global").info("in registersReceived(), state CONNECTED");
+				Logger.getLogger("global").info("ConnectHandler.registersReceived(), state CONNECTED");
 
 				// This is required to detect if we connected to a CMP or standalone EFADC
 				m_Client.setRegisterSet(registers);
@@ -124,11 +124,17 @@ public class Connector {
 
 		@Override
 		public Client get() throws InterruptedException, ExecutionException {
+
+			Logger.getLogger("global").info("ConnectHandler.get()");
+
 			return this.reply.take();
 		}
 
 		@Override
 		public Client get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+
+			Logger.getLogger("global").info(String.format("ConnectHandler.get(%d)", timeout));
+
 			final Client replyOrNull = reply.poll(timeout, unit);
 			if (replyOrNull == null) {
 				throw new TimeoutException();
@@ -138,6 +144,9 @@ public class Connector {
 
 		@Override
 		public boolean cancel(boolean mayInterruptIfRunning) {
+
+			Logger.getLogger("global").info("ConnectHandler.cancel()");
+
 			//try {
 				state = State.CANCELLED;
 				//cleanUp();
@@ -180,8 +189,12 @@ public class Connector {
 		m_ConnectFuture = new ConnectFuture();
 
 		try {
+			Logger.getLogger("global").info(" => connect()");
+
+			// This just opens the datagram channel, no communication is initiated until after we install the handler and read registers
 			m_Client.connect();
 
+			Logger.getLogger("global").info(" => setHandler()");
 			m_Client.setHandler(m_ConnectFuture);
 		} catch (EFADC_AlreadyConnectedException e) {
 			Logger.getLogger("global").severe("Already connected?");
@@ -189,7 +202,7 @@ public class Connector {
 		}
 
 		m_ConnectState = ConnectState.CONNECTING;
-		Logger.getLogger("global").info("in connect(), state CONNECTING, reading registers...");
+		Logger.getLogger("global").info(" => ReadRegisters() :: state CONNECTING");
 
 		// Try to read registers to see if we're really connected
 		if (!m_Client.ReadRegisters()) {
