@@ -22,6 +22,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 	
 	int lastTrig = -1;
 	int eventSize = 0;
+    long lastTime = 0;
 	
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buf) throws Exception {
@@ -41,8 +42,10 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 		int type = buf.getUnsignedShort(mark + 2);	// skip 4
 		
 		if (header != 0x5a5a) {
-			logger.info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastTrig, eventSize));
+			logger.warning(String.format("bad header: %04x  type: 0x%04x  lastTime:%04x%08x lastTrig: %04x  lastEventSize: %d",
+                    header, type, (lastTime >> 32) & 0x0000ffff, lastTime & 0xffffffff, lastTrig, eventSize));
 
+            /*
 			if (EFADC_Client.flag_Verbose) {
 				int readable = buf.readableBytes();
 
@@ -54,8 +57,10 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				}
 				logger.info(out);
 			}
+			*/
 
-			return null;
+            // Allow the handler to continue on into the default switch statement
+
 		} //else
 			//Logger.getLogger("global").info("decodeFrame()");
 		
@@ -106,6 +111,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 				// Return null here to wait for more bytes to arrive and avoid overhead of constructing new DataEvent prematurely
 				if (avail < eventSize + 10) {
+                    logger.info(String.format("Not enough bytes in read buffer, need %d have %d.", eventSize + 10, avail));
 					return null;
 				}
 					
@@ -121,8 +127,8 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				theEvent.activeChannels = activeChannels;
 				theEvent.chanCount = chanCount;
 
-				theEvent.trigId = frame.readUnsignedShort();
 				lastTrig = theEvent.trigId;
+                lastTime = theEvent.tStamp;
 
 				theEvent.decode(frame);
 
@@ -131,7 +137,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					int pad = frame.readUnsignedShort();
 
 					if (pad != 0) {
-						logger.info(String.format("Data alignment error: 0x%04x  sums %d  samples %d  trigId %d", pad, theEvent.chanCount, theEvent.sampleCount, theEvent.trigId));
+						logger.warning(String.format("Data alignment error: 0x%04x  sums %d  samples %d  trigId %d", pad, theEvent.chanCount, theEvent.sampleCount, theEvent.trigId));
 						//logger.info(str);
 					}
 				}
@@ -192,14 +198,17 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			
 			default:
 				
-				//System.out.printf("Packet 0x%04x echo\n", type);
+				logger.warning("Attempting buffer re-alignment");
 
 				// mark + 2 was the event type, so read on from 4 bytes from the mark
 				int count = 4;
-				
-				while (buf.readableBytes() > 1) {
+				boolean found = false;
+
+				while (buf.readableBytes() > mark + count) {
 
 					if (buf.getUnsignedShort(mark + count) == 0x5a5a) {
+                        found = true;
+                        logger.info("  Header found at index " + (mark + count));
 						break;
 					} else
 						++count;	// Advance 1 byte at a time because we don't know if the buffer has an even number
@@ -213,10 +222,23 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				}
 				System.out.println();
 				*/
-				
-				//Logger.getLogger("global").info("Stray buffer " + count + " bytes long");
+
+                if (found) {
+                    logger.warning("Re-aligned buffer after " + count + " bytes at index " + (mark + count));
+
+                    //
+                    //return buf.readBytes(mark + count);
+
+                    //if (mark + count < buf.readableBytes(
+
+                    buf.skipBytes(mark + count);
+                } else {
+                    // Ok, something has gone seriously wrong
+                    // We should probably stop acquisition here...
+                    return null;
+                }
 			
-				return buf.readBytes(count);
+
 		}
 
 		// If we got here, I think there is some other problem...

@@ -33,6 +33,9 @@ public class EFADC_DataEvent {
 	}
 	
 	public boolean decode(ChannelBuffer frame) {
+
+        trigId = frame.readUnsignedShort();
+
 		//Timestamp
 		/*
 		int t1 = frame.readUnsignedShort();
