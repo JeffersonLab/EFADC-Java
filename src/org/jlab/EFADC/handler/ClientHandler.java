@@ -23,6 +23,7 @@ public interface ClientHandler extends ChannelUpstreamHandler {
 	public void bufferReceived(ChannelBuffer buffer);
 	public void eventReceived(EFADC_DataEvent event);
 	public void eventSetReceived(EventSet set);
+	public void error(String strError);
 	public void registersReceived(RegisterSet regs);
 
 	public boolean IsCMP();

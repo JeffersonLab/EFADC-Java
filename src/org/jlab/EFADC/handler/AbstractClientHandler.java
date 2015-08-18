@@ -233,5 +233,6 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	public abstract void bufferReceived(ChannelBuffer buffer);
 	public abstract void eventReceived(EFADC_DataEvent event);
 	public abstract void eventSetReceived(EventSet set);
+	public abstract void error(String strError);
 
 }

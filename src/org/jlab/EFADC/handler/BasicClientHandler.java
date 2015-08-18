@@ -30,6 +30,10 @@ public class BasicClientHandler extends AbstractClientHandler implements ClientH
 	public void eventSetReceived(EventSet set) {
 	}
 
+	@Override
+	public void error(String strError) {
+	}
+
 	//@Override
 	//public void registersReceived(RegisterSet regs) {}
 }
