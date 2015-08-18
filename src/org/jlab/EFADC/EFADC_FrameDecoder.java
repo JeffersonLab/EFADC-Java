@@ -147,13 +147,14 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					//Decode standard EFADC registers
 
 					// Register readback payload should be 60 total bytes
-					if (buf.readableBytes() < EFADC_RegisterSet.DATA_SIZE_BYTES + 4)
+					// TODO Assuming version 2
+					if (buf.readableBytes() < EFADC_RegistersV2.DATA_SIZE_BYTES + 4)
 						return null;
 
 					buf.skipBytes(6);	// Skip over register header as well
 					ChannelBuffer frame = buf.readBytes(54);
 
-					EFADC_RegisterSet regs = new EFADC_RegisterSet(regHeader);
+					EFADC_RegisterSet regs = new EFADC_RegistersV2(regHeader);
 
 					regs.decode(frame);
 
@@ -173,7 +174,8 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				int nADC = regHeader >> 8 & 0x7f;
 
 				//Calculate total frame size, when reading from the CMP, first register that normally belongs to all EFADCs is only read once
-				int frameSize = CMP_RegisterSet.DATA_SIZE_READ_BYTES + (nADC * (EFADC_RegisterSet.DATA_SIZE_BYTES));
+				// TODO Update for new efadc  assuming version 2 for now...
+				int frameSize = CMP_RegisterSet.DATA_SIZE_READ_BYTES + (nADC * (EFADC_RegistersV2.DATA_SIZE_BYTES));
 
 				Logger.getLogger("global").info(String.format("CMP Reg Decode, %04x regHeader, %d ADC's, %d frame size, %d readable", regHeader, nADC, frameSize, buf.readableBytes()));
 

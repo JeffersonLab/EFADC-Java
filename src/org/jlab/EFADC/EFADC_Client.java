@@ -83,8 +83,9 @@ public class EFADC_Client implements Client {
 
 		} else
 			Logger.getLogger("global").info("Idle handler disabled");
-			
-		m_Registers = new EFADC_RegisterSet();
+
+		// TODO: Use factory or whatever to get proper register set version
+		//m_Registers = new EFADC_RegisterSet();
 
 		setInterCommandDelay(50);
 
@@ -394,7 +395,7 @@ public class EFADC_Client implements Client {
 
 	public void setRegisterSet(RegisterSet regs) {
 
-		if (m_Registers instanceof EFADC_RegisterSet && regs instanceof CMP_RegisterSet) {
+		if (m_Registers == null || (m_Registers instanceof EFADC_RegisterSet && regs instanceof CMP_RegisterSet)) {
 			// Replace if we detected CMP
 			m_Registers = regs;
 
@@ -411,36 +412,6 @@ public class EFADC_Client implements Client {
 	public RegisterSet getRegisterSet() {
 		return m_Registers;
 	}
-
-
-	/*
-	public void Init() {
-		// Reset
-		m_Registers.setRegister(1, m_Registers.getRegister(1) | EFADC_RegisterSet.Reset_Mask);
-
-		SendSetRegisters();
-
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		// Unreset
-		m_Registers.setRegister(1, m_Registers.getRegister(1) | ~EFADC_RegisterSet.Reset_Mask);
-
-		SendSetRegisters();
-
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		// Turn CML on
-
-	}
-	*/
 
 
 
@@ -513,7 +484,7 @@ public class EFADC_Client implements Client {
 
 
 	public void SetCoincidenceWindowWidth(int width) {
-		EFADC_RegisterSet adcReg;
+		EFADC_Registers adcReg;
 
 		if (IsCMP()) {
 
@@ -521,7 +492,7 @@ public class EFADC_Client implements Client {
 
 			for (int i = 1; i < cmpReg.getADCCount() + 1; i++) {
 				try {
-					adcReg = cmpReg.getADCRegisters(i);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(i);
 
 					adcReg.setCoincidenceWindowWidth(width);
 				} catch (EFADC_InvalidADCException e) {
@@ -530,7 +501,7 @@ public class EFADC_Client implements Client {
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 
 			adcReg.setCoincidenceWindowWidth(width);
 		}
@@ -622,7 +593,7 @@ public class EFADC_Client implements Client {
 	 * @param window
 	 */
 	public void SetIntegrationWindow(int window) {
-		EFADC_RegisterSet adcReg;
+		EFADC_Registers adcReg;
 
 		if (IsCMP()) {
 
@@ -630,7 +601,7 @@ public class EFADC_Client implements Client {
 
 			for (int i = 1; i < cmpReg.getADCCount() + 1; i++) {
 				try {
-					adcReg = cmpReg.getADCRegisters(i);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(i);
 
 					adcReg.setIntegrationWindow(window);
 				} catch (EFADC_InvalidADCException e) {
@@ -639,7 +610,7 @@ public class EFADC_Client implements Client {
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 
 			adcReg.setIntegrationWindow(window);
 		}
@@ -651,7 +622,7 @@ public class EFADC_Client implements Client {
 	 * @param mode
 	 */
 	public void SetMode(int mode) {
-		EFADC_RegisterSet adcReg;
+		EFADC_Registers adcReg;
 
 		if (IsCMP()) {
 
@@ -659,7 +630,7 @@ public class EFADC_Client implements Client {
 
 			for (int i = 1; i < cmpReg.getADCCount() + 1; i++) {
 				try {
-					adcReg = cmpReg.getADCRegisters(i);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(i);
 
 					adcReg.setMode(mode);
 				} catch (EFADC_InvalidADCException e) {
@@ -668,7 +639,7 @@ public class EFADC_Client implements Client {
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 
 			adcReg.setMode(mode);
 		}
@@ -680,7 +651,7 @@ public class EFADC_Client implements Client {
 	 * @param window
 	 */
 	public void SetNSB(int window) {
-		EFADC_RegisterSet adcReg;
+		EFADC_Registers adcReg;
 
 		if (IsCMP()) {
 
@@ -688,7 +659,7 @@ public class EFADC_Client implements Client {
 
 			for (int i = 1; i < cmpReg.getADCCount() + 1; i++) {
 				try {
-					adcReg = cmpReg.getADCRegisters(i);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(i);
 
 					adcReg.setNSB(window);
 				} catch (EFADC_InvalidADCException e) {
@@ -697,7 +668,7 @@ public class EFADC_Client implements Client {
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 
 			adcReg.setNSB(window);
 		}
@@ -710,7 +681,7 @@ public class EFADC_Client implements Client {
 	 * @param window
 	 */
 	public void SetIntegrationWindow(int adc, int window) {
-		EFADC_RegisterSet adcReg = null;
+		EFADC_Registers adcReg = null;
 
 		if (IsCMP()) {
 			CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
@@ -721,14 +692,14 @@ public class EFADC_Client implements Client {
 			} else {
 
 				try {
-					adcReg = cmpReg.getADCRegisters(adc);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(adc);
 				} catch (EFADC_InvalidADCException e) {
 					Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
 				}
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 		}
 
 		if (adcReg == null) {
@@ -746,7 +717,7 @@ public class EFADC_Client implements Client {
 	 * @param value
 	 */
 	public void SetSelfTrigger(boolean enable, int value) {
-		EFADC_RegisterSet adcReg;
+		EFADC_Registers adcReg;
 
 		if (IsCMP()) {
 
@@ -754,7 +725,7 @@ public class EFADC_Client implements Client {
 
 			for (int i = 1; i < cmpReg.getADCCount() + 1; i++) {
 				try {
-					adcReg = cmpReg.getADCRegisters(i);
+					adcReg = (EFADC_Registers)cmpReg.getADCRegisters(i);
 
 					adcReg.setSelfTrigger(enable, value);
 
@@ -766,7 +737,7 @@ public class EFADC_Client implements Client {
 			}
 
 		} else {
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 
 			adcReg.setSelfTrigger(enable, value);
 		}
@@ -804,7 +775,7 @@ public class EFADC_Client implements Client {
 
 	public void SetThreshold(int det, int thresh) {
 
-		EFADC_RegisterSet adcReg = null;
+		EFADC_Registers adcReg = null;
 		int adcDet = det;
 
 		if (IsCMP()) {
@@ -817,7 +788,7 @@ public class EFADC_Client implements Client {
 			adcDet = det - (adc - 1) * 4;
 
 			try {
-				adcReg = cmpReg.getADCRegisters(adc);
+				adcReg = (EFADC_Registers)cmpReg.getADCRegisters(adc);
 
 			} catch (EFADC_InvalidADCException e) {
 				Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
@@ -827,7 +798,7 @@ public class EFADC_Client implements Client {
 
 		} else {
 			Logger.getLogger("global").info("Setting EFADC Threshold");
-			adcReg = (EFADC_RegisterSet)m_Registers;
+			adcReg = (EFADC_Registers)m_Registers;
 		}
 
 		if (adcReg == null) {
@@ -920,7 +891,7 @@ public class EFADC_Client implements Client {
 	 * @param reg EFADC Registers
 	 * @return
 	 */
-	private boolean sendDACValues(int[] values, EFADC_RegisterSet reg, int adc) {
+	private boolean sendDACValues(int[] values, EFADC_Registers reg, int adc) {
 		for (int i = 0; i < 16; i++) {
 			reg.setBiasDAC(i, values[i]);
 			if (!SendSetRegisters(adc))
@@ -949,7 +920,7 @@ public class EFADC_Client implements Client {
 
 		if (m_Registers instanceof EFADC_RegisterSet) {
 
-			return sendDACValues(values, (EFADC_RegisterSet)m_Registers, 0);
+			return sendDACValues(values, (EFADC_Registers)m_Registers, 0);
 
 		} else {
 
@@ -971,7 +942,7 @@ public class EFADC_Client implements Client {
 				int selADC = i + 1;	// +1 here because a subtraction occurs internally, and a selected adc value of 0 sends to all efadcs
 
 				try {
-					EFADC_RegisterSet adcReg = cmpReg.getADCRegisters(selADC);
+					EFADC_Registers adcReg = (EFADC_Registers)cmpReg.getADCRegisters(selADC);
 
 					//cmpReg.selectADC(selADC);
 
@@ -1080,6 +1051,5 @@ public class EFADC_Client implements Client {
 			pipeline.addBefore("encoder", "writer", writer);
 		}
 	}
-
 
 }

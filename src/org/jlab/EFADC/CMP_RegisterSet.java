@@ -317,9 +317,11 @@ public class CMP_RegisterSet extends RegisterSet {
 		for (int i = 0; i < m_NumADC; i++) {
 
 			// Read EFADC configuration and status
-			ChannelBuffer adcBuf = frame.readBytes(EFADC_RegisterSet.DATA_SIZE_BYTES);
+			// TODO We need to know which EFADC version... Should this be encoded into Status[0-2]?
+			// Assuming version 2 for now
+			ChannelBuffer adcBuf = frame.readBytes(EFADC_RegistersV2.DATA_SIZE_BYTES);
 
-			EFADC_RegisterSet adcReg = new EFADC_RegisterSet();
+			EFADC_RegisterSet adcReg = new EFADC_RegistersV2();
 			adcReg.decode(adcBuf);
 
 			adc.add(adcReg);
@@ -333,7 +335,7 @@ public class CMP_RegisterSet extends RegisterSet {
 
 		EFADC_RegisterSet masterEFADC = adc.get(0);
 
-		System.arraycopy(masterEFADC.getRegisters(), 0, register, 0, EFADC_RegisterSet.NUM_REGS);
+		System.arraycopy(masterEFADC.getRegisters(), 0, register, 0, EFADC_RegistersV2.NUM_REGISTERS);
 
 		/*
 		int writeIdx = 0;
@@ -375,17 +377,17 @@ public class CMP_RegisterSet extends RegisterSet {
 		int nANDbits = 32;
 		int nMode = 0;
 
-		int opt1 = (int)(1000 / (nWordsPerTrigger + 2)) - 3;
+		int opt1 = (1000 / (nWordsPerTrigger + 2)) - 3;
 		int opt2 = 500;
 
 		if (nMode == 0) {
-			int opt3 = (int)(4000 / ((nANDbits * 2) + 10)) - 1;
-			int opt4 = (int)(2000 / ((nANDbits * 2) + 10)) - 1;
+			int opt3 = (4000 / ((nANDbits * 2) + 10)) - 1;
+			int opt4 = (2000 / ((nANDbits * 2) + 10)) - 1;
 
 		} else {
 
-			int opt3 = (int)(4000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
-			int opt4 = (int)(2000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
+			int opt3 = (4000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
+			int opt4 = (2000 / (nANDbits * nWordsPerTrigger + 10)) - 1;
 		}
 
 

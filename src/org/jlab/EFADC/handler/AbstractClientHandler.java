@@ -177,7 +177,9 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
-			for (int i = 0; i < EFADC_RegisterSet.NUM_REGS; i++) {
+			int numRegs = ((EFADC_RegisterSet) regs).getRegisters().length;
+
+			for (int i = 0; i < numRegs; i++) {
 				System.out.printf("%02X\n", regs.getRegister(i));
 			}
 
