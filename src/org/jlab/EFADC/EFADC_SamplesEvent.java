@@ -8,12 +8,18 @@ import org.jboss.netty.buffer.ChannelBuffer;
  * User: john
  * Date: 11/13/12
  */
-public class EFADC_SamplesEvent {
+public class EFADC_SamplesEvent extends AbstractEvent implements EFADC_Event {
 
-	public int moduleId;
-	public int trigId;
 	public int channel;
 	public int[] samples;
+
+	public EFADC_SamplesEvent(int modId) {
+		this.modId = modId;
+	}
+
+	public int getSampleCount() {
+		return (samples == null ? 0 : samples.length);
+	}
 
 	public boolean decode(ChannelBuffer frame) {
 

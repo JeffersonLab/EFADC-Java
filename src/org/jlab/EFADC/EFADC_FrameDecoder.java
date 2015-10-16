@@ -16,12 +16,10 @@ import java.util.logging.Logger;
 
 public class EFADC_FrameDecoder extends FrameDecoder {
 
-	private static final short VERIFY_BIT = 1;
-	
-	private static final Logger logger = Logger.getLogger("global");
-	
-	int lastTrig = -1;
+	//int lastTrig = -1;
 	int eventSize = 0;
+
+	EFADC_Event lastEvent;
 	
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buf) throws Exception {
@@ -41,7 +39,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 		int type = buf.getUnsignedShort(mark + 2);	// skip 4
 		
 		if (header != 0x5a5a) {
-			logger.info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastTrig, eventSize));
+			Logger.getLogger("global").info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastEvent.getTriggerId(), eventSize));
 
 			if (EFADC_Client.flag_Verbose) {
 				int readable = buf.readableBytes();
@@ -52,7 +50,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					byte b = buf.getByte(j);
 					out += String.format("%02x ", b);
 				}
-				logger.info(out);
+				Logger.getLogger("global").info(out);
 			}
 
 			return null;
@@ -75,58 +73,13 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 				if (temp == 0x5a5a) {
 					buf.readUnsignedInt();
-					logger.info("Skipping buffer preload...");
+					Logger.getLogger("global").info("Skipping buffer preload...");
 					return null;
 				}
 
-				//low byte is reserved and as such, ignored
-				int sampleCount = (buf.getUnsignedShort(mark + 6) >> 8) & 0x00ff;
-				int activeChannels = buf.getUnsignedShort(mark + 8);
-				
-				int mode = (temp >> 8) & 0x00ff;
-				int modId = temp & 0x00ff;
-				boolean verifyMode = (mode & VERIFY_BIT) == VERIFY_BIT;
-				
-				int chanCount = 0;
-				
-				//Count active channels
-				for (int i = 0; i < 16; i++) {
-					if (((activeChannels >> i) & 0x1) == 0x1) {
-						chanCount++;
-					}
-				}
-				
-				eventSize = chanCount * 4;					//data size of sums
-				eventSize += (sampleCount * 2) * chanCount;	//total size of sample data
-				eventSize += 2 + 6 + 2;						//trigId + timestamp + padding
-				
-				//logger.info(String.format("verify %d  eventSize %d  chanCount %d  sampleCount %d", verifyMode ? 1 : 0, eventSize, chanCount, sampleCount));
-				
-				int avail = buf.readableBytes();
+				EFADC_Event theEvent = EventFactory.decodeEvent(temp, mark, buf);
 
-				// Return null here to wait for more bytes to arrive and avoid overhead of constructing new DataEvent prematurely
-				if (avail < eventSize + 10) {
-					return null;
-				}
-					
-				buf.skipBytes(10);
-				ChannelBuffer frame = buf.readBytes(eventSize);
-				
-				EFADC_DataEvent theEvent = new EFADC_DataEvent();
-
-				theEvent.mode = mode;
-				theEvent.modId = modId;
-				theEvent.verifyMode = verifyMode;
-				theEvent.sampleCount = sampleCount;
-				theEvent.activeChannels = activeChannels;
-				theEvent.chanCount = chanCount;
-
-				theEvent.trigId = frame.readUnsignedShort();
-				lastTrig = theEvent.trigId;
-
-				theEvent.decode(frame);
-
-
+				/*
 				if (EFADC_Client.flag_Verbose) {
 					int pad = frame.readUnsignedShort();
 
@@ -135,7 +88,9 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 						//logger.info(str);
 					}
 				}
+				*/
 
+				lastEvent = theEvent;
 
 				return theEvent;	//return event as POJO
 			}
@@ -147,14 +102,14 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					//Decode standard EFADC registers
 
 					// Register readback payload should be 60 total bytes
-					// TODO Assuming version 2
+					// TODO Assuming version 2 and 3 have same number of registers
 					if (buf.readableBytes() < EFADC_RegistersV2.DATA_SIZE_BYTES + 4)
 						return null;
 
 					buf.skipBytes(6);	// Skip over register header as well
 					ChannelBuffer frame = buf.readBytes(54);
 
-					EFADC_RegisterSet regs = new EFADC_RegistersV2(regHeader);
+					EFADC_RegisterSet regs = RegisterFactory.initRegisters(regHeader);
 
 					regs.decode(frame);
 

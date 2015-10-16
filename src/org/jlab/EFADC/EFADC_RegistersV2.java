@@ -13,6 +13,10 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
     public static final int NUM_STATUS = 7;
     public static final int DATA_SIZE_BYTES = (NUM_REGISTERS + NUM_STATUS) * 2;
 
+    static final int Mode_Mask		= 0x200;
+
+    static final int Reset_Mask = 0x1000;
+
     static final int[] s_DefaultRegs = new int[] {0x200F, 0x0016, 0x0339, 0x0BD8, 0x03e0, 0x03e0, 0x03e0, 0x03e0, 0xF0F0, 0xF0F0, 0x00F0, 0x0202, 0x0202, 0x0001, 0x0001, 0x0001, 0x0001, 0x1FFA, 0x0000, 0x0CE4};
 
     static final String[] s_Descriptions = new String[] {
@@ -56,7 +60,7 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
     }
 
     public String toString() {
-        StringBuilder strB = new StringBuilder("EFADC Register Set\n");
+        StringBuilder strB = new StringBuilder("EFADC v2 Register Set\n");
 
         for (int reg : register) {
             strB.append(String.format("%04x ", reg));

@@ -1,68 +1,52 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
 
 /**
  * Created by john on 8/18/15.
  */
-public class EFADC_RegistersV3 extends EFADC_RegisterSet implements EFADC_Registers {
-    @Override
-    public boolean decode(ChannelBuffer frame) {
-        return false;
+public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Registers {
+
+    static final int Mode_Mask		= 0x8000;
+
+    //static final int Reset_Mask = 0x1000; // deprecated in v3
+
+    public EFADC_RegistersV3(int header) {
+        super(header);
     }
 
     @Override
-    public void setBiasDAC(int channel, int value) {
+    public String getRegisterDescription(int i) throws InvalidRegisterException {
+        if (i < 0 || i > NUM_REGISTERS)
+            throw new InvalidRegisterException();
 
+        String returnStr;
+
+        switch (i) {
+
+            case 1:
+                returnStr = "15: Mode (0 SUM, 1 Sampling); 13: Sync; 10: 1 - Free Running Trigger, rate set by conf18 bits 11:0; 8..0: Integration Window";
+                break;
+
+            case 18:
+                returnStr = "12..0: Self trigger rate (512ns per count)";
+                break;
+
+            default:
+                returnStr = super.getRegisterDescription(i);
+
+        }
+
+        return returnStr;
     }
 
-    @Override
-    public int getCoincidenceWindowWidth() {
-        return 0;
-    }
-
-    @Override
-    public void setCoincidenceWindowWidth(int width) {
-
-    }
-
-    @Override
-    public void setCoincidenceTable(int reg1, int reg2) {
-
-    }
-
-    @Override
-    public int getIntegrationWindow() {
-        return 0;
-    }
-
-    @Override
-    public void setIntegrationWindow(int width) {
-
-    }
 
     @Override
     public void setMode(int mode) {
 
+        if (mode == 0)
+            register[REG_1] |= ~Mode_Mask;
+        else if (mode == 1)
+            register[REG_1] |= Mode_Mask;
     }
 
-    @Override
-    public void setNSB(int value) {
-
-    }
-
-    @Override
-    public void setSelfTrigger(boolean active, int rate) {
-
-    }
-
-    @Override
-    public boolean setThreshold(int group, int value) {
-        return false;
-    }
-
-    @Override
-    public String getRegisterDescription(int i) {
-        return null;
-    }
 }

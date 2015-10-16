@@ -16,10 +16,6 @@ import static org.jboss.netty.buffer.ChannelBuffers.buffer;
 
 public abstract class EFADC_RegisterSet extends RegisterSet {
 
-	static final int Mode_Mask		= 0x200;
-
-	static final int Reset_Mask = 0x1000;
-
 	static final byte FUNC_EFADC_REG = (byte)0x00;
 
 
