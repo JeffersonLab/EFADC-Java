@@ -9,10 +9,7 @@ package org.jlab.EFADC.handler;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.ChannelUpstreamHandler;
-import org.jlab.EFADC.Client;
-import org.jlab.EFADC.EFADC_DataEvent;
-import org.jlab.EFADC.EventSet;
-import org.jlab.EFADC.RegisterSet;
+import org.jlab.EFADC.*;
 
 public interface ClientHandler extends ChannelUpstreamHandler {
 
@@ -24,6 +21,7 @@ public interface ClientHandler extends ChannelUpstreamHandler {
 	public void eventReceived(EFADC_DataEvent event);
 	public void eventSetReceived(EventSet set);
 	public void registersReceived(RegisterSet regs);
+	public void samplesReceived(EFADC_SamplesEvent event);
 
 	public boolean IsCMP();
 }

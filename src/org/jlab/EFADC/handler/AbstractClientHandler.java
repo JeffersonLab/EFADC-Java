@@ -101,7 +101,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 		Object message = e.getMessage();
 
 		if (message instanceof EFADC_DataEvent) {
-			EFADC_DataEvent event = (EFADC_DataEvent)message;
+			EFADC_DataEvent event = (EFADC_DataEvent) message;
 
 			if (event.trigId < lastEventID)
 				lastEventID = -1;
@@ -112,7 +112,6 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			}
 
 			lastEventID = event.trigId;
-
 
 			if (isCMP) {
 				// Aggregate events from a CMP
@@ -128,7 +127,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 					eventCount++;
 
 					// EventSet was popped off the end of the list, ready for processing
-					eventSetReceived((EventSet)ret);
+					eventSetReceived((EventSet) ret);
 				}
 
 			} else {
@@ -136,6 +135,10 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				eventReceived(event);
 			}
 
+		} else if (message instanceof EFADC_SamplesEvent) {
+			EFADC_SamplesEvent event = (EFADC_SamplesEvent) message;
+
+			samplesReceived(event);
 			
 		} else if (message instanceof EFADC_RegisterSet) {
 
@@ -235,5 +238,6 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	public abstract void bufferReceived(ChannelBuffer buffer);
 	public abstract void eventReceived(EFADC_DataEvent event);
 	public abstract void eventSetReceived(EventSet set);
+	public abstract void samplesReceived(EFADC_SamplesEvent event);
 
 }

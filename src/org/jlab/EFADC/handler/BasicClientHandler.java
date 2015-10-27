@@ -10,6 +10,7 @@ package org.jlab.EFADC.handler;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jlab.EFADC.Client;
 import org.jlab.EFADC.EFADC_DataEvent;
+import org.jlab.EFADC.EFADC_SamplesEvent;
 import org.jlab.EFADC.EventSet;
 
 public class BasicClientHandler extends AbstractClientHandler implements ClientHandler {
@@ -28,6 +29,10 @@ public class BasicClientHandler extends AbstractClientHandler implements ClientH
 
 	@Override
 	public void eventSetReceived(EventSet set) {
+	}
+
+	@Override
+	public void samplesReceived(EFADC_SamplesEvent event) {
 	}
 
 	//@Override
