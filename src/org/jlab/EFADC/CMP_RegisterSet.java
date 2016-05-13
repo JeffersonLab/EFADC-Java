@@ -26,12 +26,7 @@ public class CMP_RegisterSet extends RegisterSet {
 	private static final int HITOUT_WIDTH_INDEX = 129;
 	private static final int HITOUT_DELAY_INDEX = 136;
 
-	public enum MatrixType {
-		OR,
-		AND,
-		WIDTH,
-		DELAY
-	}
+	private static final int CMP_MATRIX_SIZE = 27;
 
 	static final byte FUNC_CMP_REG = 0x03;
 
@@ -43,11 +38,6 @@ public class CMP_RegisterSet extends RegisterSet {
 	public int[] status;
 	public ArrayList<EFADC_RegisterSet> adc;
 
-	private CoincidenceMatrix	m_ORTable;
-	private CoincidenceMatrix	m_ANDTable;
-	private RegisterMatrix		m_DelayTable;
-	private RegisterMatrix		m_WidthTable;
-
 	private StringBuilder		m_Str;
 
 
@@ -57,15 +47,17 @@ public class CMP_RegisterSet extends RegisterSet {
 
 		adc = new ArrayList<>(nADC);
 
-		register = new int[NUM_WRITE_REGS];
+		m_Registers = new int[NUM_WRITE_REGS];
 		status = new int[NUM_STATUS];
 
 		// 27 is hard coded into the CMP register map as the number of possible detectors
-		m_ORTable = MatrixFactory.newCoincidenceMatrix();
-		m_ANDTable = MatrixFactory.newCoincidenceMatrix();
+		// into 54 registers
+		m_ORTable = MatrixFactory.newCoincidenceMatrix(CMP_MATRIX_SIZE, 54);
+		m_ANDTable = MatrixFactory.newCoincidenceMatrix(CMP_MATRIX_SIZE, 54);
 
-		m_DelayTable = MatrixFactory.newRegisterMatrix();
-		m_WidthTable = MatrixFactory.newRegisterMatrix();
+		// into 7 registers
+		m_DelayTable = MatrixFactory.newRegisterMatrix(CMP_MATRIX_SIZE, 7);
+		m_WidthTable = MatrixFactory.newRegisterMatrix(CMP_MATRIX_SIZE, 7);
 
 		m_SelectedADC = 0;	// Preselect all ADC's
 
@@ -127,31 +119,10 @@ public class CMP_RegisterSet extends RegisterSet {
 	}
 
 
-	public int[] getRegisters() {
-		return register;
-	}
-
 	public int getADCCount() {
 		return m_NumADC;
 	}
 
-
-	public Matrix getMatrix(MatrixType type) {
-
-		switch (type) {
-			case OR:
-				return m_ORTable;
-			case AND:
-				return m_ANDTable;
-			case WIDTH:
-				return m_WidthTable;
-			case DELAY:
-				return m_DelayTable;
-			default:
-				return null;
-		}
-
-	}
 
 
 	/**
@@ -335,7 +306,7 @@ public class CMP_RegisterSet extends RegisterSet {
 
 		EFADC_RegisterSet masterEFADC = adc.get(0);
 
-		System.arraycopy(masterEFADC.getRegisters(), 0, register, 0, EFADC_RegistersV2.NUM_REGISTERS);
+		System.arraycopy(masterEFADC.getRegisters(), 0, m_Registers, 0, masterEFADC.getRegisters().length);
 
 		/*
 		int writeIdx = 0;

@@ -13,7 +13,10 @@ import org.jlab.EFADC.*;
 
 import java.util.logging.Logger;
 
-
+/**
+ * This class contains the boiler plate code for handling packets sent by the EFADC system.
+ * Typical implementations will extend this class and implement the ClientHandler interface.
+ */
 public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler {
 	
 	int lastEventID;
@@ -180,10 +183,13 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
-			int numRegs = ((EFADC_RegisterSet) regs).getRegisters().length;
+			int numRegs = regs.getRegisters().length;
 
-			for (int i = 0; i < numRegs; i++) {
-				System.out.printf("%02X\n", regs.getRegister(i));
+			if (verbose) {
+				for (int i = 0; i < numRegs; i++) {
+					System.out.printf("%02X ", regs.getRegister(i));
+				}
+				System.out.println();
 			}
 
 			Logger.getLogger("global").info("Accepted Triggers: " + eRegs.acceptedTrigs);

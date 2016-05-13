@@ -1,11 +1,13 @@
 package org.jlab.EFADC;
 
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
 
 import java.util.Arrays;
 
 /**
  * Created by john on 8/18/15.
+ *
  */
 public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Registers {
 
@@ -13,7 +15,7 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
     public static final int NUM_STATUS = 7;
     public static final int DATA_SIZE_BYTES = (NUM_REGISTERS + NUM_STATUS) * 2;
 
-    static final int Mode_Mask		= 0x200;
+    static final int Mode_Mask		= (1 << 9);	// bit 9
 
     static final int Reset_Mask = 0x1000;
 
@@ -60,22 +62,24 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
     }
 
     public String toString() {
-        StringBuilder strB = new StringBuilder("EFADC v2 Register Set\n");
+        StringBuilder strB = new StringBuilder("EFADC Register Set\n");
 
-        for (int reg : register) {
+        for (int reg : m_Registers) {
             strB.append(String.format("%04x ", reg));
         }
         strB.append("\n");
 
-        strB.append(String.format("[01] %04x - Integration Window: %d\n", register[0], getIntegrationWindow()));
-        strB.append(String.format("[02] %04x\n", register[1]));
-        strB.append(String.format("[03] %04x\n", register[2]));
-        strB.append(String.format("[04] %04x\n", register[3]));
-        strB.append(String.format("[05] %04x - Det 1 Thresh: %d\n", register[4], register[4] & 0x3fff));
-        strB.append(String.format("[06] %04x - Det 2 Thresh: %d\n", register[5], register[5] & 0x3fff));
-        strB.append(String.format("[07] %04x - Det 3 Thresh: %d\n", register[6], register[6] & 0x3fff));
-        strB.append(String.format("[08] %04x - Det 4 Thresh: %d\n", register[7], register[7] & 0x3fff));
-        strB.append(String.format("[11] %04x - Coinc Window Width: %d\n", register[REG_11], getCoincidenceWindowWidth()));
+        strB.append(String.format("[01] %04x - Integration Window: %d\n", m_Registers[REG_1], getIntegrationWindow()));
+        strB.append(String.format("[02] %04x - NSB: %d\n", m_Registers[REG_2], m_Registers[REG_2] & 0x1ff));
+        strB.append(String.format("[03] %04x - FIFO Almost Full Threshold: %d\n", m_Registers[REG_3], m_Registers[REG_3] & 0x3ff));
+        strB.append(String.format("[04] %04x - Channel Threshold: %d\n", m_Registers[REG_4], m_Registers[REG_4] & 0x7ff));
+        strB.append(String.format("[05] %04x - Det 1 Thresh: %d\n", m_Registers[REG_5], m_Registers[REG_5] & 0x3fff));
+        strB.append(String.format("[06] %04x - Det 2 Thresh: %d\n", m_Registers[REG_6], m_Registers[REG_6] & 0x3fff));
+        strB.append(String.format("[07] %04x - Det 3 Thresh: %d\n", m_Registers[REG_7], m_Registers[REG_7] & 0x3fff));
+        strB.append(String.format("[08] %04x - Det 4 Thresh: %d\n", m_Registers[REG_8], m_Registers[REG_8] & 0x3fff));
+		strB.append(String.format("[09] %04x - Det 2 OR/AND, Det 1 OR/AND\n", m_Registers[REG_9]));
+		strB.append(String.format("[10] %04x - Det 4 OR/AND, Det 3 OR/AND\n", m_Registers[REG_10]));
+        strB.append(String.format("[11] %04x - Coinc Window Width: %d\n", m_Registers[REG_11], getCoincidenceWindowWidth()));
         strB.append(String.format("Version: %d\n", version));
         strB.append(String.format("Accepted Triggers: %d\n", acceptedTrigs));
         strB.append(String.format("Missed Triggers: %d\n", missedTrigs));
@@ -85,33 +89,41 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
         return strB.toString();
     }
 
+
+	/**
+	 * Set DAC value
+	 * Register 19, 15..12	-	DAC Channel
+	 * 				12..0 	-	Value
+	 * @param channel DAC register, 1-16
+	 * @param value Value, for negative ADC should be around 3300, positive ADC should be around 500
+	 */
     public void setBiasDAC(int channel, int value) {
-        register[REG_19] = (value & 0xFFF) | (channel << 12);
+		m_Registers[REG_19] = (value & 0xFFF) | (channel << 12);
     }
 
 
     public int getCoincidenceWindowWidth() {
-        return register[REG_11] >> 4;
+        return m_Registers[REG_11] >> 4;
     }
 
 
     public void setCoincidenceWindowWidth(int width) {
-        register[REG_11] &= (register[REG_11] & 0x000f);
-        register[REG_11] |= (width << 4);
+		m_Registers[REG_11] &= (m_Registers[REG_11] & 0x000f);
+		m_Registers[REG_11] |= (width << 4);
     }
 
     public void setCoincidenceTable(int reg1, int reg2) {
-        register[REG_9] = reg1;
-        register[REG_10] = reg2;
+		m_Registers[REG_9] = reg1;
+		m_Registers[REG_10] = reg2;
     }
 
     public int getIntegrationWindow() {
-        return register[REG_1] & 0x01ff;
+        return m_Registers[REG_1] & 0x01ff;
     }
 
     public void setIntegrationWindow(int width) {
-        register[REG_1] &= 0xff00;
-        register[REG_1] |= (width & 0x01ff);
+		m_Registers[REG_1] &= 0xfe00;
+		m_Registers[REG_1] |= (width & 0x01ff);
 
         //Logger.getLogger("global").info(String.format("Integration Window: %d\n", getIntegrationWindow()));
     }
@@ -120,16 +132,16 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
         //0 - Normal Mode
         //1 - Sampling Mode
 
-        if (mode == 0)
-            register[REG_1] &= ~Mode_Mask;
-        else if (mode == 1)
-            register[REG_1] |= Mode_Mask;
+        if (mode == 0)	// clear bit
+			m_Registers[REG_1] &= ~Mode_Mask;
+        else if (mode == 1)	// set bit
+			m_Registers[REG_1] |= Mode_Mask;
     }
 
 
     public void setNSB(int value) {
-        register[REG_2] &= 0xff00;
-        register[REG_2] |= (value & 0x01ff);
+		m_Registers[REG_2] &= 0xfe00;
+		m_Registers[REG_2] |= (value & 0x01ff);
     }
 
 
@@ -142,25 +154,25 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
      * @param rate
      */
     public void setSelfTrigger(boolean active, int rate) {
-        int regVal = register[REG_1];
+        int regVal = m_Registers[REG_1];
 
         if (active) {
 
             regVal |= 0x400;
 
-            register[REG_1] = regVal;
+			m_Registers[REG_1] = regVal;
 
-            regVal = register[REG_18];
+            regVal = m_Registers[REG_18];
 
             regVal = (regVal & 0x7000) | (rate & 0x1fff);
 
-            register[REG_18] = regVal;
+			m_Registers[REG_18] = regVal;
 
         } else {
 
             regVal &= ~0x400;
 
-            register[REG_1] = regVal;
+			m_Registers[REG_1] = regVal;
         }
     }
 
@@ -176,7 +188,44 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
         return setRegister(addr, value);
     }
 
-    public boolean decode(ChannelBuffer frame) {
+
+	public boolean setFifoFullThreshold(int val) {
+		return setRegister(REG_3, val & 0x1ff);
+	}
+
+
+	@Override
+	protected int[] getRegistersCombined() {
+		int[] regs = getRegisters();
+
+		// Encode the matrix and copy the bytes or whatever
+
+		int a0 = m_ANDTable.getEntry(0).intValue();
+		int o0 = m_ORTable.getEntry(0).intValue();
+		int a1 = m_ANDTable.getEntry(1).intValue();
+		int o1 = m_ORTable.getEntry(1).intValue();
+		int a2 = m_ANDTable.getEntry(2).intValue();
+		int o2 = m_ORTable.getEntry(2).intValue();
+		int a3 = m_ANDTable.getEntry(3).intValue();
+		int o3 = m_ORTable.getEntry(3).intValue();
+
+		///* 8 */		"15..12: Det 2 OR Entry; 11..8: Det 2 AND Entry; 7..4: Det 1 OR Entry; 3..0: Det 1 AND Entry"
+
+		///* 9 */		"15..12: Det 4 OR Entry; 11..8: Det 4 AND Entry; 7..4: Det 3 OR Entry; 3..0: Det 3 AND Entry"
+
+
+		int r9 = (a0 & 0x0f) | ((o0 << 4) & 0x0f0)  | ((a1 << 8) & 0x0f00) | ((o1 << 12) & 0xf000);
+		int r10 = (a2 & 0x0f) | ((o2 << 4) & 0x0f0)  | ((a3 << 8) & 0x0f00) | ((o3 << 12) & 0xf000);
+
+		regs[REG_9] = r9;
+		regs[REG_10] = r10;
+
+		return regs;
+	}
+
+
+	@Override
+	public boolean decode(ChannelBuffer frame) {
 
         super.decode(frame, NUM_REGISTERS);
 

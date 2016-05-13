@@ -45,11 +45,14 @@ public class MatrixRegisterEncoder {
 			//if (i > 0 && i % 4 == 0)
 			//	registerShift++;
 
+
 			int orVal =  mOR.getEntry(i)/*.shiftRight(registerShift)*/.intValue() & 0x7ffffff;
 			int andVal = mAND.getEntry(i)/*.shiftRight(registerShift)*/.intValue() & 0x7ffffff;
 
 			buffer.writeInt(orVal);
 			buffer.writeInt(andVal);
+
+
 
 			//Logger.getLogger("global").info(String.format("[%d] %08x    %08x", i, orVal, andVal));
 		}

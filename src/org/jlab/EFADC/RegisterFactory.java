@@ -2,6 +2,7 @@ package org.jlab.EFADC;
 
 /**
  * Created by john on 9/24/15.
+ *
  */
 public class RegisterFactory {
 

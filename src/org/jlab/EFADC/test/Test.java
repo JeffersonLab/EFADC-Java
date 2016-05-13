@@ -5,6 +5,7 @@ import org.jlab.EFADC.handler.AbstractClientHandler;
 import org.jlab.EFADC.handler.BasicClientHandler;
 import org.jlab.EFADC.handler.ClientHandler;
 import org.jlab.EFADC.logging.ErrorFormatter;
+import org.jlab.EFADC.matrix.CoincidenceMatrix;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -44,6 +45,10 @@ public class Test {
 	ClientHandler m_Handler;
 	Connector m_Con;
 
+	public boolean m_Flag_PrintRegisters = false;
+
+	PedestalFinder pedFinder;
+
 
 	class TestClientHandler extends BasicClientHandler {
 		LinkedBlockingQueue<EventSet> eventQueue;
@@ -66,8 +71,6 @@ public class Test {
 
 		@Override
 		public void connected(Client client) {
-			//m_Client = client;
-
 			Logger.getLogger("global").info("in main ClientHandler, connected()");
 		}
 
@@ -78,12 +81,20 @@ public class Test {
 			//Logger.getLogger("global").info("registersReceived");
 
 			((EFADC_Client)m_Client).setRegisterSet(regs);
+
+			if (m_Flag_PrintRegisters) {
+				m_Flag_PrintRegisters = false;
+				System.out.println(regs.toString());
+			}
 		}
 
 		@Override
 		public void eventReceived(EFADC_DataEvent event) {
 			//Logger.getLogger("global").info("Unaggregated event received");
 			nEvents++;
+
+			if (pedFinder != null)
+				pedFinder.addEvent(event);
 		}
 
 		@Override
@@ -118,7 +129,6 @@ public class Test {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 
 		if (m_Client == null) {
@@ -150,10 +160,12 @@ public class Test {
 		}
 
 		Logger.getLogger("Registers after Init()");
+		m_Flag_PrintRegisters = true;
 		m_Client.ReadRegisters();
 
 
 		Logger.getLogger("global").info("Running pedestal acquisition...");
+		pedFinder = new PedestalFinder(16);
 		pedestals();
 
 		Collection<EventSet> events = new LinkedList<>();
@@ -163,14 +175,20 @@ public class Test {
 		int eventCount = testHandler.getEventQueue().drainTo(events);
 
 		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
-				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
-
+				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEvents, testHandler.nSingleEvents));
 
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		int[] pedData = pedFinder.findMaxima();
+		System.out.println("Pedestal Data:");
+		for (int p : pedData) {
+			System.out.printf("%d ", p);
+		}
+		System.out.println();
 
 		Logger.getLogger("Registers after acquisition");
 		m_Client.ReadRegisters();
@@ -183,37 +201,40 @@ public class Test {
 		//Sync behavior has changed with the master/slave setup
 		//m_Client.SetSync(true);
 
-		m_Client.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
-										 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
+		m_Client.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
 
+		int[] regs = m_Client.getRegisterSet().getRegisters();
 
 		// This should be called last because it internally calls SendSetRegisters
 		m_Client.SetADCNegative();
 
-		m_Client.SetThreshold(0, 1000);
-		m_Client.SetThreshold(1, 1001);
-		m_Client.SetThreshold(2, 1002);
-		m_Client.SetThreshold(3, 1003);
-		m_Client.SetThreshold(4, 1004);
-		m_Client.SetThreshold(5, 1005);
-		m_Client.SetThreshold(6, 1006);
-		m_Client.SetThreshold(7, 1007);
-		m_Client.SetIntegrationWindow(25);
+		m_Client.SetThreshold(0, 2000);
+		m_Client.SetThreshold(1, 2001);
+		m_Client.SetThreshold(2, 2002);
+		m_Client.SetThreshold(3, 2003);
+		//m_Client.SetThreshold(4, 1004);
+		//m_Client.SetThreshold(5, 1005);
+		//m_Client.SetThreshold(6, 1006);
+		//m_Client.SetThreshold(7, 1007);
+		m_Client.SetIntegrationWindow(35);
 
-		m_Client.SetNSB(50);
+		m_Client.SetNSB(22);	// CMP value this should be 50 or so, single efadc should be around 15?
 		m_Client.SetMode(0);
+
+		((EFADC_RegisterSet)m_Client.getRegisterSet()).setFifoFullThreshold(0x180);
 
 		m_Client.SetIdentityMatrix();
 
 		m_Client.SendSetRegisters(1);
 
+		/*	Uncomment this when talking to master/slave
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {
 		}
 
 		m_Client.SendSetRegisters(2);
-
+		*/
 
 		try {
 			Thread.sleep(1000);
@@ -259,10 +280,14 @@ public class Test {
 		//Adjust coincidence window widths so the self triggering correlates
 		m_Client.SetCoincidenceWindowWidth(50);
 
+		// 25 - 160khz
+		// 50 - 80khz
+		// 100 - 40 khz
+		// 200 - 20 khz
 
-		m_Client.SetSelfTrigger(true, 200);	// ~10Khz trigger
+		m_Client.SetSelfTrigger(true, 200);	// ~20Khz trigger
 		m_Client.SendSetRegisters(1);		// Need to send to all efadcs
-		m_Client.SendSetRegisters(2);
+		//m_Client.SendSetRegisters(2);		// Uncomment this when talking to master/slave
 
 		try {
 			Thread.sleep(100);
@@ -282,7 +307,7 @@ public class Test {
 
 		m_Client.SetSelfTrigger(false, 200);
 		m_Client.SendSetRegisters(1);
-		m_Client.SendSetRegisters(2);
+		//m_Client.SendSetRegisters(2);	// Uncomment this when talking to master/slave
 	}
 
 

@@ -19,7 +19,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 	//int lastTrig = -1;
 	int eventSize = 0;
 
-	EFADC_Event lastEvent;
+	int lastEventId = 0;
 	
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buf) throws Exception {
@@ -39,7 +39,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 		int type = buf.getUnsignedShort(mark + 2);	// skip 4
 		
 		if (header != 0x5a5a) {
-			Logger.getLogger("global").info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastEvent.getTriggerId(), eventSize));
+			Logger.getLogger("global").info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastEventId, eventSize));
 
 			if (EFADC_Client.flag_Verbose) {
 				int readable = buf.readableBytes();
@@ -90,7 +90,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				}
 				*/
 
-				lastEvent = theEvent;
+				lastEventId = theEvent.getTriggerId();
 
 				return theEvent;	//return event as POJO
 			}
@@ -112,6 +112,10 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					EFADC_RegisterSet regs = RegisterFactory.initRegisters(regHeader);
 
 					regs.decode(frame);
+
+					// version 3 has 2 bytes end of packet marker
+					// TODO: refactor this to v3 specific code!
+					buf.readBytes(2);
 
 					return regs;
 

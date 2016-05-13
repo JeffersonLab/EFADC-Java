@@ -3,10 +3,11 @@ package org.jlab.EFADC;
 
 /**
  * Created by john on 8/18/15.
+ *
  */
 public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Registers {
 
-    static final int Mode_Mask		= 0x8000;
+    static final int Mode_Mask		= (1 << 9);
 
     //static final int Reset_Mask = 0x1000; // deprecated in v3
 
@@ -44,9 +45,9 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
     public void setMode(int mode) {
 
         if (mode == 0)
-            register[REG_1] |= ~Mode_Mask;
+			m_Registers[REG_1] &= ~Mode_Mask;
         else if (mode == 1)
-            register[REG_1] |= Mode_Mask;
+			m_Registers[REG_1] |= Mode_Mask;
     }
 
 }

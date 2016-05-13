@@ -1,9 +1,8 @@
 package org.jlab.EFADC;
 
-import org.omg.CORBA.DynAnyPackage.Invalid;
-
 /**
  * Created by john on 8/18/15.
+ *
  */
 public interface EFADC_Registers {
 
@@ -26,6 +25,8 @@ public interface EFADC_Registers {
     void setSelfTrigger(boolean active, int rate);
 
     boolean setThreshold(int group, int value);
+
+    boolean setFifoFullThreshold(int value);
 
     String getRegisterDescription(int i) throws InvalidRegisterException;
 

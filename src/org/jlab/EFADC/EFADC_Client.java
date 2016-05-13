@@ -35,6 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import static org.jlab.EFADC.Tuple2.o;
+import static org.jlab.EFADC.RegisterSet.*;
 
 public class EFADC_Client implements Client {
 
@@ -421,13 +422,13 @@ public class EFADC_Client implements Client {
 	 */
 	public void SetADCPositive() {
 		//Set bit 15 of register2 to 1 to address all ADC's
-		m_Registers.setRegister(2, m_Registers.getRegister(2) | 0x8000);
+		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
 		//Write 0x1404 to all ADCs
-		m_Registers.setRegister(20, 0x1401);
+		m_Registers.setRegister(REG_20, 0x1401);
 
 		SendSetRegisters(1);
-		SendSetRegisters(2);
+		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -436,10 +437,10 @@ public class EFADC_Client implements Client {
 		}
 
 		//Write 0xFF01 to all ADCs
-		m_Registers.setRegister(20, 0xFF01);
+		m_Registers.setRegister(REG_20, 0xFF01);
 
 		SendSetRegisters(1);
-		SendSetRegisters(2);
+		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -455,13 +456,13 @@ public class EFADC_Client implements Client {
 	 */
 	public void SetADCNegative() {
 		//Set bit 15 of register2 to 1 to address all ADC's
-		m_Registers.setRegister(2, m_Registers.getRegister(2) | 0x8000);
+		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
 		//Write 0x1400 to all ADCs
-		m_Registers.setRegister(20, 0x1400);
+		m_Registers.setRegister(REG_20, 0x1400);
 
 		SendSetRegisters(1);
-		SendSetRegisters(2);
+		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -470,10 +471,10 @@ public class EFADC_Client implements Client {
 		}
 
 		//Write 0xFF01 to all ADCs
-		m_Registers.setRegister(20, 0xFF01);
+		m_Registers.setRegister(REG_20, 0xFF01);
 
 		SendSetRegisters(1);
-		SendSetRegisters(2);
+		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -508,36 +509,29 @@ public class EFADC_Client implements Client {
 	}
 
 
+	@Deprecated
 	public void SetANDCoincident(int detA, int detB, boolean val, boolean reverse) {
-
-		/*
-		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
-
-		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(CMP_RegisterSet.MatrixType.AND);
-
-		matrix.setCoincident(detA, detB, val, false);
-		*/
-
-		SetCoincident(detA, detB, val, reverse, CMP_RegisterSet.MatrixType.AND);
+		m_Registers.SetCoincident(detA, detB, val, reverse, RegisterSet.MatrixType.AND);
 	}
 
+	@Deprecated
 	public void SetORCoincident(int detA, int detB, boolean val, boolean reverse) {
 		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
-		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(CMP_RegisterSet.MatrixType.OR);
+		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(RegisterSet.MatrixType.OR);
 
 		matrix.setCoincident(detA, detB, val, false);
 
 	}
 
 
-	public void SetCoincident(int detA, int detB, boolean val, boolean reverse, CMP_RegisterSet.MatrixType type) {
+	public void SetCoincident(int detA, int detB, boolean val, boolean reverse, RegisterSet.MatrixType type) {
 
-		CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
+		//CMP_RegisterSet cmpReg = (CMP_RegisterSet)m_Registers;
 
-		CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(type);
+		//CoincidenceMatrix matrix = (CoincidenceMatrix)cmpReg.getMatrix(type);
 
-		matrix.setCoincident(detA, detB, val, reverse);
+		m_Registers.SetCoincident(detA, detB, val, reverse, type);
 
 		/*
 		Logger.getLogger("global").info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
@@ -562,7 +556,7 @@ public class EFADC_Client implements Client {
 
 		for (int i = 0; i < numDet; i++) {
 			for (int j = 0; j < numDet; j++) {
-				SetCoincident(i, j, i == j, false, CMP_RegisterSet.MatrixType.AND);
+				SetCoincident(i, j, i == j, false, RegisterSet.MatrixType.AND);
 			}
 		}
 
@@ -581,8 +575,8 @@ public class EFADC_Client implements Client {
 
 		for (int i = 0; i < numDet; i++) {
 			for (int j = 0; j < numDet; j++) {
-				SetCoincident(i, j, false, false, CMP_RegisterSet.MatrixType.AND);
-				SetCoincident(i, j, false, false, CMP_RegisterSet.MatrixType.OR);
+				SetCoincident(i, j, false, false, RegisterSet.MatrixType.AND);
+				SetCoincident(i, j, false, false, RegisterSet.MatrixType.OR);
 			}
 		}
 	}
