@@ -20,9 +20,8 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="EFADC_java" target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="EFADC_java" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
-

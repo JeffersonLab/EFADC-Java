@@ -54,13 +54,8 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 	}
 
 
-	/**
+	/*
 	 * Aggregate EFADC_DataEvents into EventSets and forward completed events
-	 * @param ctx
-	 * @param channel
-	 * @param obj
-	 * @return
-	 * @throws Exception
 	 */
 	/*
 	@Override
@@ -107,13 +102,15 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 	public Object process(EFADC_DataEvent evt) throws Exception {
 
 		// Look for existing event by trigger id
-		EventSet es = m_EventMap.get(evt.trigId);
+		int trigId = evt.getTriggerId();
+
+		EventSet es = m_EventMap.get(trigId);
 
 		if (es == null) {
 			// This is the first time we've seen this trigger ID, create a new set
 			es = new EventSet(evt);
 
-			m_EventMap.put(evt.trigId, es);
+			m_EventMap.put(trigId, es);
 
 			Iterator<Map.Entry<Integer, EventSet>> entryIterator = m_EventMap.entrySet().iterator();
 

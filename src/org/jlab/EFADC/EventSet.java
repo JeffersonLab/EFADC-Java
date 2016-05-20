@@ -12,7 +12,7 @@ public class EventSet extends ArrayList<EFADC_DataEvent> {
 	public int triggerId;
 
 	EventSet(EFADC_DataEvent e1) {
-		triggerId = e1.trigId;
+		triggerId = e1.getTriggerId();
 
 		this.add(e1);
 	}

@@ -16,10 +16,18 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
     public static final int DATA_SIZE_BYTES = (NUM_REGISTERS + NUM_STATUS) * 2;
 
     static final int Mode_Mask		= (1 << 9);	// bit 9
+	static final int Pulser_Active	= (1 << 10);
 
     static final int Reset_Mask = 0x1000;
 
-    static final int[] s_DefaultRegs = new int[] {0x200F, 0x0016, 0x0339, 0x0BD8, 0x03e0, 0x03e0, 0x03e0, 0x03e0, 0xF0F0, 0xF0F0, 0x00F0, 0x0202, 0x0202, 0x0001, 0x0001, 0x0001, 0x0001, 0x1FFA, 0x0000, 0x0CE4};
+	// Not including register 0
+    static final int[] s_DefaultRegs = new int[] {
+			0x200F, 0x0016, 0x0339, 0x0BD8,
+			0x03e0, 0x03e0, 0x03e0, 0x03e0,
+			0xF0F0, 0xF0F0, 0x00F0,
+			0x0202, 0x0202,
+			0x0001, 0x0001, 0x0001, 0x0001,
+			0x1FFA, 0x0000, 0x1CE4};
 
     static final String[] s_Descriptions = new String[] {
 		/* 0 */		"13: Sync; 12: Reset ADC; 10: 1 - Free Running Trigger, rate set by conf18 bits 11:0; 9: Mode (0 SUM, 1 Samples); 8..0: Integration Window",
@@ -158,19 +166,20 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
 
         if (active) {
 
-            regVal |= 0x400;
+            regVal |= Pulser_Active;	// set bit 10 - Sets trigger to be pulser driven
 
 			m_Registers[REG_1] = regVal;
 
+			// Set pulser delay, bits 12..0 of regiter 18
             regVal = m_Registers[REG_18];
 
-            regVal = (regVal & 0x7000) | (rate & 0x1fff);
+            regVal = (regVal & 0x6000) | (rate & 0x1fff);
 
 			m_Registers[REG_18] = regVal;
 
         } else {
 
-            regVal &= ~0x400;
+            regVal &= ~(1 << 10);
 
 			m_Registers[REG_1] = regVal;
         }

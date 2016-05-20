@@ -31,7 +31,7 @@ public class EFADC_ClientPipelineFactory implements ChannelPipelineFactory {
 
 		ChannelPipeline p = pipeline();
 
-		p.addLast("idlehandler", new EFADC_IdleHandler());
+		//p.addLast("idlehandler", new EFADC_IdleHandler());
 		p.addLast("encoder", new CommandEncoder());
 		p.addLast("decoder", new EFADC_FrameDecoder());
 

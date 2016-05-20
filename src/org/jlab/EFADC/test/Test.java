@@ -43,12 +43,13 @@ public class Test {
 
 	Client m_Client;
 	ClientHandler m_Handler;
-	Connector m_Con;
+	//Connector m_Con;
 
 	public boolean m_Flag_PrintRegisters = false;
 
 	PedestalFinder pedFinder;
 
+	int lastSampleTrigId;
 
 	class TestClientHandler extends BasicClientHandler {
 		LinkedBlockingQueue<EventSet> eventQueue;
@@ -56,6 +57,7 @@ public class Test {
 		public int nEventSets = 0;
 		public int nEvents = 0;
 		public int nSingleEvents = 0;
+		public int nSamples = 0;
 
 		TestClientHandler() {
 			eventQueue = new LinkedBlockingQueue<>();
@@ -71,6 +73,8 @@ public class Test {
 
 		@Override
 		public void connected(Client client) {
+			// This should really never get called because the connect event happens in the default handler assuming we
+			// are using the Connector helper class...
 			Logger.getLogger("global").info("in main ClientHandler, connected()");
 		}
 
@@ -109,6 +113,13 @@ public class Test {
 
 			eventQueue.add(set);
 		}
+
+		@Override
+		public void samplesReceived(EFADC_SamplesEvent event) {
+			nSamples++;
+
+			lastSampleTrigId = event.getTriggerId();
+		}
 	}
 
 
@@ -116,11 +127,11 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("1.2.3.9", 4999);
-
-		Future<Client> connectFuture = m_Con.connect(true);	// debugging on
+		//m_Con = new Connector("1.2.3.9", 4999);
 
 		try {
+			Future<Client> connectFuture = Connector.connect("1.2.3.9", 4999, true);	// debugging on
+
 			m_Client = connectFuture.get(5, TimeUnit.SECONDS);
 
 		} catch (TimeoutException e) {
@@ -132,7 +143,7 @@ public class Test {
 		}
 
 		if (m_Client == null) {
-			Logger.getLogger("global").warning("Did not connect!");
+			Logger.getLogger("global").warning("Failed to connect");
 			return;
 		}
 
@@ -148,7 +159,7 @@ public class Test {
 		init();
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -174,8 +185,8 @@ public class Test {
 
 		int eventCount = testHandler.getEventQueue().drainTo(events);
 
-		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
-				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEvents, testHandler.nSingleEvents));
+		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d, sampleEvent: %d",
+				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEvents, testHandler.nSingleEvents, testHandler.nSamples));
 
 		try {
 			Thread.sleep(500);
@@ -201,7 +212,7 @@ public class Test {
 		//Sync behavior has changed with the master/slave setup
 		//m_Client.SetSync(true);
 
-		m_Client.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
+		m_Client.SetDACValues(new int[] {3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000, 3000});
 
 		int[] regs = m_Client.getRegisterSet().getRegisters();
 
@@ -218,7 +229,7 @@ public class Test {
 		//m_Client.SetThreshold(7, 1007);
 		m_Client.SetIntegrationWindow(35);
 
-		m_Client.SetNSB(22);	// CMP value this should be 50 or so, single efadc should be around 15?
+		m_Client.SetNSB(22);	// CMP value this should be 50 or so, single efadc should be around 20?
 		m_Client.SetMode(0);
 
 		((EFADC_RegisterSet)m_Client.getRegisterSet()).setFifoFullThreshold(0x180);
@@ -285,12 +296,23 @@ public class Test {
 		// 100 - 40 khz
 		// 200 - 20 khz
 
-		m_Client.SetSelfTrigger(true, 200);	// ~20Khz trigger
+		m_Client.SetSelfTrigger(true, 800);	// ~20Khz trigger
 		m_Client.SendSetRegisters(1);		// Need to send to all efadcs
 		//m_Client.SendSetRegisters(2);		// Uncomment this when talking to master/slave
 
 		try {
-			Thread.sleep(100);
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Debug print registers
+		m_Flag_PrintRegisters = true;
+		m_Client.ReadRegisters();
+
+		// Wait another second just so we can see the register values...
+		try {
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -308,6 +330,8 @@ public class Test {
 		m_Client.SetSelfTrigger(false, 200);
 		m_Client.SendSetRegisters(1);
 		//m_Client.SendSetRegisters(2);	// Uncomment this when talking to master/slave
+
+		Logger.getLogger("global").info(String.format("last Sample Trig Id: %d", lastSampleTrigId));
 	}
 
 

@@ -7,7 +7,7 @@ package org.jlab.EFADC;
  */
 public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Registers {
 
-    static final int Mode_Mask		= (1 << 9);
+    static final int Mode_Mask		= 0xc000; // reg 1 bits 15..14
 
     //static final int Reset_Mask = 0x1000; // deprecated in v3
 
@@ -41,13 +41,24 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
     }
 
 
+	/*
+	 * V3 moved the mode bits to 15..14 of register 1
+	 * there are now 3 modes, 0 is sum mode, 1 is old sampling mode (but not implemented), and 2 is new sampling mode
+	 */
     @Override
     public void setMode(int mode) {
 
         if (mode == 0)
 			m_Registers[REG_1] &= ~Mode_Mask;
-        else if (mode == 1)
-			m_Registers[REG_1] |= Mode_Mask;
+       // else if (mode == 1)
+			//m_Registers[REG_1] |= Mode_Mask;
+        else if (mode == 2) {
+			int r1 = m_Registers[REG_1];
+
+            r1 |= 0x8000;
+
+			m_Registers[REG_1] = r1;
+		}
     }
 
 }

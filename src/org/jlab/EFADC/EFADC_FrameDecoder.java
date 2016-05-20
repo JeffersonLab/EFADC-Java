@@ -90,7 +90,8 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				}
 				*/
 
-				lastEventId = theEvent.getTriggerId();
+				if (theEvent != null)
+					lastEventId = theEvent.getTriggerId();
 
 				return theEvent;	//return event as POJO
 			}

@@ -21,22 +21,27 @@ public class PedestalFinder {
 	public void addEvent(EFADC_DataEvent evt) {
 
 		int chanIdx = 0;
+
+		int[] sums = evt.extractSums();
+
+		int modId = evt.getModuleId();
+
 		for (int i = 0; i < 16; i++) {
-			if (evt.chanActive[i]) {
+			if (evt.isChannelActive(i)) {
 				//if ((System.currentTimeMillis() / 1000) % 2 == 0)
 				//	System.out.printf("[%d] sum %d  ped %d\n", i, event.sums[chanIdx], pedData[i]);
 
-				int nGlobalChannel = i + (16 * (evt.modId - 1));
+				int nGlobalChannel = i + (16 * (modId - 1));
 
 				Map<Integer, Integer> aChannel = chan.get(nGlobalChannel);
 
 				int nChanValue = 0;
 
-				if (aChannel.containsKey(evt.sums[chanIdx])) {
-					nChanValue = aChannel.get(evt.sums[chanIdx]) + 1;
+				if (aChannel.containsKey(sums[chanIdx])) {
+					nChanValue = aChannel.get(sums[chanIdx]) + 1;
 				}
 
-				aChannel.put(evt.sums[chanIdx], nChanValue);
+				aChannel.put(sums[chanIdx], nChanValue);
 
 				//System.out.printf("[%d:%d] ", chanIdx, evt.sums[chanIdx]);
 

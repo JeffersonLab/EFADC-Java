@@ -17,7 +17,9 @@ import java.util.logging.Logger;
  * This class contains the boiler plate code for handling packets sent by the EFADC system.
  * Typical implementations will extend this class and implement the ClientHandler interface.
  */
-public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler {
+public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler implements ClientHandler {
+
+	public static boolean DEBUG = false;
 	
 	int lastEventID;
 	int eventCount;
@@ -106,15 +108,17 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 		if (message instanceof EFADC_DataEvent) {
 			EFADC_DataEvent event = (EFADC_DataEvent) message;
 
-			if (event.trigId < lastEventID)
+			int trigId = event.getTriggerId();
+
+			if (trigId < lastEventID)
 				lastEventID = -1;
-			else if (event.trigId != lastEventID + 1) {
-				int missedEvents = event.trigId - lastEventID;
+			else if (trigId != lastEventID + 1) {
+				int missedEvents = trigId - lastEventID;
 				totalMissed += missedEvents;
 				//logger.info(String.format("%d missed, %04x - %04x", missedEvents, lastEventID + 1, event.trigId - 1));
 			}
 
-			lastEventID = event.trigId;
+			lastEventID = trigId;
 
 			if (isCMP) {
 				// Aggregate events from a CMP
@@ -139,13 +143,15 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			}
 
 		} else if (message instanceof EFADC_SamplesEvent) {
-			EFADC_SamplesEvent event = (EFADC_SamplesEvent) message;
+			//EFADC_SamplesEvent event = (EFADC_SamplesEvent) message;
 
-			samplesReceived(event);
+			samplesReceived((EFADC_SamplesEvent) message);
 			
-		} else if (message instanceof EFADC_RegisterSet) {
+		} else if (message instanceof EFADC_Registers) {
 
+			if (DEBUG) Logger.getLogger("global").info("messageReceived::EFADC_Registers, calling registersReceived...");
 			registersReceived((RegisterSet)message);
+			if (DEBUG) Logger.getLogger("global").info("messageReceived::EFADC_Registers, calling registersReceived...  Done");
 
 		} else if (message instanceof CMP_RegisterSet) {
 
@@ -167,6 +173,9 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			*/
 			
 			bufferReceived((ChannelBuffer)message);
+		} else {
+			Logger.getLogger("global").warning("Unhandled message type received");
+			Logger.getLogger("global").info(""+message);
 		}
 			
 	}
@@ -179,7 +188,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 	public void registersReceived(RegisterSet regs) {
 		if (regs instanceof EFADC_RegisterSet) {
-			Logger.getLogger("global").info("::registersReceived::EFADC_RegisterSet:");
+			if (DEBUG) Logger.getLogger("global").info("::registersReceived::EFADC_RegisterSet:");
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
@@ -192,13 +201,15 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				System.out.println();
 			}
 
-			Logger.getLogger("global").info("Accepted Triggers: " + eRegs.acceptedTrigs);
-			Logger.getLogger("global").info("Missed Triggers: " + eRegs.missedTrigs);
+			if (DEBUG) {
+				Logger.getLogger("global").info("Accepted Triggers: " + eRegs.acceptedTrigs);
+				Logger.getLogger("global").info("Missed Triggers: " + eRegs.missedTrigs);
+			}
 
 			isCMP = false;
 
 		} else if (regs instanceof CMP_RegisterSet) {
-			Logger.getLogger("global").info("::registersReceived::CMP_RegisterSet");
+			if (DEBUG) Logger.getLogger("global").info("::registersReceived::CMP_RegisterSet");
 
 			StringBuilder strB = new StringBuilder();
 
@@ -238,6 +249,8 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				//Logger.getLogger("global").info("Set IsCMP true");
 				SetCMP(true);
 			}
+		} else {
+			Logger.getLogger("global").warning("Unhandled register set type: " + regs);
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package org.jlab.EFADC.matrix;
 
 import java.math.BigInteger;
+import java.util.logging.Logger;
 
 /**
  * org.jlab.EFADC
@@ -34,6 +35,14 @@ public class CoincidenceMatrix extends AbstractMatrix<BigInteger> implements Mat
 	 */
 	public void setCoincident(int a, int b, boolean enable, boolean symmetric) {
 
+		if (a >= m_Matrix.size()) {
+			Logger.getLogger("global").warning(String.format("Matrix module A %d not applicable, max size: %d (index origin 0)", a, m_Matrix.size() - 1));
+			return;
+		} else if (b >= m_Matrix.size()) {
+			Logger.getLogger("global").warning(String.format("Matrix module B %d not applicable, max size: %d (index origin 0)", b, m_Matrix.size()- 1));
+			return;
+		}
+
 		BigInteger det = m_Matrix.get(a);
 
 		//int bit = (1 << b) - 1;
@@ -44,6 +53,7 @@ public class CoincidenceMatrix extends AbstractMatrix<BigInteger> implements Mat
 
 		// Should we do the opposite as well?
 		if (symmetric) {
+
 			det = m_Matrix.get(b);
 
 			//bit = 1 << a;

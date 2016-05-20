@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.FileChannel;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -275,6 +276,15 @@ public class EFADC_Client implements Client {
 	public void setHandler(ClientHandler handler) {
 		ChannelPipeline p = getPipeline();
 
+		/*
+		Map<String,ChannelHandler> map = p.toMap();
+
+		Logger.getLogger("global").info("::Handler Map Before Add::");
+		for (Object o : map.values()) {
+			Logger.getLogger("global").info(""+o);
+		}
+		*/
+
 		// Remove any existing handler
 		try {
 			p.remove("handler");
@@ -284,6 +294,16 @@ public class EFADC_Client implements Client {
 
 		p.addLast("handler", handler);
 		p.getContext("handler").setAttachment(m_GlobalContext);
+
+		/*
+		map = p.toMap();
+
+		Logger.getLogger("global").info("::Handler Map After Add::");
+		for (String name : map.keySet()) {
+			Logger.getLogger("global").info(name + " :: " + map.get(name));
+		}
+		*/
+
 	}
 
 
@@ -415,7 +435,6 @@ public class EFADC_Client implements Client {
 	}
 
 
-
 	/**
 	 * Set ADC to accept incoming positive pulses.  User should make sure DAC values are set around 500.
 	 * Note: This currently sends these commands to ALL EFADCs in the DAQ network
@@ -424,7 +443,7 @@ public class EFADC_Client implements Client {
 		//Set bit 15 of register2 to 1 to address all ADC's
 		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
-		//Write 0x1404 to all ADCs
+		//Write 0x1404 to all ADCs	(this sets 2's compliment)
 		m_Registers.setRegister(REG_20, 0x1401);
 
 		SendSetRegisters(1);
@@ -470,7 +489,7 @@ public class EFADC_Client implements Client {
 			e.printStackTrace();
 		}
 
-		//Write 0xFF01 to all ADCs
+		//Write 0xFF01 to all ADCs (this does a SW transfer)
 		m_Registers.setRegister(REG_20, 0xFF01);
 
 		SendSetRegisters(1);
@@ -881,6 +900,7 @@ public class EFADC_Client implements Client {
 
 	/**
 	 * Set all DAC values for a specific efadc register set.  Specific EFADC must be selected beforehand if sending to a CMP.
+	 * TODO: Get Hai to implement a serial command that will allow me to set all DAC values at once
 	 * @param values DAC Values
 	 * @param reg EFADC Registers
 	 * @return
