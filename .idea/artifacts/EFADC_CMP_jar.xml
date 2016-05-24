@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EFADC_CMP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/EFADC</output-path>
+    <properties id="ant-postprocessing">
+      <options enabled="true">
+        <build-properties>
+          <build-property name="output.path" value="$PROJECT_DIR$/out/artifacts/EFADC" />
+        </build-properties>
+      </options>
+    </properties>
+    <root id="archive" name="EFADC_CMP.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/EFADC/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="EFADC_java" />
+    </root>
+  </artifact>
+</component>

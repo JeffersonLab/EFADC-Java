@@ -74,3 +74,12 @@ bin/org/jlab/EFADC/EFADC_ReplayingFrameDecoder$1.class
 bin/org/jlab/EFADC/EFADC_ReplayingFrameDecoder$DecoderState.class
 bin/org/jlab/EFADC/EFADC_ReplayingFrameDecoder.class
 ped_out.bin
+*.pcap
+
+packet.txt
+
+*.class
+
+*.jar
+
+*.tlsh
