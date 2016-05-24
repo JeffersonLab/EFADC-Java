@@ -7,7 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/netty_3_9_5_Final.xml" afterPath="$PROJECT_DIR$/.idea/libraries/netty_3_9_5_Final.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" />
     </list>
     <ignored path="EFADC_java.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -257,10 +259,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AbstractClientHandler.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="AbstractClientHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="2.178374">
+                <state vertical-scroll-proportion="0.0">
                   <caret line="202" column="0" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
                   <folding />
                 </state>
@@ -292,13 +294,25 @@
           <file leaf-file-name="EFADC_Client.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="371" column="14" selection-start-line="371" selection-start-column="14" selection-end-line="371" selection-end-column="14" />
+                <state vertical-scroll-proportion="-28.074074">
+                  <caret line="783" column="26" selection-start-line="783" selection-start-column="19" selection-end-line="783" selection-end-column="26" />
                   <folding>
                     <element signature="e#9346#9347#0" expanded="true" />
                     <element signature="e#9404#9405#0" expanded="true" />
                     <element signature="e#9446#9447#0" expanded="true" />
                     <element signature="e#9486#9487#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="RegisterSet.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.011838989">
+                  <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+                  <folding>
+                    <element signature="docComment;class#RegisterSet#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -352,22 +366,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EFADC_RegistersV2.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-                  <folding>
-                    <element signature="docComment;class#EFADC_RegistersV2#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EFADC_SamplesEvent.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EFADC_SamplesEvent.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5445935">
+                <state vertical-scroll-proportion="0.0">
                   <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -383,14 +385,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EFADC_Event.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Event.java">
+          <file leaf-file-name="EFADC_RegistersV2.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="1.7758485">
+                  <caret line="164" column="40" selection-start-line="164" selection-start-column="40" selection-end-line="164" selection-end-column="40" />
+                  <folding>
+                    <element signature="docComment;class#EFADC_RegistersV2#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EFADC_RegisterSet.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-                  <folding>
-                    <element signature="docComment;class#EFADC_Event#0" expanded="false" />
-                  </folding>
+                  <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -449,14 +461,12 @@
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterFactory.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixFactory.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/CMP_RegisterSet.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Registers.java" />
         <option value="/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/src.zip!/java/math/BigInteger.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV3.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EventSet.java" />
@@ -474,6 +484,8 @@
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" />
       </list>
     </option>
   </component>
@@ -491,6 +503,7 @@
     <option name="jreName" value="1.6" />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1" />
     <option name="y" value="23" />
     <option name="width" value="2560" />
     <option name="height" value="1413" />
@@ -684,7 +697,7 @@
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="reference.projectsettings.compiler.javacompiler" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/GalaxyMeter_Project" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Applications/Kmax1010/netty-3.9.5.Final.jar!/" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -1094,8 +1107,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1413" extended-state="6" />
-    <editor active="false" />
+    <frame x="1" y="23" width="2560" height="1413" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1107,7 +1120,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3047404" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="351" y="771" width="995" height="589" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.49842644" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14058776" sideWeight="0.53899616" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14058776" sideWeight="0.53899616" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.49842644" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3357194" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14058776" sideWeight="0.46100387" order="0" side_tool="true" content_ui="tabs" />
@@ -1215,7 +1228,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java</url>
-          <line>129</line>
+          <line>131</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
@@ -1393,13 +1406,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/netty-3.9.5.Final.jar!/org/jboss/netty/channel/SimpleChannelHandler.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6666665">
-          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1432,13 +1438,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23357664">
           <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/netty-3.9.5.Final.jar!/org/jboss/netty/channel/DefaultChannelPipeline.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.88889">
-          <caret line="495" column="9" selection-start-line="495" selection-start-column="9" selection-end-line="495" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -1558,28 +1557,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-          <folding>
-            <element signature="docComment;class#RegisterSet#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/CMP_RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="39" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -1589,16 +1570,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-          <folding>
-            <element signature="docComment;class#EFADC_RegistersV2#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1620,19 +1591,6 @@
             <element signature="e#3570#3571#0" expanded="true" />
             <element signature="e#3609#3610#0" expanded="true" />
             <element signature="e#3642#3643#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="371" column="14" selection-start-line="371" selection-start-column="14" selection-end-line="371" selection-end-column="14" />
-          <folding>
-            <element signature="e#9346#9347#0" expanded="true" />
-            <element signature="e#9404#9405#0" expanded="true" />
-            <element signature="e#9446#9447#0" expanded="true" />
-            <element signature="e#9486#9487#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1668,7 +1626,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.178374">
+        <state vertical-scroll-proportion="0.0">
           <caret line="202" column="0" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
           <folding />
         </state>
@@ -1676,7 +1634,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5445935">
+        <state vertical-scroll-proportion="0.0">
           <caret line="63" column="22" selection-start-line="63" selection-start-column="22" selection-end-line="63" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1687,6 +1645,47 @@
             <element signature="e#1078#1079#0" expanded="true" />
             <element signature="e#1188#1189#0" expanded="true" />
             <element signature="e#1239#1240#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.074074">
+          <caret line="783" column="26" selection-start-line="783" selection-start-column="19" selection-end-line="783" selection-end-column="26" />
+          <folding>
+            <element signature="e#9346#9347#0" expanded="true" />
+            <element signature="e#9404#9405#0" expanded="true" />
+            <element signature="e#9446#9447#0" expanded="true" />
+            <element signature="e#9486#9487#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegistersV2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.7758485">
+          <caret line="164" column="40" selection-start-line="164" selection-start-column="40" selection-end-line="164" selection-end-column="40" />
+          <folding>
+            <element signature="docComment;class#EFADC_RegistersV2#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.011838989">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <element signature="docComment;class#RegisterSet#0" expanded="false" />
           </folding>
         </state>
       </provider>

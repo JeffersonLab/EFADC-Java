@@ -18,6 +18,8 @@ public abstract class RegisterSet {
 	static final byte OPCODE_SET_REG =				(byte)0x01;
 	static final int DAT_FOR_REG =					0x0000;	// what is this?
 
+	static final int SyncOn_Mask	= 0x2000;
+
 	public static final int REG_1 = 0;
 	public static final int REG_2 = 1;
 	public static final int REG_3 = 2;
@@ -46,7 +48,7 @@ public abstract class RegisterSet {
 		DELAY
 	}
 
-	static final int SyncOn_Mask	= 0x2000;
+
 
 	protected int[] m_Registers;
 	protected String[] description;
