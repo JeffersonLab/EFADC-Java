@@ -18,6 +18,8 @@ public abstract class Command {
 	static final byte CMD_ACT_CON_TOFF = 0x01;	// Collect trigger data.
 	static final byte CMD_ACT_COFF_TON = 0x02;  // Send Test Data that can be used to test Ethernet Bandwidth.
 	static final byte CMD_ACT_READBACK = 0x03;	// Request register readback
+	static final byte CMD_ACT_ROM_SAVE = 0x06;	// Set configuration parameters
+	static final byte CMD_ACT_ROM_READ = 0x07;	// Set configuration parameters
 
 	static final int ADC_TEST_OFF_CMD = 0x0;
 	static final int ADC_TX_MASTER_TO_SLAVE_CMD = 0x01;
@@ -47,22 +49,6 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_OFF);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
 
 		return buf;
 	}
@@ -74,22 +60,6 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_READBACK);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
 
 		return buf;
 	}
@@ -101,22 +71,28 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_COFF_TON);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
+
+		return buf;
+	}
+
+	public static ChannelBuffer SaveROMConfiguration() {
+		ChannelBuffer buf = buffer(18);
+
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x5a);
+		buf.writeByte(OPCODE_ACT_CMD);
+		buf.writeByte(CMD_ACT_ROM_SAVE);
+
+		return buf;
+	}
+
+	public static ChannelBuffer ReadROMConfiguration() {
+		ChannelBuffer buf = buffer(18);
+
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x5a);
+		buf.writeByte(OPCODE_ACT_CMD);
+		buf.writeByte(CMD_ACT_ROM_READ);
 
 		return buf;
 	}

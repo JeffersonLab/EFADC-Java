@@ -13,15 +13,15 @@ import org.jlab.EFADC.*;
 
 public interface ClientHandler extends ChannelUpstreamHandler {
 
-	public int getEventCount();
-	public int getMissedEventCount();
+	int getEventCount();
+	int getMissedEventCount();
 
-	public void connected(Client client);
-	public void bufferReceived(ChannelBuffer buffer);
-	public void eventReceived(EFADC_DataEvent event);
-	public void eventSetReceived(EventSet set);
-	public void registersReceived(RegisterSet regs);
-	public void samplesReceived(EFADC_SamplesEvent event);
+	void connected(Client client);
+	void bufferReceived(ChannelBuffer buffer);
+	void eventReceived(EFADC_DataEvent event);
+	void eventSetReceived(EventSet set);
+	void registersReceived(RegisterSet regs);
+	void samplesReceived(EFADC_SamplesEvent event);
 
-	public boolean IsCMP();
+	boolean IsCMP();
 }

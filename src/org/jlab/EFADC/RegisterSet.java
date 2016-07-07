@@ -113,7 +113,7 @@ public abstract class RegisterSet {
 		*/
 	}
 
-	public abstract void update(RegisterSet reg);
+	protected abstract void update(RegisterSet reg);
 
 
 	public int getRegister(int reg) {

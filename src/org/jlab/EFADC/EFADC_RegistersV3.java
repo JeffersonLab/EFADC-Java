@@ -1,6 +1,9 @@
 package org.jlab.EFADC;
 
 
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Created by john on 8/18/15.
  *
@@ -10,6 +13,9 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
     static final int Mode_Mask		= 0xc000; // reg 1 bits 15..14
 
     //static final int Reset_Mask = 0x1000; // deprecated in v3
+
+    private List<Integer> romConfig = null;
+    private List<Integer> oldRegs = null;
 
     public EFADC_RegistersV3(int header) {
         super(header);
@@ -59,6 +65,126 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
 
 			m_Registers[REG_1] = r1;
 		}
+    }
+
+
+	/**
+     * Configures the rom configuration array, use -1 for values not to be changed
+     * @param ip
+     * @param subnet
+     * @param macAddr
+     * @param port
+     */
+    public void setROMConfiguration(int ip, int subnet, long macAddr, int port) {
+
+        romConfig = new Vector<>(11);
+
+        // [0]
+        romConfig.add(0x0800);
+
+        // [1] [2]
+        if (ip != -1) {
+            romConfig.add((ip >> 16));
+            romConfig.add((ip & 0x0000ffff));
+        } else {
+            romConfig.add(0x0102);
+            romConfig.add(0x0309);
+        }
+
+        // [3] [4]
+        if (subnet != -1) {
+            romConfig.add((subnet >> 16));
+            romConfig.add((subnet & 0x0000ffff));
+        } else {
+            romConfig.add(0xffff);
+            romConfig.add(0xff00);
+        }
+
+        // [5] - Board serial number (0 is no change)
+        romConfig.add(0x0000);
+
+        // [6]
+        romConfig.add(port);
+
+        // [7] [8] [9]
+        if (macAddr != -1) {
+            romConfig.add((int)(macAddr >> 32));
+            romConfig.add((int)(macAddr >> 16));
+            romConfig.add(((int)macAddr & 0x0000ffff));
+        } else {
+            romConfig.add(0xceba);
+            romConfig.add(0xf100);
+            romConfig.add(0x0000);
+        }
+
+        // [10]
+        romConfig.add(0x0000);
+    }
+
+
+	/**
+     * Verifies that the previously written rom configuration was done correctly
+     * Status registers 2-10 should match config registers 1-9 (index origin 1?)
+     * @return True if the ROM configuration was successfully written
+     */
+    public boolean verifyROMReadback() {
+
+        for (int i = 0; i < 8; i++) {
+            if (m_Registers[i] != m_Registers[NUM_REGISTERS + i + 1]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+	/**
+     * Prep for rom readback by configuring config register 0
+     */
+    public boolean armROMReadConfiguration() {
+        if (romConfig != null) {
+            romConfig.set(0, 0x0A00);
+            return true;
+        }
+
+        return false;
+    }
+
+
+	/**
+     * Prep for ROM config write by copying the rom config array into the register array, saves old register values
+     */
+    public void armROMConfiguration() {
+        oldRegs = new Vector<>(11);
+
+        for (int i = 0; i < romConfig.size(); i++) {
+            oldRegs.add(m_Registers[i]);
+            m_Registers[i] = romConfig.get(i);
+        }
+    }
+
+
+	/**
+     * Copy saved register values back into the register array and discard saved register list
+     */
+    public void disarmROMConfiguration() {
+        for (int i = 0; i < oldRegs.size(); i++) {
+            m_Registers[i] = oldRegs.get(i);
+        }
+
+        oldRegs.clear();
+        oldRegs = null;
+        romConfig.clear();
+        romConfig = null;
+    }
+
+
+	/**
+     * @return True if the ROM configuration is currently armed
+     */
+    public boolean isROMConfigArmed() {
+        return oldRegs != null;
     }
 
 }

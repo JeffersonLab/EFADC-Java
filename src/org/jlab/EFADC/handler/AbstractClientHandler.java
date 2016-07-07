@@ -27,6 +27,8 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	boolean verbose = false;
 	boolean isCMP = false;
 
+	protected EFADC_Client client = null;
+
 	private EFADC_EventAggregator m_Aggregator;
 
 	public AbstractClientHandler() {
@@ -101,6 +103,18 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	}
 
 
+	@Override
+	public void connected(Client client) {
+		this.client = (EFADC_Client)client;
+	}
+
+
+	/**
+	 * Receiver of objects processed and returned from the FrameDecoder
+	 * @param ctx
+	 * @param e
+	 * @throws Exception
+	 */
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
 		Object message = e.getMessage();
@@ -207,6 +221,9 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			}
 
 			isCMP = false;
+
+			if (client != null)
+				client.setRegisterSet(regs);
 
 		} else if (regs instanceof CMP_RegisterSet) {
 			if (DEBUG) Logger.getLogger("global").info("::registersReceived::CMP_RegisterSet");
