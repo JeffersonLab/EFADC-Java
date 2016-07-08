@@ -10,6 +10,9 @@ import java.util.Vector;
  */
 public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Registers {
 
+    private static final int NUM_STATUS = 9;
+	public static final int DATA_SIZE_BYTES = (NUM_REGISTERS + NUM_STATUS) * 2;
+
     static final int Mode_Mask		= 0xc000; // reg 1 bits 15..14
 
     //static final int Reset_Mask = 0x1000; // deprecated in v3
