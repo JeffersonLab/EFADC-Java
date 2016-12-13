@@ -20,6 +20,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="netty-3.9.5.Final" level="project" />
+    <orderEntry type="library" name="io.netty:netty:3.10.6.Final" level="project" />
   </component>
 </module>

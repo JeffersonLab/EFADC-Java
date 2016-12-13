@@ -32,7 +32,7 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 	long lastUpdated;
 
 	//Status registers
-	public int version;
+	public int m_Version;
 	public long acceptedTrigs;
 	public long missedTrigs;
 	public int unknown;

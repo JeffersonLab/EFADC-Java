@@ -1,7 +1,6 @@
 package org.jlab.EFADC;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
 
 import java.util.Arrays;
 
@@ -88,7 +87,7 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
 		strB.append(String.format("[09] %04x - Det 2 OR/AND, Det 1 OR/AND\n", m_Registers[REG_9]));
 		strB.append(String.format("[10] %04x - Det 4 OR/AND, Det 3 OR/AND\n", m_Registers[REG_10]));
         strB.append(String.format("[11] %04x - Coinc Window Width: %d\n", m_Registers[REG_11], getCoincidenceWindowWidth()));
-        strB.append(String.format("Version: %d\n", version));
+        strB.append(String.format("Version: %d\n", m_Version));
         strB.append(String.format("Accepted Triggers: %d\n", acceptedTrigs));
         strB.append(String.format("Missed Triggers: %d\n", missedTrigs));
         strB.append(String.format("Something Else: %04X\n", unknown));
@@ -238,7 +237,7 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
 
         super.decode(frame, NUM_REGISTERS);
 
-        version = frame.readUnsignedShort();
+        m_Version = frame.readUnsignedShort();
 
         acceptedTrigs = frame.readUnsignedInt();
         missedTrigs = frame.readUnsignedInt();

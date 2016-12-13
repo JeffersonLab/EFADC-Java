@@ -1,6 +1,8 @@
 package org.jlab.EFADC;
 
 
+import java.util.logging.Logger;
+
 /**
  * Created by john on 8/18/15.
  *
@@ -60,5 +62,45 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
 			m_Registers[REG_1] = r1;
 		}
     }
+
+
+	/**
+	 * 11..8 : ADC signal  range select . 0: -.4V; 1: -2
+	 * 8- Channel 1-4
+	 * 9- Channel 5-8
+	 * 10- Channel 9-12
+	 * 11—Channel 13-16
+	 *
+	 * For v3 hardware the switch was 'fixed' to have only a 2 or 1 v range
+	 * 0 is 1 V range, 1 is 2 V range,
+	 *
+	 * @param module Detector module, 0 - channels 1-4, 1 - chans 5-8, 2 - chans 9-12, 3 - chans 13-16
+	 * @param range Voltage range,
+	 */
+	public void setInputRange(int module, int range) {
+		if (m_Version != 0x3500) {
+			Logger.getLogger("global").warning("setInputRange feature only available in firmware 0x3500 and above");
+			return;
+		}
+
+		if (range < 0 || range > 1) {
+			Logger.getLogger("global").warning("Valid ranges are 0 (1V) or 1 (2V)");
+			return;
+		}
+
+		// module-to-bit map
+		int[] modbit = new int[] {8, 9, 10, 11};
+
+		int reg = getRegister(REG_3);
+
+		if (range == 0)
+			reg &= ~(1 << modbit[module]);
+		else if (range == 1)
+			reg |= (1 << modbit[module]);
+
+		Logger.getLogger("global").info(String.format("setInputRange:: Setting reg3 to %04x", reg));
+
+		setRegister(REG_3, reg);
+	}
 
 }
