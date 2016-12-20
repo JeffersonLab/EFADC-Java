@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Registers {
 
     public static final int NUM_REGISTERS = 20;	//Not including status regs, or register 0
-    public static final int NUM_STATUS = 7;
+    private static final int NUM_STATUS = 7;
     public static final int DATA_SIZE_BYTES = (NUM_REGISTERS + NUM_STATUS) * 2;
 
     static final int Mode_Mask		= (1 << 9);	// bit 9

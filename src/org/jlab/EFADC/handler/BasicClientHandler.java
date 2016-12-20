@@ -15,9 +15,11 @@ import org.jlab.EFADC.EventSet;
 
 public class BasicClientHandler extends AbstractClientHandler implements ClientHandler {
 
+	/*
 	@Override
 	public void connected(Client client) {
 	}
+	*/
 
 	@Override
 	public void bufferReceived(ChannelBuffer buffer) {

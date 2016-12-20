@@ -100,23 +100,21 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				int regHeader = buf.getUnsignedShort(mark + 4);	// skip 6
 
 				if (regHeader >> 15 == 0) {
-					//Decode standard EFADC registers
+					// Decode standard EFADC registers
+					// Find version number
+					int ver = buf.getUnsignedShort(mark + 46);
 
-					// Register readback payload should be 60 total bytes
-					// TODO Assuming version 2 and 3 have same number of registers
-					if (buf.readableBytes() < EFADC_RegistersV2.DATA_SIZE_BYTES + 4)
+					int dataBytes = (ver >= 0x3401 ? EFADC_RegistersV3.DATA_SIZE_BYTES : EFADC_RegistersV2.DATA_SIZE_BYTES);
+
+					if (buf.readableBytes() < dataBytes + 4)
 						return null;
 
 					buf.skipBytes(6);	// Skip over register header as well
-					ChannelBuffer frame = buf.readBytes(54);
+					ChannelBuffer frame = buf.readBytes(dataBytes);
 
 					EFADC_RegisterSet regs = RegisterFactory.initRegisters(regHeader);
 
 					regs.decode(frame);
-
-					// version 3 has 2 bytes end of packet marker
-					// TODO: refactor this to v3 specific code!
-					buf.readBytes(2);
 
 					return regs;
 

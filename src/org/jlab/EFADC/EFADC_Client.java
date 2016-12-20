@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.FileChannel;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
@@ -42,24 +43,36 @@ public class EFADC_Client implements Client {
 
 	public static boolean flag_Verbose = false;
 
-	ChannelHandlerContext		m_EchoHandlerContext = null;
-	EFADC_ChannelContext		m_GlobalContext;
-	int							m_InterCommandDelay;
-	RegisterSet					m_Registers = null;
-	ChannelPipelineFactory		m_TCPClientPipelineFactory, m_UDPClientPipelineFactory;
-	int 						m_TCPPort, m_UDPPort;
-	InetSocketAddress			m_TCPSocketAddress, m_UDPSocketAddress;
-	ClientSocketChannelFactory	m_TCPClientChannelFactory;
-	DatagramChannelFactory		m_UDPClientChannelFactory;
-	Channel 					m_UDPChannel = null, m_TCPChannel = null;
-	
-	Timer						m_WheelTimer = null;
+	private ChannelHandlerContext		m_EchoHandlerContext = null;
+	private EFADC_ChannelContext		m_GlobalContext;
+	private int							m_InterCommandDelay;
+	private RegisterSet					m_Registers = null;
+	private ChannelPipelineFactory		m_TCPClientPipelineFactory, m_UDPClientPipelineFactory;
+	private int 						m_TCPPort, m_UDPPort;
+	private InetSocketAddress			m_TCPSocketAddress, m_UDPSocketAddress;
+	private ClientSocketChannelFactory	m_TCPClientChannelFactory;
+	private DatagramChannelFactory		m_UDPClientChannelFactory;
+	private Channel 					m_UDPChannel = null, m_TCPChannel = null;
 
-	boolean						m_AggregatorEnable = false;
-	boolean						m_AcquisitionActive = false;
+	private Timer						m_WheelTimer = null;
 
-	private ReadTimeoutHandler 	m_AcquisitionReadTimeoutHandler;
-	private	ChannelHandler 		m_IdleStateHandler = null;
+	private boolean						m_AggregatorEnable = false;
+	private boolean						m_AcquisitionActive = false;
+
+	private ReadTimeoutHandler 			m_AcquisitionReadTimeoutHandler;
+	private	ChannelHandler				m_IdleStateHandler = null;
+
+	/*
+	private enum InternalState {
+		NORMAL,
+		ROM_VERIFY
+	}
+
+	private InternalState internalState = InternalState.NORMAL;
+	*/
+
+	private ROMParameters romParams;
+	private List<Integer> oldRegs = null;
 	
 	
 	public EFADC_Client(String address, int port, boolean enableIdleTimer) throws Exception {
@@ -423,6 +436,15 @@ public class EFADC_Client implements Client {
 		} else {
 			// Don't replace entirely because we'll lose information
 			m_Registers.update(regs);
+
+			/*
+			TODO: Remove
+			if (internalState == InternalState.ROM_VERIFY) {
+				// Check this cast
+				romVerify((EFADC_RegistersV3)regs);
+			}
+			*/
+
 		}
 	}
 
@@ -1064,6 +1086,144 @@ public class EFADC_Client implements Client {
 		} catch (NoSuchElementException e) {
 			pipeline.addBefore("encoder", "writer", writer);
 		}
+	}
+
+
+	/**
+	 *
+	 * @param ip
+	 * @param subnet
+	 * @param macAddr
+	 * @param port
+	 * @throws EFADC_Exception
+	 */
+	public void SetROMConfiguration(int ip, int subnet, long macAddr, int port) throws EFADC_Exception {
+		this.SetROMConfiguration(ip, subnet, macAddr, port, -1);
+	}
+
+
+	/**
+	 *
+	 * @param ip
+	 * @param subnet
+	 * @param macAddr
+	 * @param port
+	 * @param serialNum
+	 * @throws EFADC_Exception
+	 */
+	public void SetROMConfiguration(int ip, int subnet, long macAddr, int port, int serialNum) throws EFADC_Exception {
+		if (!(m_Registers instanceof EFADC_RegistersV3)) {
+			throw new EFADC_Exception("ROM configuration is only supported on V3+ firmware");
+		}
+
+		/*
+		TODO: Remove
+		if (internalState != InternalState.NORMAL) {
+			Logger.getLogger("global").warning("InternalState not in NORMAL mode, cannot continue with ROM parameter change");
+			throw new EFADC_Exception("InternalState not in NORMAL mode");
+		}
+		*/
+
+		if (romParams != null) {
+			Logger.getLogger("global").severe("ROM configuration previously armed");
+			throw new EFADC_Exception("ROM configuration has already been armed");
+		}
+
+		if (oldRegs != null) {
+			Logger.getLogger("global").severe("ROM configuration previously armed (oldRegs exist)");
+			throw new EFADC_Exception("ROM configuration previously armed (oldRegs exist)");
+		}
+
+		EFADC_RegistersV3 v3regs = (EFADC_RegistersV3)m_Registers;
+
+		romParams = new ROMParameters(ip, subnet, macAddr, port, serialNum);
+
+		// Only update oldRegs if this is the first try, otherwise oldRegs is the values from the first try
+		oldRegs = v3regs.armROMConfiguration(romParams);
+
+		SendSetRegisters(0);
+
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		SendCommand(Command.SaveROMConfiguration());
+
+		// Wait 1.2 minutes
+		Logger.getLogger("global").info("Waiting 1.2 minutes for EEPROM write...");
+		long timeTarget = System.currentTimeMillis() + (long)(60 * 1.2 * 1000);
+
+		try {
+			long now = System.currentTimeMillis();
+
+			do {
+				long millisRemaining = (timeTarget - now);
+
+				Logger.getLogger("global").info(String.format(".. Waiting %d more seconds...", millisRemaining/1000));
+				Thread.sleep(Math.min(10 * 1000, millisRemaining));
+
+				now = System.currentTimeMillis();
+
+			} while (now < timeTarget);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		/*
+		romParams.armReadback();
+
+		SendSetRegisters(0);
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		Logger.getLogger("global").info("Sending ROM read command (~4 seconds)");
+		SendCommand(Command.ReadROMConfiguration());
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		internalState = InternalState.ROM_VERIFY;
+
+		SendCommand(Command.ReadRegisters());
+		*/
+	}
+
+
+	/**
+	 * Called on receipt of registers when in ROM_VERIFY state
+	 * @param v3regs
+	 */
+	private void romVerify(EFADC_RegistersV3 v3regs) {
+		boolean success = false;
+
+		if (romParams.verifyReadback(v3regs.getRegisters())) {
+			Logger.getLogger("global").info("ROM readback successful, reboot device now!");
+			success = true;
+			//internalState = InternalState.NORMAL;	// TODO: Remove
+			romParams = null;
+		}
+
+		v3regs.disarmROMConfiguration(oldRegs);	// Restore old register values
+		oldRegs.clear();
+		oldRegs = null;
+
+		if (!success) {
+			Logger.getLogger("global").warning("ROM readback failure, repeating procedure...");
+			// Try again using saved config parameters
+			try {
+				SetROMConfiguration(romParams.ip, romParams.subnet, romParams.mac, romParams.port, romParams.serial);
+			} catch (EFADC_Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }

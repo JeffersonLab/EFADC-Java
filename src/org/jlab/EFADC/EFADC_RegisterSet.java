@@ -56,6 +56,14 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 	public void update(RegisterSet reg) {
 		if (reg instanceof EFADC_RegisterSet) {
 			Logger.getLogger("global").info("Updating EFADC register set");
+		} else return;
+
+		if (m_Registers.length != reg.getRegisters().length) {
+			Logger.getLogger("global").warning("Register Set not same length");
+		}
+
+		for (int i = 0; i < m_Registers.length; i++) {
+			m_Registers[i] = reg.getRegister(i);
 		}
 	}
 

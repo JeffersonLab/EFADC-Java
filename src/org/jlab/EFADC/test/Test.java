@@ -29,6 +29,8 @@ public class Test {
 	static boolean flag_Run = false;
 	static boolean flag_SelfTrig = false;
 	static boolean flag_Verbose = false;
+	static boolean flag_DoPeds = false;
+	static boolean flag_Debug = true;
 
 	//Command line options
 	static String outputFile = "";
@@ -40,16 +42,19 @@ public class Test {
 	static int nsb = 30;
 	static int[] thresh;
 	static int[] pedestal;
+	static String ipAddr;
+	static String newIp = null;
 
-	Client m_Client;
+
+	EFADC_Client m_Client;
 	ClientHandler m_Handler;
-	//Connector m_Con;
 
 	public boolean m_Flag_PrintRegisters = false;
 
 	PedestalFinder pedFinder;
 
 	int lastSampleTrigId;
+
 
 	class TestClientHandler extends BasicClientHandler {
 		LinkedBlockingQueue<EventSet> eventQueue;
@@ -124,19 +129,20 @@ public class Test {
 
 
 	Test() {
+	}
 
+
+	boolean doConnect(String ipAddress, boolean dBug) {
 		m_Handler = new TestClientHandler();
 
-		//m_Con = new Connector("1.2.3.9", 4999);
-
 		try {
-			Future<Client> connectFuture = Connector.connect("1.2.3.9", 4999, true);	// debugging on
+			Future<Client> connectFuture = Connector.connect(ipAddress, 4999, dBug);	// debugging on
 
-			m_Client = connectFuture.get(5, TimeUnit.SECONDS);
+			m_Client = (EFADC_Client)connectFuture.get(5, TimeUnit.SECONDS);
 
 		} catch (TimeoutException e) {
 			Logger.getLogger("global").severe("Timed out trying to connect");
-			return;
+			return false;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +150,7 @@ public class Test {
 
 		if (m_Client == null) {
 			Logger.getLogger("global").warning("Failed to connect");
-			return;
+			return false;
 		}
 
 		// Aha! We need to detect if the old handler was a CMP or not
@@ -155,59 +161,17 @@ public class Test {
 			((AbstractClientHandler)m_Handler).SetCMP(true);
 		}
 
-		Logger.getLogger("global").info("Running initialization...");
-		init();
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			m_Client.SetRawOutputFile("ped_out.bin");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Logger.getLogger("Registers after Init()");
-		m_Flag_PrintRegisters = true;
-		m_Client.ReadRegisters();
-
-
-		Logger.getLogger("global").info("Running pedestal acquisition...");
-		pedFinder = new PedestalFinder(16);
-		pedestals();
-
-		Collection<EventSet> events = new LinkedList<>();
-
-		TestClientHandler testHandler = (TestClientHandler)m_Handler;
-
-		int eventCount = testHandler.getEventQueue().drainTo(events);
-
-		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d, sampleEvent: %d",
-				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEvents, testHandler.nSingleEvents, testHandler.nSamples));
-
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		int[] pedData = pedFinder.findMaxima();
-		System.out.println("Pedestal Data:");
-		for (int p : pedData) {
-			System.out.printf("%d ", p);
-		}
-		System.out.println();
-
-		Logger.getLogger("Registers after acquisition");
-		m_Client.ReadRegisters();
+		return true;
 	}
 
 
 	// Basic daq initialization
-	private void init() {
+	boolean init() {
+
+		if (m_Client == null) {
+			Logger.getLogger("global").severe("Client not connected");
+			return false;
+		}
 
 		//Sync behavior has changed with the master/slave setup
 		//m_Client.SetSync(true);
@@ -253,6 +217,7 @@ public class Test {
 
 		}
 
+		return true;
 	}
 
 
@@ -283,6 +248,49 @@ public class Test {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	private void setupPedestalAcquisition() {
+		try {
+			m_Client.SetRawOutputFile("ped_out.bin");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Logger.getLogger("Registers after Init()");
+		m_Flag_PrintRegisters = true;
+		m_Client.ReadRegisters();
+
+
+		Logger.getLogger("global").info("Running pedestal acquisition...");
+		pedFinder = new PedestalFinder(16);
+		pedestals();
+
+		Collection<EventSet> events = new LinkedList<>();
+
+		TestClientHandler testHandler = (TestClientHandler)m_Handler;
+
+		int eventCount = testHandler.getEventQueue().drainTo(events);
+
+		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d, sampleEvent: %d",
+				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEvents, testHandler.nSingleEvents, testHandler.nSamples));
+
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		int[] pedData = pedFinder.findMaxima();
+		System.out.println("Pedestal Data:");
+		for (int p : pedData) {
+			System.out.printf("%d ", p);
+		}
+		System.out.println();
+
+		Logger.getLogger("Registers after acquisition");
+		m_Client.ReadRegisters();
 	}
 
 
@@ -335,6 +343,32 @@ public class Test {
 	}
 
 
+	private void testSetIp(String ip) {
+
+		int int_ip = 0;
+
+		String[] octet = ip.split("\\.");
+
+		if (octet.length != 4) {
+			Logger.getLogger("global").warning("IP Address must be in X.X.X.X format");
+			return;
+		}
+
+		int_ip =	(Integer.valueOf(octet[0])	<< 24)	& 0xff000000;
+		int_ip |=	(Integer.valueOf(octet[1])	<< 16)	& 0x00ff0000;
+		int_ip |=	(Integer.valueOf(octet[2])	<< 8) 	& 0x0000ff00;
+		int_ip |=	Integer.valueOf(octet[3])			& 0x000000ff;
+
+		Logger.getLogger("global").info(String.format("IP %s => 0x%08x", ip, int_ip));
+
+		try {
+			m_Client.SetROMConfiguration(int_ip, 0xfffffe00, -1, -1);
+		} catch (EFADC_Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	private static void setupLogging() {
 		Logger.getLogger("global").setUseParentHandlers(false);
 		Handler h = new ConsoleHandler();
@@ -343,7 +377,7 @@ public class Test {
 	}
 
 
-	private static void parseArguments(String[] args, EFADC_Client client) {
+	private static void parseArguments(String[] args, Test app) {
 		int i = 0, j;
 		String arg;
 		char flag;
@@ -356,6 +390,28 @@ public class Test {
 
 			} else if (arg.equals("-verbose")) {
 				flag_Verbose = true;
+			} else if (arg.equals("-peds")) {
+				flag_DoPeds = true;
+			}
+
+			else if (arg.equals("-ip")) {
+				if (i < args.length)
+					ipAddr = args[i++];
+				else
+					System.err.println("-ip requires an ip address");
+
+				if (flag_Verbose)
+					System.out.println("ipAddr = " + ipAddr);
+			}
+
+			else if (arg.equals("-newIp")) {
+				if (i < args.length)
+					newIp = args[i++];
+				else
+					System.err.println("-newIp requires an ip address");
+
+				if (flag_Verbose)
+					System.out.println("newIp = " + newIp);
 			}
 
 			// use this type of check for arguments that require arguments
@@ -399,7 +455,11 @@ public class Test {
 				if (flag_Verbose)
 					System.out.println("Pedestal " + ped + " value " + val);
 
-			} else if (arg.equals("-register")) {
+			}
+
+			/*
+			else if (arg.equals("-register")) {
+
 				int reg = -1, val = -1;
 				if (i < args.length + 1) {
 					try {
@@ -418,7 +478,10 @@ public class Test {
 				if (flag_Verbose)
 					System.out.println("Register " + reg + " value " + val);
 
-			} else if (arg.equals("-thresh")) {
+			}
+			*/
+
+			else if (arg.equals("-thresh")) {
 				int module = -1, val = -1;
 				if (i < args.length + 1) {
 					try {
@@ -531,11 +594,30 @@ public class Test {
 
 	}
 
+
+
 	public static void main(String[] args) throws Exception {
 
 		setupLogging();
 
-		new Test();
+		Test app = new Test();
+
+		parseArguments(args, app);
+
+		if (!app.doConnect(ipAddr, flag_Debug)) {
+			Logger.getLogger("global").severe("Could not establish connection");
+			return;
+		}
+
+		Logger.getLogger("global").info("Running initialization...");
+		app.init();
+
+		if (flag_DoPeds)
+			app.setupPedestalAcquisition();
+
+		if (newIp != null) {
+			app.testSetIp(newIp);
+		}
 
 		/*
 
