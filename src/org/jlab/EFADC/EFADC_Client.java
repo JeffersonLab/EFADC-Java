@@ -444,7 +444,7 @@ public class EFADC_Client implements Client {
 		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
 		//Write 0x1404 to all ADCs	(this sets 2's compliment)
-		m_Registers.setRegister(REG_20, 0x1401);
+		m_Registers.setRegister(REG_20, 0x1400 | m_Registers.getADCInvertMask());
 
 		SendSetRegisters(1);
 		//SendSetRegisters(2);

@@ -11,6 +11,8 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
 
     static final int Mode_Mask		= 0xc000; // reg 1 bits 15..14
 
+	protected final int ADC_Invert = 0x0004;
+
     //static final int Reset_Mask = 0x1000; // deprecated in v3
 
     public EFADC_RegistersV3(int header) {

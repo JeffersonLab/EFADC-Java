@@ -158,4 +158,9 @@ public abstract class RegisterSet {
 		else
 			m_Registers[REG_1] &= ~SyncOn_Mask;
 	}
+
+	public int getADCInvertMask() {
+		Logger.getLogger("global").warning("Returning default value for getADCInvertMask() in abstract RegisterSet");
+		return 0;
+	}
 }
