@@ -466,7 +466,11 @@ public class EFADC_Client implements Client {
 		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
 		//Write 0x1404 to all ADCs	(this sets 2's compliment)
-		m_Registers.setRegister(REG_20, 0x1400 | m_Registers.getADCInvertMask());
+		int reg20val = 0x1400 | m_Registers.getADCInvertMask();
+
+		Logger.getLogger("global").info(String.format("SetADCPositive() reg20 value 0x%04x", reg20val));
+
+		m_Registers.setRegister(REG_20, reg20val);
 
 		SendSetRegisters(1);
 		//SendSetRegisters(2);
@@ -499,8 +503,12 @@ public class EFADC_Client implements Client {
 		//Set bit 15 of register2 to 1 to address all ADC's
 		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
 
+		int reg20val = 0x1400;
+
+		Logger.getLogger("global").info(String.format("SetADCNegative() reg20 value 0x%04x", reg20val));
+
 		//Write 0x1400 to all ADCs
-		m_Registers.setRegister(REG_20, 0x1400);
+		m_Registers.setRegister(REG_20, reg20val);
 
 		SendSetRegisters(1);
 		//SendSetRegisters(2);
