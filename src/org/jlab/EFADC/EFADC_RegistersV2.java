@@ -19,8 +19,6 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
 
     static final int Reset_Mask = 0x1000;
 
-	protected final int ADC_Invert = 0x0001;
-
 	// Not including register 0
     static final int[] s_DefaultRegs = new int[] {
 			0x200F, 0x0016, 0x0339, 0x0BD8,
@@ -98,8 +96,8 @@ public class EFADC_RegistersV2 extends EFADC_RegisterSet implements EFADC_Regist
         return strB.toString();
     }
 
-    public int getADCInvertMask() {
-    	return ADC_Invert;
+    int getADCInvertMask() {
+    	return ADC_TwosCompliment;
 	}
 
 
