@@ -204,6 +204,14 @@ public class Connector {
 		m_ConnectState = ConnectState.CONNECTING;
 		Logger.getLogger("global").info(" => ReadRegisters() :: state CONNECTING");
 
+		//m_Client.SendSync();
+
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+
+		}
+
 		// Try to read registers to see if we're really connected
 		if (!m_Client.ReadRegisters()) {
 			Logger.getLogger("global").severe("ReadRegisters failed in connect()");

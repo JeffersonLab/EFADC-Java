@@ -777,6 +777,7 @@ public class EFADC_Client implements Client {
 	 * Set Sync for all EFADCs
 	 * @param val
 	 */
+	@Deprecated
 	public void SetSync(boolean val) {
 		EFADC_RegisterSet adcReg;
 
@@ -1019,6 +1020,14 @@ public class EFADC_Client implements Client {
 		m_AcquisitionActive = false;
 
 		return SendCommand(Command.StopCollection());
+	}
+
+	public void SendSync() {
+		SendCommand(Command.SendSync());
+	}
+
+	public boolean ReadETSRegisters() {
+		return SendCommand(Command.ReadETSRegisters());
 	}
 
 

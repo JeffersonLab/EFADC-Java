@@ -105,7 +105,7 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("1.2.3.9", 4999);
+		m_Con = new Connector("129.57.53.60", 4999);
 
 		Future<Client> connectFuture = m_Con.connect(true);	// debugging on
 
@@ -114,6 +114,7 @@ public class Test {
 
 		} catch (TimeoutException e) {
 			Logger.getLogger("global").severe("Timed out trying to connect");
+
 			return;
 
 		} catch (Exception e) {
@@ -133,6 +134,8 @@ public class Test {
 			Logger.getLogger("global").info("CMP Detected, telling new handler");
 			((AbstractClientHandler)m_Handler).SetCMP(true);
 		}
+
+
 
 		Logger.getLogger("global").info("Running initialization...");
 		init();

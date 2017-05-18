@@ -18,6 +18,7 @@ public abstract class Command {
 	static final byte CMD_ACT_CON_TOFF = 0x01;	// Collect trigger data.
 	static final byte CMD_ACT_COFF_TON = 0x02;  // Send Test Data that can be used to test Ethernet Bandwidth.
 	static final byte CMD_ACT_READBACK = 0x03;	// Request register readback
+	static final byte CMD_ACT_READBACK_ETS = 0x05;	// Request ETS registers
 
 	static final int ADC_TEST_OFF_CMD = 0x0;
 	static final int ADC_TX_MASTER_TO_SLAVE_CMD = 0x01;
@@ -28,6 +29,16 @@ public abstract class Command {
 	static final int ADC_MASTER_TO_SLAVE_REG = 0xFF00;  // write 1 to this register to transfer data from Master Shift Reg to Salve
 	static final int ADC_CLK_OUT_DELAY_REG = 0x1700;
 
+	public static ChannelBuffer SendSync() {
+		ChannelBuffer buf = buffer(4);
+
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x5a);
+		buf.writeByte(0x02);
+		buf.writeByte(0x02);
+
+		return buf;
+	}
 
 	public static ChannelBuffer StartCollection() {
 		ChannelBuffer buf = buffer(4);
@@ -47,22 +58,6 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_OFF);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
 
 		return buf;
 	}
@@ -74,22 +69,17 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_READBACK);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
+
+		return buf;
+	}
+
+	public static ChannelBuffer ReadETSRegisters() {
+		ChannelBuffer buf = buffer(18);
+
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x5a);
+		buf.writeByte(OPCODE_ACT_CMD);
+		buf.writeByte(CMD_ACT_READBACK_ETS);
 
 		return buf;
 	}
@@ -101,22 +91,6 @@ public abstract class Command {
 		buf.writeByte((byte)0x5a);
 		buf.writeByte(OPCODE_ACT_CMD);
 		buf.writeByte(CMD_ACT_COFF_TON);
-		/*
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		buf.writeByte((byte)0);
-		*/
 
 		return buf;
 	}
