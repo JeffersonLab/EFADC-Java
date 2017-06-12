@@ -189,6 +189,18 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				regs.decode(frame);
 				return regs;
 			}
+
+			/*
+			 * Read device info from 0209 command
+			 */
+			case 0x030A: {
+				int idA, idB;
+
+				buf.skipBytes(4);
+				idA = buf.readUnsignedShort();
+
+				return new DeviceInfo(idA);
+			}
 			
 			default:
 				

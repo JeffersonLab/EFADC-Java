@@ -1026,6 +1026,10 @@ public class EFADC_Client implements Client {
 		SendCommand(Command.SendSync());
 	}
 
+	public boolean GetDeviceInfo() {
+		return SendCommand(Command.GetDeviceInfo());
+	}
+
 	public boolean ReadETSRegisters() {
 		return SendCommand(Command.ReadETSRegisters());
 	}

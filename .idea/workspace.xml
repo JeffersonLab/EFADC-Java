@@ -7,10 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EFADC_java.iml" afterPath="$PROJECT_DIR$/EFADC_java.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
     </list>
     <ignored path="EFADC_java.iws" />
@@ -254,8 +261,8 @@
           <file leaf-file-name="EFADC_FrameDecoder.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="280">
-                  <caret line="156" column="0" lean-forward="true" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+                <state relative-caret-position="883">
+                  <caret line="201" column="41" lean-forward="true" selection-start-line="201" selection-start-column="41" selection-end-line="201" selection-end-column="41" />
                   <folding />
                 </state>
               </provider>
@@ -264,33 +271,21 @@
           <file leaf-file-name="AbstractClientHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2325">
-                  <caret line="173" column="16" lean-forward="false" selection-start-line="173" selection-start-column="16" selection-end-line="173" selection-end-column="16" />
-                  <folding>
-                    <element signature="e#0#5733#0" expanded="false" />
-                    <element signature="imports" expanded="false" />
-                    <element signature="e#596#597#0" expanded="false" />
-                    <element signature="e#614#615#0" expanded="false" />
-                    <element signature="e#740#741#0" expanded="false" />
-                    <element signature="e#759#760#0" expanded="false" />
-                    <element signature="e#1133#1134#0" expanded="false" />
-                    <element signature="e#1157#1158#0" expanded="false" />
-                    <element signature="e#1195#1196#0" expanded="false" />
-                    <element signature="e#1220#1221#0" expanded="false" />
-                  </folding>
+                <state relative-caret-position="-102">
+                  <caret line="157" column="46" lean-forward="true" selection-start-line="157" selection-start-column="46" selection-end-line="157" selection-end-column="46" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EFADC_DataEvent.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_DataEvent.java">
+          <file leaf-file-name="DeviceInfo.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="750">
-                  <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+                <state relative-caret-position="195">
+                  <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
                   <folding>
-                    <element signature="e#0#1753#0" expanded="false" />
-                    <marker date="1494858124000" expanded="true" signature="1745:1749" ph="{...}" />
-                    <marker date="1494858124000" expanded="false" signature="1746:1749" ph=" }" />
+                    <element signature="e#133#134#0" expanded="true" />
+                    <element signature="e#150#151#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -299,13 +294,13 @@
           <file leaf-file-name="EFADC_Client.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="402">
-                  <caret line="1031" column="0" lean-forward="true" selection-start-line="1031" selection-start-column="0" selection-end-line="1031" selection-end-column="0" />
+                <state relative-caret-position="381">
+                  <caret line="1029" column="50" lean-forward="false" selection-start-line="1029" selection-start-column="50" selection-end-line="1029" selection-end-column="50" />
                   <folding>
-                    <element signature="e#11094#11337#0" expanded="true" />
-                    <element signature="e#11336#11337#0" expanded="true" />
-                    <element signature="e#25675#25676#0" expanded="true" />
-                    <element signature="e#25713#25714#0" expanded="true" />
+                    <element signature="e#25748#25749#0" expanded="true" />
+                    <element signature="e#25798#25799#0" expanded="true" />
+                    <element signature="e#25925#25926#0" expanded="true" />
+                    <element signature="e#25975#25976#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -314,10 +309,10 @@
           <file leaf-file-name="Command.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="510">
-                  <caret line="36" column="26" lean-forward="false" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+                <state relative-caret-position="738">
+                  <caret line="70" column="34" lean-forward="true" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="34" />
                   <folding>
-                    <element signature="imports" expanded="false" />
+                    <marker date="1497291650000" expanded="true" signature="2752:2772" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -326,11 +321,11 @@
           <file leaf-file-name="RegisterSet.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="435">
+                <state relative-caret-position="450">
                   <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
                   <folding>
                     <element signature="imports" expanded="false" />
-                    <marker date="1494858124000" expanded="true" signature="1934:1938" ph="{...}" />
+                    <marker date="1497291587000" expanded="true" signature="1934:1938" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -339,12 +334,11 @@
           <file leaf-file-name="CoincidenceMatrix.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/CoincidenceMatrix.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="570">
+                <state relative-caret-position="585">
                   <caret line="40" column="44" lean-forward="false" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="44" />
                   <folding>
-                    <element signature="e#273#274#0" expanded="false" />
-                    <element signature="e#296#297#0" expanded="false" />
-                    <marker date="1494858124000" expanded="true" signature="1049:1167" ph="{...}" />
+                    <element signature="imports" expanded="false" />
+                    <marker date="1497291587000" expanded="true" signature="1049:1167" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -403,32 +397,15 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Test.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1440">
-                  <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+                <state relative-caret-position="291">
+                  <caret line="103" column="67" lean-forward="false" selection-start-line="103" selection-start-column="67" selection-end-line="103" selection-end-column="67" />
                   <folding>
-                    <element signature="imports" expanded="false" />
-                    <element signature="e#1398#1399#0" expanded="false" />
-                    <element signature="e#1447#1448#0" expanded="false" />
-                    <element signature="e#1482#1483#0" expanded="false" />
-                    <element signature="e#1509#1510#0" expanded="false" />
-                    <element signature="e#1567#1568#0" expanded="false" />
-                    <element signature="e#1593#1594#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CommandEncoder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/CommandEncoder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#0#1153#0" expanded="false" />
-                    <element signature="imports" expanded="false" />
+                    <element signature="e#1398#1399#0" expanded="true" />
+                    <element signature="e#1447#1448#0" expanded="true" />
+                    <marker date="1497293600000" expanded="true" signature="11785:14568" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -437,8 +414,8 @@
           <file leaf-file-name="Connector.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="645">
-                  <caret line="205" column="0" lean-forward="true" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+                <state relative-caret-position="263">
+                  <caret line="174" column="33" lean-forward="false" selection-start-line="174" selection-start-column="26" selection-end-line="174" selection-end-column="33" />
                   <folding />
                 </state>
               </provider>
@@ -447,12 +424,9 @@
           <file leaf-file-name="BasicClientHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
-                  <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#0#741#0" expanded="false" />
-                    <element signature="imports" expanded="false" />
-                  </folding>
+                <state relative-caret-position="360">
+                  <caret line="34" column="39" lean-forward="false" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -460,19 +434,23 @@
           <file leaf-file-name="EFADC_SamplesEvent.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
+                <state relative-caret-position="360">
                   <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-                  <folding />
+                  <folding>
+                    <element signature="imports" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EFADC_RegisterSet.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EFADC_RegisterSet.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="780">
-                  <caret line="62" column="39" lean-forward="true" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-                  <folding />
+                <state relative-caret-position="465">
+                  <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#0#8686#0" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -480,6 +458,13 @@
         </leaf>
       </split-second>
     </splitter>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -508,10 +493,15 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_IdleHandler.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
       </list>
     </option>
   </component>
@@ -576,6 +566,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -720,6 +711,16 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -730,17 +731,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="EFADC_java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1078,33 +1068,49 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28772804" sideWeight="0.99424875" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28703704" sideWeight="0.99424875" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298466" sideWeight="0.7076749" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3047404" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="351" y="771" width="995" height="589" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26180258" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.49842644" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14019063" sideWeight="0.52006173" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.49842644" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14019063" sideWeight="0.47993827" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24785802" sideWeight="0.7091954" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.50157356" order="9" side_tool="false" content_ui="tabs" x="753" y="627" width="1442" height="619" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39902082" sideWeight="0.7076749" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298466" sideWeight="0.7076749" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3047404" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="351" y="771" width="995" height="589" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24668874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21882446" sideWeight="0.53780866" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.49842644" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21882446" sideWeight="0.46219134" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24785802" sideWeight="0.7091954" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.50157356" order="9" side_tool="false" content_ui="tabs" x="-1695" y="377" width="1546" height="777" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39902082" sideWeight="0.7076749" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3047404" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="351" y="771" width="995" height="589" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24668874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21882446" sideWeight="0.53780866" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33564815" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1173,7 +1179,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java</url>
-          <line>203</line>
+          <line>205</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
@@ -1185,7 +1191,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java</url>
-          <line>172</line>
+          <line>177</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
@@ -1211,34 +1217,15 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="136" column="29" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5733#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-            <element signature="e#614#615#0" expanded="false" />
-            <element signature="e#740#741#0" expanded="false" />
-            <element signature="e#759#760#0" expanded="false" />
-            <element signature="e#1133#1134#0" expanded="false" />
-            <element signature="e#1157#1158#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="470" column="26" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#11094#11337#0" expanded="true" />
-            <element signature="e#11336#11337#0" expanded="true" />
-            <element signature="e#25675#25676#0" expanded="true" />
-            <element signature="e#25713#25714#0" expanded="true" />
+            <element signature="e#25748#25749#0" expanded="true" />
+            <element signature="e#25798#25799#0" expanded="true" />
+            <element signature="e#25925#25926#0" expanded="true" />
+            <element signature="e#25975#25976#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1256,9 +1243,7 @@
         <state relative-caret-position="0">
           <caret line="24" column="32" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#1753#0" expanded="false" />
-            <marker date="1494858124000" expanded="true" signature="1745:1749" ph="{...}" />
-            <marker date="1494858124000" expanded="false" signature="1746:1749" ph=" }" />
+            <marker date="1497291587000" expanded="true" signature="1745:1749" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1297,13 +1282,9 @@
         <state relative-caret-position="0">
           <caret line="219" column="57" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1398#1399#0" expanded="false" />
-            <element signature="e#1447#1448#0" expanded="false" />
-            <element signature="e#1482#1483#0" expanded="false" />
-            <element signature="e#1509#1510#0" expanded="false" />
-            <element signature="e#1567#1568#0" expanded="false" />
-            <element signature="e#1593#1594#0" expanded="false" />
+            <element signature="e#1398#1399#0" expanded="true" />
+            <element signature="e#1447#1448#0" expanded="true" />
+            <marker date="1497293600000" expanded="true" signature="11785:14568" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1312,18 +1293,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="136" column="29" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5733#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-            <element signature="e#614#615#0" expanded="false" />
-            <element signature="e#740#741#0" expanded="false" />
-            <element signature="e#759#760#0" expanded="false" />
-            <element signature="e#1133#1134#0" expanded="false" />
-            <element signature="e#1157#1158#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1332,10 +1302,10 @@
         <state relative-caret-position="0">
           <caret line="304" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#11094#11337#0" expanded="true" />
-            <element signature="e#11336#11337#0" expanded="true" />
-            <element signature="e#25675#25676#0" expanded="true" />
-            <element signature="e#25713#25714#0" expanded="true" />
+            <element signature="e#25748#25749#0" expanded="true" />
+            <element signature="e#25798#25799#0" expanded="true" />
+            <element signature="e#25925#25926#0" expanded="true" />
+            <element signature="e#25975#25976#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1382,13 +1352,9 @@
         <state relative-caret-position="0">
           <caret line="217" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1398#1399#0" expanded="false" />
-            <element signature="e#1447#1448#0" expanded="false" />
-            <element signature="e#1482#1483#0" expanded="false" />
-            <element signature="e#1509#1510#0" expanded="false" />
-            <element signature="e#1567#1568#0" expanded="false" />
-            <element signature="e#1593#1594#0" expanded="false" />
+            <element signature="e#1398#1399#0" expanded="true" />
+            <element signature="e#1447#1448#0" expanded="true" />
+            <marker date="1497293600000" expanded="true" signature="11785:14568" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1397,18 +1363,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="209" column="18" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5733#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-            <element signature="e#614#615#0" expanded="false" />
-            <element signature="e#740#741#0" expanded="false" />
-            <element signature="e#759#760#0" expanded="false" />
-            <element signature="e#1133#1134#0" expanded="false" />
-            <element signature="e#1157#1158#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1424,10 +1379,10 @@
         <state relative-caret-position="0">
           <caret line="304" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#11094#11337#0" expanded="true" />
-            <element signature="e#11336#11337#0" expanded="true" />
-            <element signature="e#25675#25676#0" expanded="true" />
-            <element signature="e#25713#25714#0" expanded="true" />
+            <element signature="e#25748#25749#0" expanded="true" />
+            <element signature="e#25798#25799#0" expanded="true" />
+            <element signature="e#25925#25926#0" expanded="true" />
+            <element signature="e#25975#25976#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1474,13 +1429,9 @@
         <state relative-caret-position="0">
           <caret line="217" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1398#1399#0" expanded="false" />
-            <element signature="e#1447#1448#0" expanded="false" />
-            <element signature="e#1482#1483#0" expanded="false" />
-            <element signature="e#1509#1510#0" expanded="false" />
-            <element signature="e#1567#1568#0" expanded="false" />
-            <element signature="e#1593#1594#0" expanded="false" />
+            <element signature="e#1398#1399#0" expanded="true" />
+            <element signature="e#1447#1448#0" expanded="true" />
+            <marker date="1497293600000" expanded="true" signature="11785:14568" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1489,18 +1440,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="209" column="18" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#5733#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-            <element signature="e#614#615#0" expanded="false" />
-            <element signature="e#740#741#0" expanded="false" />
-            <element signature="e#759#760#0" expanded="false" />
-            <element signature="e#1133#1134#0" expanded="false" />
-            <element signature="e#1157#1158#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1555,11 +1495,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
+        <state relative-caret-position="450">
           <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="false" />
-            <marker date="1494858124000" expanded="true" signature="1934:1938" ph="{...}" />
+            <marker date="1497291587000" expanded="true" signature="1934:1938" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1592,55 +1532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#741#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="24" column="16" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2325">
-          <caret line="173" column="16" lean-forward="false" selection-start-line="173" selection-start-column="16" selection-end-line="173" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#5733#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#596#597#0" expanded="false" />
-            <element signature="e#614#615#0" expanded="false" />
-            <element signature="e#740#741#0" expanded="false" />
-            <element signature="e#759#760#0" expanded="false" />
-            <element signature="e#1133#1134#0" expanded="false" />
-            <element signature="e#1157#1158#0" expanded="false" />
-            <element signature="e#1195#1196#0" expanded="false" />
-            <element signature="e#1220#1221#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_DataEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="750">
-          <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#1753#0" expanded="false" />
-            <marker date="1494858124000" expanded="true" signature="1745:1749" ph="{...}" />
-            <marker date="1494858124000" expanded="false" signature="1746:1749" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_IdleHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -1662,66 +1553,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+        <state relative-caret-position="465">
+          <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1398#1399#0" expanded="false" />
-            <element signature="e#1447#1448#0" expanded="false" />
-            <element signature="e#1482#1483#0" expanded="false" />
-            <element signature="e#1509#1510#0" expanded="false" />
-            <element signature="e#1567#1568#0" expanded="false" />
-            <element signature="e#1593#1594#0" expanded="false" />
+            <element signature="e#0#8686#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="36" column="26" lean-forward="false" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+        <state relative-caret-position="738">
+          <caret line="70" column="34" lean-forward="true" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="1031" column="0" lean-forward="true" selection-start-line="1031" selection-start-column="0" selection-end-line="1031" selection-end-column="0" />
-          <folding>
-            <element signature="e#11094#11337#0" expanded="true" />
-            <element signature="e#11336#11337#0" expanded="true" />
-            <element signature="e#25675#25676#0" expanded="true" />
-            <element signature="e#25713#25714#0" expanded="true" />
+            <marker date="1497291650000" expanded="true" signature="2752:2772" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="205" column="0" lean-forward="true" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
+        <state relative-caret-position="263">
+          <caret line="174" column="33" lean-forward="false" selection-start-line="174" selection-start-column="26" selection-end-line="174" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="1029" column="50" lean-forward="false" selection-start-line="1029" selection-start-column="50" selection-end-line="1029" selection-end-column="50" />
+          <folding>
+            <element signature="e#25748#25749#0" expanded="true" />
+            <element signature="e#25798#25799#0" expanded="true" />
+            <element signature="e#25925#25926#0" expanded="true" />
+            <element signature="e#25975#25976#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_DataEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding>
+            <marker date="1497291587000" expanded="true" signature="1745:1749" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="34" column="39" lean-forward="false" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="e#133#134#0" expanded="true" />
+            <element signature="e#150#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-102">
+          <caret line="157" column="46" lean-forward="true" selection-start-line="157" selection-start-column="46" selection-end-line="157" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="156" column="0" lean-forward="true" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+        <state relative-caret-position="883">
+          <caret line="201" column="41" lean-forward="true" selection-start-line="201" selection-start-column="41" selection-end-line="201" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="62" column="39" lean-forward="true" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-          <folding />
+        <state relative-caret-position="291">
+          <caret line="103" column="67" lean-forward="false" selection-start-line="103" selection-start-column="67" selection-end-line="103" selection-end-column="67" />
+          <folding>
+            <element signature="e#1398#1399#0" expanded="true" />
+            <element signature="e#1447#1448#0" expanded="true" />
+            <marker date="1497293600000" expanded="true" signature="11785:14568" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

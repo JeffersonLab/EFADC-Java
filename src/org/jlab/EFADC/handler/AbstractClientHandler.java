@@ -161,6 +161,8 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			*/
 			
 			bufferReceived((ChannelBuffer)message);
+		} else if (message instanceof DeviceInfo) {
+			deviceInfoReceived((DeviceInfo)message);
 		}
 			
 	}
@@ -229,6 +231,8 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			}
 		}
 	}
+
+	public abstract void deviceInfoReceived(DeviceInfo info);
 	
 	public abstract void bufferReceived(ChannelBuffer buffer);
 	public abstract void eventReceived(EFADC_DataEvent event);

@@ -62,6 +62,17 @@ public abstract class Command {
 		return buf;
 	}
 
+	public static ChannelBuffer GetDeviceInfo() {
+		ChannelBuffer buf = buffer(18);
+
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x5a);
+		buf.writeByte((byte)0x02);
+		buf.writeByte((byte)0x09);
+
+		return buf;
+	}
+
 	public static ChannelBuffer ReadRegisters() {
 		ChannelBuffer buf = buffer(18);
 

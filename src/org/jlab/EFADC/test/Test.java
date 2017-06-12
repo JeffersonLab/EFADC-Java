@@ -98,6 +98,11 @@ public class Test {
 
 			eventQueue.add(set);
 		}
+
+		@Override
+		public void deviceInfoReceived(DeviceInfo info) {
+			Logger.getGlobal().info(String.format("Device version: %02x", info.a));
+		}
 	}
 
 
