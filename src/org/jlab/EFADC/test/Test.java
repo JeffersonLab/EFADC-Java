@@ -40,7 +40,8 @@ public class Test {
 	static int[] thresh;
 	static int[] pedestal;
 
-	Client m_Client;
+	NetworkClient m_NetworkClient;
+	Client m_DeviceClient;
 	ClientHandler m_Handler;
 	Connector m_Con;
 
@@ -68,7 +69,7 @@ public class Test {
 		public void connected(Client client) {
 			//m_Client = client;
 
-			Logger.getLogger("global").info("in main ClientHandler, connected()");
+			Logger.getGlobal().info("in main ClientHandler, connected()");
 		}
 
 		@Override
@@ -77,7 +78,8 @@ public class Test {
 
 			//Logger.getLogger("global").info("registersReceived");
 
-			((EFADC_Client)m_Client).setRegisterSet(regs);
+			// This cast should be avoided, put setRegisterSet in the Client interface?
+			m_DeviceClient.setRegisterSet(regs);
 		}
 
 		@Override
@@ -101,7 +103,7 @@ public class Test {
 
 		@Override
 		public void deviceInfoReceived(DeviceInfo info) {
-			Logger.getGlobal().info(String.format("Device version: %02x", info.a));
+			Logger.getGlobal().info(String.format("Device version: %02x", info.m_Version));
 		}
 	}
 
@@ -110,15 +112,18 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("129.57.53.60", 4999);
+		m_Con = new Connector("1.2.3.9", 14999);
 
-		Future<Client> connectFuture = m_Con.connect(true);	// debugging on
+		// Open socket and request device info
+		Future<EFADC_Client> connectFuture = m_Con.connect(true);	// debugging on
 
 		try {
-			m_Client = connectFuture.get(5, TimeUnit.SECONDS);
+			// Wait for connection process, this occurs after device info is received and proper
+			// device registers are requested and received
+			m_DeviceClient = connectFuture.get(5, TimeUnit.SECONDS);
 
 		} catch (TimeoutException e) {
-			Logger.getLogger("global").severe("Timed out trying to connect");
+			Logger.getGlobal().severe("Timed out trying to connect");
 
 			return;
 
@@ -127,38 +132,41 @@ public class Test {
 
 		}
 
-		if (m_Client == null) {
-			Logger.getLogger("global").warning("Did not connect!");
+		if (m_DeviceClient == null) {
+			Logger.getGlobal().warning("Did not connect!");
 			return;
 		}
 
-		// Aha! We need to detect if the old handler was a CMP or not
-		m_Client.setHandler(m_Handler);
+		m_NetworkClient = m_DeviceClient.networkClient();
 
-		if (m_Client.IsCMP()) {
+		// Aha! We need to detect if the old handler was a CMP or not
+		m_NetworkClient.setHandler(m_Handler);
+
+		/** TODO: Implement device selection
+		if (m_NetworkClient.IsCMP()) {
 			Logger.getLogger("global").info("CMP Detected, telling new handler");
 			((AbstractClientHandler)m_Handler).SetCMP(true);
 		}
+		*/
 
 
-
-		Logger.getLogger("global").info("Running initialization...");
+		Logger.getGlobal().info("Running initialization...");
 		init();
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			m_Client.SetRawOutputFile("ped_out.bin");
+			m_NetworkClient.SetRawOutputFile("ped_out.bin");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		Logger.getLogger("Registers after Init()");
-		m_Client.ReadRegisters();
+		m_DeviceClient.ReadRegisters();
 
 
 		Logger.getLogger("global").info("Running pedestal acquisition...");
@@ -181,46 +189,59 @@ public class Test {
 		}
 
 		Logger.getLogger("Registers after acquisition");
-		m_Client.ReadRegisters();
+		m_DeviceClient.ReadRegisters();
 	}
 
 
 	// Basic daq initialization
 	private void init() {
 
+		// Need to enable EFADC's
+		((ETS_Client)m_DeviceClient).SendSetRegisters(0);
+
+		((ETS_Client)m_DeviceClient).ReadEFADCRegisters();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		//Sync behavior has changed with the master/slave setup
 		//m_Client.SetSync(true);
 
-		m_Client.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
-										 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
+		/*
+
+		m_DeviceClient.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
 
 
 		// This should be called last because it internally calls SendSetRegisters
-		m_Client.SetADCNegative();
+		m_DeviceClient.SetADCNegative();
 
-		m_Client.SetThreshold(0, 1000);
-		m_Client.SetThreshold(1, 1001);
-		m_Client.SetThreshold(2, 1002);
-		m_Client.SetThreshold(3, 1003);
-		m_Client.SetThreshold(4, 1004);
-		m_Client.SetThreshold(5, 1005);
-		m_Client.SetThreshold(6, 1006);
-		m_Client.SetThreshold(7, 1007);
-		m_Client.SetIntegrationWindow(25);
+		m_DeviceClient.SetThreshold(0, 1000);
+		m_DeviceClient.SetThreshold(1, 1001);
+		m_DeviceClient.SetThreshold(2, 1002);
+		m_DeviceClient.SetThreshold(3, 1003);
+		m_DeviceClient.SetThreshold(4, 1004);
+		m_DeviceClient.SetThreshold(5, 1005);
+		m_DeviceClient.SetThreshold(6, 1006);
+		m_DeviceClient.SetThreshold(7, 1007);
+		m_DeviceClient.SetIntegrationWindow(25);
 
-		m_Client.SetNSB(50);
-		m_Client.SetMode(0);
+		m_DeviceClient.SetNSB(50);
+		m_DeviceClient.SetMode(0);
 
-		m_Client.SetIdentityMatrix();
+		m_DeviceClient.SetIdentityMatrix();
 
-		m_Client.SendSetRegisters(1);
+		m_DeviceClient.SendSetRegisters(1);
 
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {
 		}
 
-		m_Client.SendSetRegisters(2);
+		m_DeviceClient.SendSetRegisters(2);
 
 
 		try {
@@ -228,6 +249,7 @@ public class Test {
 		} catch (InterruptedException e) {
 
 		}
+		*/
 
 	}
 
@@ -241,7 +263,7 @@ public class Test {
 		try {
 		//	Thread.sleep(50);
 
-			m_Client.StartCollection();
+			m_DeviceClient.StartCollection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -249,12 +271,12 @@ public class Test {
 
 	private void stopAcquisition() {
 		try {
-			m_Client.StopCollection();
+			m_DeviceClient.StopCollection();
 
 			Thread.sleep(50);
 
 			// Flush event aggregator
-			m_Client.ReadRegisters();
+			m_DeviceClient.ReadRegisters();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -265,12 +287,12 @@ public class Test {
 	private void pedestals() {
 
 		//Adjust coincidence window widths so the self triggering correlates
-		m_Client.SetCoincidenceWindowWidth(50);
+		m_DeviceClient.SetCoincidenceWindowWidth(50);
 
 
-		m_Client.SetSelfTrigger(true, 200);	// ~10Khz trigger
-		m_Client.SendSetRegisters(1);		// Need to send to all efadcs
-		m_Client.SendSetRegisters(2);
+		m_DeviceClient.SetSelfTrigger(true, 200);	// ~10Khz trigger
+		m_DeviceClient.SendSetRegisters(1);		// Need to send to all efadcs
+		m_DeviceClient.SendSetRegisters(2);
 
 		try {
 			Thread.sleep(100);
@@ -288,9 +310,9 @@ public class Test {
 
 		stopAcquisition();
 
-		m_Client.SetSelfTrigger(false, 200);
-		m_Client.SendSetRegisters(1);
-		m_Client.SendSetRegisters(2);
+		m_DeviceClient.SetSelfTrigger(false, 200);
+		m_DeviceClient.SendSetRegisters(1);
+		m_DeviceClient.SendSetRegisters(2);
 	}
 
 

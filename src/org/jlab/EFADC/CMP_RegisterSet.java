@@ -26,13 +26,6 @@ public class CMP_RegisterSet extends RegisterSet {
 	private static final int HITOUT_WIDTH_INDEX = 129;
 	private static final int HITOUT_DELAY_INDEX = 136;
 
-	public enum MatrixType {
-		OR,
-		AND,
-		WIDTH,
-		DELAY
-	}
-
 	static final byte FUNC_CMP_REG = 0x03;
 
 	int m_NumADC;
@@ -41,17 +34,23 @@ public class CMP_RegisterSet extends RegisterSet {
 	short m_EthernetReadbackBufFullThreshold = 1352;
 
 	public int[] status;
-	public ArrayList<EFADC_RegisterSet> adc;
+	private ArrayList<EFADC_RegisterSet> adc;
 
-	private CoincidenceMatrix	m_ORTable;
-	private CoincidenceMatrix	m_ANDTable;
-	private RegisterMatrix		m_DelayTable;
-	private RegisterMatrix		m_WidthTable;
+	protected CoincidenceMatrix	m_ORTable;
+	protected CoincidenceMatrix	m_ANDTable;
+	protected RegisterMatrix		m_DelayTable;
+	protected RegisterMatrix		m_WidthTable;
 
 	private StringBuilder		m_Str;
 
+	protected CMP_RegisterSet() {
+		this(2);
+	}
+
 
 	CMP_RegisterSet(int nADC) {
+
+		Logger.getGlobal().info(" ::CMP_RegisterSet()");
 
 		m_NumADC = nADC;
 
@@ -172,7 +171,7 @@ public class CMP_RegisterSet extends RegisterSet {
 	 * @param n Index of ADC from 1 to num ADC's
 	 * @param r Registers to set
 	 */
-	public void setADCRegisters(int n, EFADC_RegisterSet r) throws EFADC_InvalidADCException {
+	private void setADCRegisters(int n, EFADC_RegisterSet r) throws EFADC_InvalidADCException {
 		if (n < 1 || n > adc.size() + 1) {
 			throw new EFADC_InvalidADCException();
 		}
@@ -199,7 +198,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		buffer.writeByte((byte)0x5a);
 		buffer.writeByte((byte)0x5a);
 		buffer.writeByte(OPCODE_SET_REG);	//01
-		buffer.writeByte((byte)0x00);	//extra byte?
+		buffer.writeByte((byte)0x00);		//extra byte?
 		buffer.writeByte(FUNC_CMP_REG);		//03
 
 		try {

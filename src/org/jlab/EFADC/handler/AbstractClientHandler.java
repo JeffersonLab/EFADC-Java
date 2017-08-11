@@ -63,35 +63,35 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	@Override
 	public void channelBound(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			Logger.getLogger("global").info(e.toString());
+			Logger.getGlobal().info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			Logger.getLogger("global").info(e.toString());
+			Logger.getGlobal().info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			Logger.getLogger("global").info(e.toString());
+			Logger.getGlobal().info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			Logger.getLogger("global").info(e.toString());
+			Logger.getGlobal().info(e.toString());
 		}
 	}
 
 	@Override
 	public void channelUnbound(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		if (verbose) {
-			Logger.getLogger("global").info(e.toString());
+			Logger.getGlobal().info(e.toString());
 		}
 	}
 
@@ -118,7 +118,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				// Aggregate events from a CMP
 
 				if (m_Aggregator == null) {
-					Logger.getLogger("global").info("Aggregator null, iscmp = " + isCMP);
+					Logger.getGlobal().info("Aggregator null, iscmp = " + isCMP);
 				}
 
 				Object ret = m_Aggregator.process(event);
@@ -174,8 +174,20 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	}
 
 	public void registersReceived(RegisterSet regs) {
-		if (regs instanceof EFADC_RegisterSet) {
-			Logger.getLogger("global").info("::registersReceived::EFADC_RegisterSet:");
+		if (regs instanceof ETS_RegisterSet) {
+			Logger.getGlobal().info("  >>registersReceived::ETS_RegisterSet:");
+
+			ETS_RegisterSet eRegs = (ETS_RegisterSet)regs;
+			eRegs.client().setRegisterSet(eRegs);
+
+		} else if (regs instanceof ETS_EFADC_RegisterSet) {
+			Logger.getGlobal().info("  >>registersReceived::ETS_EFADC_RegisterSet:");
+
+			ETS_EFADC_RegisterSet eRegs = (ETS_EFADC_RegisterSet)regs;
+			eRegs.client().setRegisterSet(eRegs);
+
+		} else if (regs instanceof EFADC_RegisterSet) {
+			Logger.getGlobal().info("  >>registersReceived::EFADC_RegisterSet:");
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
@@ -183,13 +195,13 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				System.out.printf("%02X\n", regs.getRegister(i));
 			}
 
-			Logger.getLogger("global").info("Accepted Triggers: " + eRegs.acceptedTrigs);
-			Logger.getLogger("global").info("Missed Triggers: " + eRegs.missedTrigs);
+			Logger.getGlobal().info("  Accepted Triggers: " + eRegs.getAcceptedTrigs());
+			Logger.getGlobal().info("  Missed Triggers: " + eRegs.getMissedTrigs());
 
 			isCMP = false;
 
 		} else if (regs instanceof CMP_RegisterSet) {
-			Logger.getLogger("global").info("::registersReceived::CMP_RegisterSet");
+			Logger.getGlobal().info("  >>registersReceived::CMP_RegisterSet");
 
 			StringBuilder strB = new StringBuilder();
 
@@ -203,7 +215,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				try {
 					eRegs = cRegs.getADCRegisters(i);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 					continue;
 				}
 

@@ -5,9 +5,9 @@ package org.jlab.EFADC;
  */
 public class DeviceInfo {
 
-	public int a;
+	public int m_Version;
 
-	public DeviceInfo(int a) {
-		this.a = a;
+	public DeviceInfo(int ver) {
+		this.m_Version = ver;
 	}
 }

@@ -37,15 +37,17 @@ public class EFADC_RegisterSet extends RegisterSet {
 	long lastUpdated;
 
 	//Status registers
-	public int version;
-	public long acceptedTrigs;
-	public long missedTrigs;
-	public int unknown;
-	public float fpgaTemp;
+	private int version;
+	private long acceptedTrigs;
+	private long missedTrigs;
+	private int unknown;
+	private float fpgaTemp;
 
 	int regHeader;	/* 0 */	//"Bits 15..8 indicate standalone EFADC (all zeros) or CMP (bit 15 is 1 and 14..8 indicate # of active EFADCs), 7..0: Packet throttle delay"
 	
 	public EFADC_RegisterSet() {
+		Logger.getGlobal().info(" ::EFADC_RegisterSet()");
+
 		register = new int[] {	0x200F,
 								0x0016,
 								0x0339,
@@ -161,6 +163,14 @@ public class EFADC_RegisterSet extends RegisterSet {
 
 		//Logger.getLogger("global").info(String.format("Integration Window: %d\n", getIntegrationWindow()));
 	}
+
+
+	/**
+	 * @return 0 for Sum/Normal mode, 2 for sampling mode
+	 */
+	public int getMode() {
+		return register[REG_1] & Mode_Mask;
+	}
 	
 	public void setMode(int mode) {
 		//0 - Normal Mode
@@ -170,6 +180,11 @@ public class EFADC_RegisterSet extends RegisterSet {
 			register[REG_1] &= ~Mode_Mask;
 		else if (mode == 1)
 			register[REG_1] |= Mode_Mask;
+	}
+
+
+	public int getNSB() {
+		return register[REG_2];
 	}
 
 
@@ -261,17 +276,21 @@ public class EFADC_RegisterSet extends RegisterSet {
 			buffer.writeByte((byte)0x00);	// extra byte?
 		}
 
-		//buffer.writeByte((byte)(regHeader >> 8));
-		//buffer.writeByte((byte)(regHeader & 0xFF));
 		buffer.writeShort(regHeader);
 
 		for (int reg : regs) {
-			//buffer.writeByte((byte)(reg >> 8));
-			//buffer.writeByte((byte)(reg & 0xFF));
 			buffer.writeShort(reg);
 		}
 		
 		return buffer;
+	}
+
+	public long getAcceptedTrigs() {
+		return acceptedTrigs;
+	}
+
+	public long getMissedTrigs() {
+		return missedTrigs;
 	}
 	
 	public boolean decode(ChannelBuffer frame) {

@@ -49,13 +49,16 @@ public interface Client {
 
 	public boolean ReadRegisters();
 
-	public void SetRawOutputFile(File file) throws IOException;
-	public void SetRawOutputFile(String filename) throws IOException;
+	//public void SetRawOutputFile(File file) throws IOException;
+	//public void SetRawOutputFile(String filename) throws IOException;
 
-	public void cleanup();
+	//public void cleanup();
 
-	public RegisterSet getRegisterSet();
+	RegisterSet getRegisterSet();
+	void setRegisterSet(RegisterSet regs);
 
-	public void setHandler(ClientHandler handler);
+	NetworkClient networkClient();
+
+	//public void setHandler(ClientHandler handler);
 
 }

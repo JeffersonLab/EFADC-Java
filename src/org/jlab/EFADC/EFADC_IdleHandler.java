@@ -24,7 +24,9 @@ public class EFADC_IdleHandler extends IdleStateAwareChannelHandler{
 	@Override
 	public void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) throws EFADC_Exception {
 
-		EFADC_Client client = ((EFADC_ChannelContext)ctx.getAttachment()).getClient();
+
+		/** TODO: Implement Idle Handler
+		Client client = ((EFADC_ChannelContext)ctx.getAttachment()).getClient();
 
 		if (evt.getState() == IdleState.READER_IDLE) {
 
@@ -54,5 +56,6 @@ public class EFADC_IdleHandler extends IdleStateAwareChannelHandler{
 			//This will trigger an echo handler error because it is not initiated thru SendCommand...
 			client.SendCommand(Command.ReadRegisters());
 		}
+		 */
 	}
 }

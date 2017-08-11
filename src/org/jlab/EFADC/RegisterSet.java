@@ -39,9 +39,17 @@ public abstract class RegisterSet {
 	static final int SyncOn_Mask	= 0x2000;
 
 	protected int[] register;
+	protected int[] status;
 	protected String[] description;
 
 	public abstract void update(RegisterSet reg);
+
+	public enum MatrixType {
+		OR,
+		AND,
+		WIDTH,
+		DELAY
+	}
 
 
 	public int getRegister(int reg) {
@@ -58,13 +66,19 @@ public abstract class RegisterSet {
 		return true;
 	}
 
+	/**
+	 *
+	 * @param frame Buffer to extract register values from
+	 * @param nRegs Number of registers to decode, each register is a 16 bit word
+	 * @return
+	 */
 	public final boolean decode(ChannelBuffer frame, int nRegs) {
 
 		for (int j = 0; j < nRegs; j++) {
 			int val = frame.readUnsignedShort();	//prevent sign extension
 			//str += String.format("%04x ", val);
 			if (!setRegister(j, val)) {
-				Logger.getLogger("global").warning("Invalid register readback buffer");
+				Logger.getGlobal().warning("Invalid register readback buffer");
 				return false;
 			}
 

@@ -1,5 +1,6 @@
 package org.jlab.EFADC;
 
+import org.jboss.netty.channel.ChannelPipeline;
 import org.jlab.EFADC.handler.BasicClientHandler;
 import org.jlab.EFADC.handler.ClientHandler;
 
@@ -14,10 +15,9 @@ import java.util.logging.Logger;
  */
 public class Connector {
 
-	private EFADC_Client m_Client;
+	private NetworkClient m_Client;
+	private EFADC_Client m_Device;
 	private ClientHandler m_Handler, m_TempHandler;
-	//private Timer m_ConnectTimeout;
-	//private ActionListener m_TimerAL;
 
 	private ConnectState m_ConnectState;
 	private ConnectFuture m_ConnectFuture;
@@ -40,41 +40,21 @@ public class Connector {
 		Logger.getLogger("global").info("new Connector, state DISCONNECTED");
 
 		try {
-			m_Client = new EFADC_Client(address, port, true);
+			m_Client = new NetworkClient(/*address, port, true*/);
+
+			m_Client.setAddress(address, port);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
 
-		/*
-		m_TimerAL = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// Check if we're already connected, this timer should already have been stopped but just in case...
-				if (m_ConnectState == ConnectState.CONNECTED) {
-					Logger.getLogger("global").info("Connect timeout but state is connected, ignore");
-					return;
-				}
-
-				m_ConnectState = ConnectState.DISCONNECTED;
-				Logger.getLogger("global").warning("Failed to connect to EFADC/CMP");
-			}
-		};
-
-
-		//Start connect timeout timer for 3 seconds
-		m_ConnectTimeout = new javax.swing.Timer(3000, m_TimerAL);
-
-		m_ConnectTimeout.setRepeats(false);
-		*/
 	}
 
 
-
-	class ConnectFuture extends BasicClientHandler implements Future<Client> {
+	class ConnectFuture extends BasicClientHandler implements Future<EFADC_Client> {
 
 		private volatile State state = State.WAITING;
-		private final BlockingQueue<Client> reply = new ArrayBlockingQueue<>(1);
+		private final BlockingQueue<EFADC_Client> reply = new ArrayBlockingQueue<>(1);
 		RegisterSet lastSet = null;
 
 		public ConnectFuture() {
@@ -85,57 +65,85 @@ public class Connector {
 			return lastSet;
 		}
 
+		/**
+		 * Step 1 in the connection process, device info is received and device specific registers are requested
+		 * @param info DeviceInfo received from the target device
+		 */
+		@Override
+		public void deviceInfoReceived(DeviceInfo info) {
+			Logger.getLogger("global").info("in ConnectFuture deviceInfoReceived()");
+
+			if (m_ConnectState == ConnectState.CONNECTING) {
+
+				// Create an m_Device object and request device specific registers
+				// This will complete the Connect process
+
+				if (info.m_Version == ETS_RegisterSet.MIN_VERSION) {
+					// m_Device was already instantiated as an EFADC_Client, just init the subclass here
+					m_Device = new ETS_Client(m_Client);
+
+					// Install ETS frame decoder in place of default EFADC decoder
+					m_Client.setDecoder(new ETS_FrameDecoder((ETS_Client)m_Device));
+
+					Logger.getGlobal().info("    > Installed ETS Client/FrameDecoder");
+				} else
+					Logger.getGlobal().info("    > Retained EFADC Client/FrameDecoder");
+
+				m_Device.ReadRegisters();
+			}
+		}
+
+		/**
+		 * Step 2 in the connection process, device specific registers are received,
+		 * @param registers
+		 */
 		@Override
 		public void registersReceived(RegisterSet registers) {
 
-			Logger.getLogger("global").info("in ConnectFuture registersReceived()");
+			Logger.getGlobal().info("in ConnectFuture registersReceived()");
 
 			super.registersReceived(registers);
 
 			lastSet = registers;
 
+			// At this point, an m_Device should already exist
+
 			if (m_ConnectState == ConnectState.CONNECTING) {
 				m_ConnectState = ConnectState.CONNECTED;
 
-				Logger.getLogger("global").info("ConnectHandler.registersReceived(), state CONNECTED");
+				Logger.getGlobal().info("ConnectHandler.registersReceived(), state CONNECTED");
 
-				// This is required to detect if we connected to a CMP or standalone EFADC
-				m_Client.setRegisterSet(registers);
-
-				// Remove the temporary ClientHandler
-				//m_Client.getPipeline().remove("handler");
-
-				// Install user supplied handler
-				//m_Client.setHandler(m_Handler);
+				// This is required to detect if we connected to a CMP/ETS or standalone EFADC
+				// TODO: I think we already know at this point... But this shouldn't hurt any
+				m_Device.setRegisterSet(registers);
 
 				try {
-					reply.put(m_Client);
+					reply.put(m_Device);
 					state = State.DONE;
 				} catch (InterruptedException e) {
 					state = State.CANCELLED;
 				}
 
-				// This is redundant, remove eventually
-				//m_Handler.connected(m_Client);
-
 				//Logger.getLogger("global").info("Connected to EFADC/CMP");
 			}
 		}
 
-		@Override
-		public Client get() throws InterruptedException, ExecutionException {
 
-			Logger.getLogger("global").info("ConnectHandler.get()");
+
+		@Override
+		public EFADC_Client get() throws InterruptedException, ExecutionException {
+
+			Logger.getGlobal().info("ConnectHandler.get()");
 
 			return this.reply.take();
 		}
 
 		@Override
-		public Client get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+		public EFADC_Client get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
 
-			Logger.getLogger("global").info(String.format("ConnectHandler.get(%d)", timeout));
+			Logger.getGlobal().info(String.format("ConnectHandler.get(%d)", timeout));
 
-			final Client replyOrNull = reply.poll(timeout, unit);
+			final EFADC_Client replyOrNull = reply.poll(timeout, unit);
 			if (replyOrNull == null) {
 				throw new TimeoutException();
 			}
@@ -145,7 +153,7 @@ public class Connector {
 		@Override
 		public boolean cancel(boolean mayInterruptIfRunning) {
 
-			Logger.getLogger("global").info("ConnectHandler.cancel()");
+			Logger.getGlobal().info("ConnectHandler.cancel()");
 
 			//try {
 				state = State.CANCELLED;
@@ -172,7 +180,7 @@ public class Connector {
 	 * Performs asynchronous connection to an EFADC/CMP.
 	 * @return Future representing the connection status, or null if other failure **Specify**
 	 */
-	public Future<Client> connect(boolean debug) {
+	public Future<EFADC_Client> connect(boolean debug) {
 
 		Logger.getLogger("global").info("Connecting...");
 

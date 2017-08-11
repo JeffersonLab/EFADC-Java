@@ -1,0 +1,288 @@
+package org.jlab.EFADC;
+
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
+
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+
+/**
+ * Created by john on 7/13/17.
+ */
+public class ETS_RegisterSet extends CMP_RegisterSet {
+
+	public static final int MIN_VERSION = 0x3601;
+
+	public static final int NUM_READ_REGS = 131;
+	public static final int NUM_STATUS = 9;
+	public static final int DATA_SIZE_BYTES = (NUM_READ_REGS + NUM_STATUS) * 2;
+
+	// Need +1 for register 0
+	public static final int DATA_SIZE_WRITE_BYTES = (ETS_EFADC_RegisterSet.NUM_REGS + NUM_READ_REGS + 1) * 2;
+
+	private static final int EFADC_REG_INDEX	= 21;
+	private static final int HITOUT_WIDTH_INDEX = 129;
+	private static final int HITOUT_DELAY_INDEX = 136;
+
+	static final byte FUNC_ETS_REG = 0x02;
+
+	private int m_EFADCConnected_Mask;
+	private long lastUpdated;
+
+	private ArrayList<ETS_EFADC_RegisterSet> adc;
+
+	private ETS_Client m_Client;
+
+	// Mask to select which EFADC's are to be sent their config registers
+	private int m_EFADCSelect_Mask = 0;
+
+
+
+	ETS_RegisterSet(ETS_Client client) {
+
+		// This leaves adc arraylist uninitialized
+		super();
+
+		m_Client = client;
+
+		adc = new ArrayList<>(8);
+		for (int i = 0; i < 8; i++)
+			adc.add(null);
+
+		Logger.getGlobal().info(" ::ETS_RegisterSet()");
+	}
+
+	public ETS_Client client() {
+		return m_Client;
+	}
+
+	@Override
+	public void update(RegisterSet reg) {
+		// Do nothing, this is deprecated from CMP data registers
+	}
+
+	/**
+	 * Update/set the EFADC registers belonging to this ETS
+	 * @param regs EFADC registers
+	 */
+	public void setEFADCRegisterSet(ETS_EFADC_RegisterSet regs) {
+
+		Logger.getGlobal().info(String.format("setEFADCRegisterSet module %d", regs.module()));
+
+		// module has index origin 1
+		adc.set(regs.module() - 1, regs);
+	}
+
+
+	/**
+	 * @return Number of connected EFADCs
+	 */
+	@Override
+	public int getADCCount() {
+		return Integer.bitCount(m_EFADCConnected_Mask);
+	}
+
+
+	/**
+	 * @return Bit mask of connected EFADC devices
+	 */
+	public int getEFADCMask() {
+		return m_EFADCConnected_Mask;
+	}
+
+
+	/**
+	 * @param mask Mask of EFADC devices to be addressed during register write
+	 */
+	public void setEFADC_Mask(int mask) {
+		m_EFADCSelect_Mask = mask;
+	}
+
+	public float getTemp() {
+		if (status == null) {
+			Logger.getGlobal().severe("Status registers not initialized, default constructor used?");
+			return 0;
+		}
+
+		return (status[6] * (503.975f/1024.0f)) - 273.15f;
+	}
+
+	public int getVersion() {
+		if (status == null) {
+			Logger.getGlobal().severe("Status registers not initialized, default constructor used?");
+			return 0;
+		}
+
+		return status[0];
+	}
+
+
+	public ArrayList<ETS_EFADC_RegisterSet> getADCRegisters() {
+		return adc;
+	}
+
+
+	/**
+	 *
+	 * @param n Index of ADC from 1 to num ADC's
+	 * @return Register set of the ADC, null if the registers have not yet been read from the device
+	 */
+	public ETS_EFADC_RegisterSet getADCRegisters(int n) throws EFADC_InvalidADCException {
+		if (n < 1 || n > adc.size() - 1) {
+			throw new EFADC_InvalidADCException();
+		}
+
+		ETS_EFADC_RegisterSet adcReg = adc.get(n - 1);
+		if (adcReg == null) {
+			Logger.getGlobal().info(String.format("ADC %d registers null, generating default...", n));
+
+			adcReg = new ETS_EFADC_RegisterSet(m_Client, n);
+			adc.set(n - 1, adcReg);
+		}
+
+		return adcReg;
+	}
+
+
+	/**
+	 * @param n Index of ADC from 1 to num ADC's
+	 * @param r Registers to set
+	 */
+	public void setADCRegisters(int n, ETS_EFADC_RegisterSet r) throws EFADC_InvalidADCException {
+		if (n < 1 || n > adc.size() + 1) {
+			throw new EFADC_InvalidADCException();
+		}
+
+		Logger.getGlobal().info(String.format("setADCRegisters: %d", n));
+
+		adc.set(n - 1, r);
+	}
+
+
+	@Override
+	public ChannelBuffer encode() {
+		ChannelBuffer buffer = buffer(5 + DATA_SIZE_WRITE_BYTES);
+
+		buffer.writeByte((byte)0x5a);
+		buffer.writeByte((byte)0x5a);
+		buffer.writeByte(OPCODE_SET_REG);	//01
+		buffer.writeByte((byte)0x00);		//extra byte?
+		buffer.writeByte(FUNC_ETS_REG);		//02
+
+		// EFADC enable, we don't ever need to disable a connected efadc, so just use the same bits
+		// that were reported in the status indicating which are connected
+		int connected = m_EFADCConnected_Mask << 8;
+		int addressed = m_EFADCSelect_Mask;
+
+		int reg0 = connected | addressed;
+
+		buffer.writeShort(reg0);
+
+		// Encode EFADC registers
+
+		// Find the first addressed EFADC, this is the set that will be send to all addressed adcs
+		int idx = 0;
+		while ((addressed & 0x1) == 0) {
+			addressed >>= 1;
+			++idx;
+		}
+
+		try {
+			ETS_EFADC_RegisterSet adcReg = getADCRegisters(idx);
+
+			buffer.writeBytes(adcReg.encode());
+
+		} catch (EFADC_InvalidADCException e) {
+			e.printStackTrace();
+			Logger.getGlobal().severe("Invalid adc index in encode()");
+			return null;
+		}
+
+		// Encode coincidence table entries
+		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 32);	// ~216 bytes
+
+		buffer.writeBytes(matrixBuf);
+
+		//
+		// Hardcode these until MatrixRegisterEncoder is fixed
+		//
+
+		// HitOut pulse width, registers 129-135
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+		buffer.writeShort(0x3333);
+
+		// HitOut pulse delay, registers 136-142
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+		buffer.writeShort(0x1111);
+
+		// Encode NYI, 143-147
+		buffer.writeShort(0x0000);
+		buffer.writeShort(0x0000);
+		buffer.writeShort(0x0000);
+		buffer.writeShort(0x0000);
+		buffer.writeShort(0x0000);
+
+		// Encode reserved stuff, 148-151
+		buffer.writeShort(0x00ff);	// Are these values ignored? Why are they specified in the manual?
+		buffer.writeShort(0x000f);
+		buffer.writeShort(0x0000);
+		buffer.writeShort(0x0000);
+
+		return buffer;
+	}
+
+	@Override
+	public boolean decode(ChannelBuffer frame) {
+
+		// ETS_FrameDecoder has already verified that we have the required byte count
+
+		if (!decode(frame, NUM_READ_REGS)) {
+			Logger.getGlobal().warning("Error parsing config registers");
+			return false;
+		}
+
+
+		status[0] = frame.readUnsignedShort();	// Firmware version
+		status[1] = frame.readUnsignedShort();
+
+		m_EFADCConnected_Mask = status[1] & 0x0007;	// Low bits are EFADC active indicator, #1 -> bit 0, #2 -> bit 1, etc
+
+		frame.skipBytes(6);	// Next 3 words are always 0
+
+		status[5] = frame.readUnsignedShort();
+		status[6] = frame.readUnsignedShort();
+		status[7] = frame.readUnsignedShort();	// MAC 31-16
+		status[8] = frame.readUnsignedShort();	// MAC 15-0
+
+
+		lastUpdated = System.currentTimeMillis();
+
+		return true;
+	}
+
+
+	public String toString() {
+		StringBuffer strB = new StringBuffer("ETS Register Set");
+
+		strB.append(String.format("Version: %04x\n", status[0]));
+		strB.append(String.format("EFADC_Mask: %04x\n", m_EFADCConnected_Mask));
+		//strB.append(String.format("Accepted Triggers: %d\n", acceptedTrigs));
+		//strB.append(String.format("Missed Triggers: %d\n", missedTrigs));
+		//strB.append(String.format("Something Else: %04X\n", unknown));
+		//strB.append(String.format("FPGA Die Temp (C): %.2f\n", fpgaTemp));
+
+		return strB.toString();
+	}
+}
