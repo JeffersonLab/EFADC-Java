@@ -136,12 +136,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				eventReceived(event);
 			}
 
-			
-		} else if (message instanceof EFADC_RegisterSet) {
-
-			registersReceived((RegisterSet)message);
-
-		} else if (message instanceof CMP_RegisterSet) {
+		} else if (message instanceof RegisterSet) {
 
 			if (m_Aggregator != null)
 				m_Aggregator.flush();
@@ -174,20 +169,23 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 	}
 
 	public void registersReceived(RegisterSet regs) {
+
+		Logger.getGlobal().info("registersReceived() " + regs.toString());
+
 		if (regs instanceof ETS_RegisterSet) {
-			Logger.getGlobal().info("  >>registersReceived::ETS_RegisterSet:");
+			//Logger.getGlobal().info("  >>registersReceived::ETS_RegisterSet");
 
 			ETS_RegisterSet eRegs = (ETS_RegisterSet)regs;
 			eRegs.client().setRegisterSet(eRegs);
 
 		} else if (regs instanceof ETS_EFADC_RegisterSet) {
-			Logger.getGlobal().info("  >>registersReceived::ETS_EFADC_RegisterSet:");
+			//Logger.getGlobal().info("  >>registersReceived::ETS_EFADC_RegisterSet");
 
 			ETS_EFADC_RegisterSet eRegs = (ETS_EFADC_RegisterSet)regs;
 			eRegs.client().setRegisterSet(eRegs);
 
 		} else if (regs instanceof EFADC_RegisterSet) {
-			Logger.getGlobal().info("  >>registersReceived::EFADC_RegisterSet:");
+			//Logger.getGlobal().info("  >>registersReceived::EFADC_RegisterSet");
 
 			EFADC_RegisterSet eRegs = (EFADC_RegisterSet)regs;
 
@@ -201,7 +199,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			isCMP = false;
 
 		} else if (regs instanceof CMP_RegisterSet) {
-			Logger.getGlobal().info("  >>registersReceived::CMP_RegisterSet");
+			//Logger.getGlobal().info("  >>registersReceived::CMP_RegisterSet");
 
 			StringBuilder strB = new StringBuilder();
 

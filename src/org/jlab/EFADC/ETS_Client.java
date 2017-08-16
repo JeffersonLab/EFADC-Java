@@ -64,7 +64,9 @@ public class ETS_Client extends EFADC_Client implements Client {
 		Logger.getGlobal().info("setRegisterSet ETS: " + regs);
 
 		// Don't replace entirely because we'll lose information
+		// ??
 		//m_Registers.update(regs);
+		m_Registers = regs;
 	}
 
 
@@ -75,6 +77,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	@Override
 	public boolean SendSetRegisters(int adc) {
 
+		// Get connected efadc's
 		int mask = m_Registers.getEFADCMask();
 		int adcBit = 1 << (adc - 1);
 
@@ -82,12 +85,15 @@ public class ETS_Client extends EFADC_Client implements Client {
 		if (adc == 0)
 			adcBit = mask;
 
+		Logger.getGlobal().info(String.format("SendSetRegisters(%d) mask %04x, adcBit %04x",
+				adc, mask, adcBit));
+
 		try {
 			m_Registers.setEFADC_Mask(mask | adcBit);
 
 			m_NetworkClient.SendCommand(m_Registers);
 
-			Thread.sleep(50);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -335,7 +341,6 @@ public class ETS_Client extends EFADC_Client implements Client {
 		} catch (EFADC_InvalidADCException e) {
 			Logger.getGlobal().warning("Invalid ADC Selection: " + adc);
 		}
-
 
 	}
 }

@@ -116,10 +116,10 @@ public class ETS_EFADC_RegisterSet extends EFADC_RegisterSet {
 		strB.append(String.format("[02] %04x - NSB: %d\n", register[REG_2], getNSB()));
 		strB.append(String.format("[03] %04x\n", register[REG_3]));
 		strB.append(String.format("[04] %04x\n", register[REG_4]));
-		strB.append(String.format("[05] %04x - Det 1 Thresh: %d\n", register[REG_4], register[REG_4] & 0x3fff));
-		strB.append(String.format("[06] %04x - Det 2 Thresh: %d\n", register[REG_5], register[REG_5] & 0x3fff));
-		strB.append(String.format("[07] %04x - Det 3 Thresh: %d\n", register[REG_6], register[REG_6] & 0x3fff));
-		strB.append(String.format("[08] %04x - Det 4 Thresh: %d\n", register[REG_7], register[REG_7] & 0x3fff));
+		strB.append(String.format("[05] %04x - Det 1 Thresh: %d\n", register[REG_5], register[REG_5] & 0x3fff));
+		strB.append(String.format("[06] %04x - Det 2 Thresh: %d\n", register[REG_6], register[REG_6] & 0x3fff));
+		strB.append(String.format("[07] %04x - Det 3 Thresh: %d\n", register[REG_7], register[REG_7] & 0x3fff));
+		strB.append(String.format("[08] %04x - Det 4 Thresh: %d\n", register[REG_8], register[REG_8] & 0x3fff));
 		strB.append(String.format("[11] %04x - Coinc Window Width: %d\n", register[REG_11], getCoincidenceWindowWidth()));
 
 		return strB.toString();

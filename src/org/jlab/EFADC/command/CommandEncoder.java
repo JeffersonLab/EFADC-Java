@@ -16,6 +16,7 @@ import org.jboss.netty.channel.ChannelHandler.Sharable;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 import org.jlab.EFADC.CMP_RegisterSet;
 import org.jlab.EFADC.EFADC_RegisterSet;
+import org.jlab.EFADC.RegisterSet;
 
 /**
  * Encode POJO commands to ChannelBuffer
@@ -25,8 +26,8 @@ public class CommandEncoder extends OneToOneEncoder {
 	
 	@Override
 	protected Object encode(ChannelHandlerContext ctx, Channel channel, Object obj) throws Exception {
-		
-		if (obj instanceof EFADC_RegisterSet) {
+
+		/*if (obj instanceof EFADC_RegisterSet) {
 			EFADC_RegisterSet regSet = (EFADC_RegisterSet)obj;
 			
 			return regSet.encode(true);
@@ -36,7 +37,14 @@ public class CommandEncoder extends OneToOneEncoder {
 
 			return cmpRegSet.encode();
 			
-		} else if (obj instanceof ChannelBuffer) {
+		} */
+
+		if (obj instanceof RegisterSet) {
+			RegisterSet reg = (RegisterSet)obj;
+
+			return reg.encode();
+
+		} if (obj instanceof ChannelBuffer) {
 			ChannelBuffer buf = (ChannelBuffer)obj;
 			return buf;
 			

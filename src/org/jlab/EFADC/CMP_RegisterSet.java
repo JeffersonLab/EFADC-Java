@@ -4,6 +4,7 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jlab.EFADC.matrix.*;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.jboss.netty.buffer.ChannelBuffers.buffer;
@@ -28,10 +29,10 @@ public class CMP_RegisterSet extends RegisterSet {
 
 	static final byte FUNC_CMP_REG = 0x03;
 
-	int m_NumADC;
-	int m_SelectedADC;
-	short m_CMPRxBufLimit = 50;	// this value works for summing mode
-	short m_EthernetReadbackBufFullThreshold = 1352;
+	private int m_NumADC;
+	private int m_SelectedADC;
+	private short m_CMPRxBufLimit = 50;	// this value works for summing mode
+	private short m_EthernetReadbackBufFullThreshold = 1352;
 
 	public int[] status;
 	private ArrayList<EFADC_RegisterSet> adc;
@@ -41,8 +42,6 @@ public class CMP_RegisterSet extends RegisterSet {
 	protected RegisterMatrix		m_DelayTable;
 	protected RegisterMatrix		m_WidthTable;
 
-	private StringBuilder		m_Str;
-
 	protected CMP_RegisterSet() {
 		this(2);
 	}
@@ -50,7 +49,7 @@ public class CMP_RegisterSet extends RegisterSet {
 
 	CMP_RegisterSet(int nADC) {
 
-		Logger.getGlobal().info(" ::CMP_RegisterSet()");
+		Logger.getGlobal().log(Level.FINER, " ::CMP_RegisterSet()");
 
 		m_NumADC = nADC;
 

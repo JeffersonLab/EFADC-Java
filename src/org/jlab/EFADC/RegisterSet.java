@@ -42,7 +42,11 @@ public abstract class RegisterSet {
 	protected int[] status;
 	protected String[] description;
 
+	public static final boolean DEBUG = false;
+
 	public abstract void update(RegisterSet reg);
+
+	public abstract ChannelBuffer encode();
 
 	public enum MatrixType {
 		OR,
@@ -74,15 +78,23 @@ public abstract class RegisterSet {
 	 */
 	public final boolean decode(ChannelBuffer frame, int nRegs) {
 
+		StringBuilder strB = new StringBuilder();
+
 		for (int j = 0; j < nRegs; j++) {
 			int val = frame.readUnsignedShort();	//prevent sign extension
-			//str += String.format("%04x ", val);
+
+			if (DEBUG)
+				strB.append(String.format("[%d] %04x\n", j+1, val));
+
 			if (!setRegister(j, val)) {
 				Logger.getGlobal().warning("Invalid register readback buffer");
 				return false;
 			}
 
 		}
+
+		if (DEBUG)
+			Logger.getGlobal().info(strB.toString());
 
 		return true;
 	}

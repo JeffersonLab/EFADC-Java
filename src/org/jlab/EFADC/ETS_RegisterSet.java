@@ -4,6 +4,7 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.jboss.netty.buffer.ChannelBuffers.buffer;
@@ -26,9 +27,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	private static final int HITOUT_WIDTH_INDEX = 129;
 	private static final int HITOUT_DELAY_INDEX = 136;
 
-	static final byte FUNC_ETS_REG = 0x02;
+	static final byte FUNC_ETS_REG = 0x03;
 
-	private int m_EFADCConnected_Mask;
 	private long lastUpdated;
 
 	private ArrayList<ETS_EFADC_RegisterSet> adc;
@@ -58,10 +58,25 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		return m_Client;
 	}
 
-	@Override
+
 	public void update(RegisterSet reg) {
-		// Do nothing, this is deprecated from CMP data registers
+		Logger.getGlobal().warning("Tried to update with non ETS_Register set");
 	}
+
+
+	public void update(ETS_RegisterSet reg) {
+		Logger.getGlobal().info("Updating ETS registers");
+
+		int[] newRegs = reg.getRegisters();
+
+		for (int i = 0; i < newRegs.length; i++) {
+			if (register[i] != newRegs[i]) {
+				Logger.getGlobal().info(String.format("Updating %d, %04x -> %04x", i+1, register[i], newRegs[i]));
+				register[i] = newRegs[i];
+			}
+		}
+	}
+
 
 	/**
 	 * Update/set the EFADC registers belonging to this ETS
@@ -81,7 +96,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	 */
 	@Override
 	public int getADCCount() {
-		return Integer.bitCount(m_EFADCConnected_Mask);
+		return Integer.bitCount(getEFADCMask());
 	}
 
 
@@ -89,7 +104,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	 * @return Bit mask of connected EFADC devices
 	 */
 	public int getEFADCMask() {
-		return m_EFADCConnected_Mask;
+		return status[1] & 0x007f;
 	}
 
 
@@ -97,6 +112,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	 * @param mask Mask of EFADC devices to be addressed during register write
 	 */
 	public void setEFADC_Mask(int mask) {
+		//Logger.getGlobal().info(String.format("setEFADC_Mask %04x", mask));
+
 		m_EFADCSelect_Mask = mask;
 	}
 
@@ -169,14 +186,17 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		buffer.writeByte((byte)0x5a);
 		buffer.writeByte(OPCODE_SET_REG);	//01
 		buffer.writeByte((byte)0x00);		//extra byte?
-		buffer.writeByte(FUNC_ETS_REG);		//02
+		buffer.writeByte(FUNC_ETS_REG);		//03
 
 		// EFADC enable, we don't ever need to disable a connected efadc, so just use the same bits
 		// that were reported in the status indicating which are connected
-		int connected = m_EFADCConnected_Mask << 8;
+		int connected = getEFADCMask() << 8;
 		int addressed = m_EFADCSelect_Mask;
 
 		int reg0 = connected | addressed;
+
+		Logger.getGlobal().log(Level.FINE, String.format("ETSRegEncode %04x connected, %04x addressed, reg0: %04x",
+				getEFADCMask(), addressed, reg0));
 
 		buffer.writeShort(reg0);
 
@@ -190,13 +210,15 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		}
 
 		try {
-			ETS_EFADC_RegisterSet adcReg = getADCRegisters(idx);
+			ETS_EFADC_RegisterSet adcReg = getADCRegisters(idx+1);
 
-			buffer.writeBytes(adcReg.encode());
+			ChannelBuffer adcBuf = adcReg.encode();
+
+			buffer.writeBytes(adcBuf);
 
 		} catch (EFADC_InvalidADCException e) {
 			e.printStackTrace();
-			Logger.getGlobal().severe("Invalid adc index in encode()");
+			Logger.getGlobal().severe("Invalid adc index in encode(), idx must have origin 1");
 			return null;
 		}
 
@@ -248,24 +270,30 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		// ETS_FrameDecoder has already verified that we have the required byte count
 
+		Logger.getGlobal().info("ETS_RegisterSet decode");
 		if (!decode(frame, NUM_READ_REGS)) {
 			Logger.getGlobal().warning("Error parsing config registers");
 			return false;
 		}
 
-
 		status[0] = frame.readUnsignedShort();	// Firmware version
-		status[1] = frame.readUnsignedShort();
-
-		m_EFADCConnected_Mask = status[1] & 0x0007;	// Low bits are EFADC active indicator, #1 -> bit 0, #2 -> bit 1, etc
-
-		frame.skipBytes(6);	// Next 3 words are always 0
-
+		status[1] = frame.readUnsignedShort();	// efadc active mask
+		status[2] = frame.readUnsignedShort();
+		status[3] = frame.readUnsignedShort();
+		status[4] = frame.readUnsignedShort();
 		status[5] = frame.readUnsignedShort();
-		status[6] = frame.readUnsignedShort();
+		status[6] = frame.readUnsignedShort();	// temp
 		status[7] = frame.readUnsignedShort();	// MAC 31-16
 		status[8] = frame.readUnsignedShort();	// MAC 15-0
 
+		if (DEBUG) {
+			StringBuilder strB = new StringBuilder();
+
+			for (int i = 0; i < NUM_STATUS; i++)
+				strB.append(String.format("[S%d] %04x\n", i+1, status[i]));
+
+			Logger.getGlobal().info(strB.toString());
+		}
 
 		lastUpdated = System.currentTimeMillis();
 
@@ -274,10 +302,10 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 
 	public String toString() {
-		StringBuffer strB = new StringBuffer("ETS Register Set");
+		StringBuffer strB = new StringBuffer("ETS Register Set: ");
 
-		strB.append(String.format("Version: %04x\n", status[0]));
-		strB.append(String.format("EFADC_Mask: %04x\n", m_EFADCConnected_Mask));
+		strB.append(String.format("Version: %04x ", status[0]));
+		strB.append(String.format("EFADC_Mask: %04x", getEFADCMask()));
 		//strB.append(String.format("Accepted Triggers: %d\n", acceptedTrigs));
 		//strB.append(String.format("Missed Triggers: %d\n", missedTrigs));
 		//strB.append(String.format("Something Else: %04X\n", unknown));

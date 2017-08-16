@@ -5,6 +5,7 @@ import org.jlab.EFADC.handler.BasicClientHandler;
 import org.jlab.EFADC.handler.ClientHandler;
 
 import java.util.concurrent.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -85,9 +86,9 @@ public class Connector {
 					// Install ETS frame decoder in place of default EFADC decoder
 					m_Client.setDecoder(new ETS_FrameDecoder((ETS_Client)m_Device));
 
-					Logger.getGlobal().info("    > Installed ETS Client/FrameDecoder");
+					Logger.getGlobal().log(Level.FINE, "    > Installed ETS Client/FrameDecoder");
 				} else
-					Logger.getGlobal().info("    > Retained EFADC Client/FrameDecoder");
+					Logger.getGlobal().log(Level.FINE, "    > Retained EFADC Client/FrameDecoder");
 
 				m_Device.ReadRegisters();
 			}
@@ -100,7 +101,7 @@ public class Connector {
 		@Override
 		public void registersReceived(RegisterSet registers) {
 
-			Logger.getGlobal().info("in ConnectFuture registersReceived()");
+			Logger.getGlobal().log(Level.FINE, "in ConnectFuture registersReceived()");
 
 			super.registersReceived(registers);
 
@@ -111,11 +112,12 @@ public class Connector {
 			if (m_ConnectState == ConnectState.CONNECTING) {
 				m_ConnectState = ConnectState.CONNECTED;
 
-				Logger.getGlobal().info("ConnectHandler.registersReceived(), state CONNECTED");
+				Logger.getGlobal().info("ConnectHandler.registersReceived(), state -> CONNECTED");
+				Logger.getGlobal().info(registers.toString());
 
 				// This is required to detect if we connected to a CMP/ETS or standalone EFADC
 				// TODO: I think we already know at this point... But this shouldn't hurt any
-				m_Device.setRegisterSet(registers);
+				//m_Device.setRegisterSet(registers);
 
 				try {
 					reply.put(m_Device);
@@ -133,7 +135,7 @@ public class Connector {
 		@Override
 		public EFADC_Client get() throws InterruptedException, ExecutionException {
 
-			Logger.getGlobal().info("ConnectHandler.get()");
+			Logger.getGlobal().log(Level.FINE, "ConnectHandler.get()");
 
 			return this.reply.take();
 		}
@@ -141,7 +143,7 @@ public class Connector {
 		@Override
 		public EFADC_Client get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
 
-			Logger.getGlobal().info(String.format("ConnectHandler.get(%d)", timeout));
+			Logger.getGlobal().log(Level.FINE, String.format("ConnectHandler.get(%d)", timeout));
 
 			final EFADC_Client replyOrNull = reply.poll(timeout, unit);
 			if (replyOrNull == null) {
@@ -153,7 +155,7 @@ public class Connector {
 		@Override
 		public boolean cancel(boolean mayInterruptIfRunning) {
 
-			Logger.getGlobal().info("ConnectHandler.cancel()");
+			Logger.getGlobal().log(Level.FINE, "ConnectHandler.cancel()");
 
 			//try {
 				state = State.CANCELLED;
@@ -182,14 +184,7 @@ public class Connector {
 	 */
 	public Future<EFADC_Client> connect(boolean debug) {
 
-		Logger.getLogger("global").info("Connecting...");
-
-		/*
-		if (m_Client != null) {
-			m_Client.cleanup();
-			m_Client = null;
-		}
-		*/
+		Logger.getGlobal().info("Connecting...");
 
 		m_Client.setDebug(debug);
 
@@ -197,24 +192,23 @@ public class Connector {
 		m_ConnectFuture = new ConnectFuture();
 
 		try {
-			Logger.getLogger("global").info(" => connect()");
+			Logger.getGlobal().info(" => connect()");
 
 			// This just opens the datagram channel, no communication is initiated until after we install the handler and read registers
 			m_Client.connect();
 
-			Logger.getLogger("global").info(" => setHandler()");
+			Logger.getGlobal().log(Level.FINE, " => setHandler()");
 			m_Client.setHandler(m_ConnectFuture);
 		} catch (EFADC_AlreadyConnectedException e) {
-			Logger.getLogger("global").severe("Already connected?");
+			Logger.getGlobal().severe("Already connected?");
 			return null;
 		}
 
 		m_ConnectState = ConnectState.CONNECTING;
-		Logger.getLogger("global").info(" => ReadRegisters() :: state CONNECTING");
-
+		Logger.getGlobal().info(" => GetDeviceInfo() :: state -> CONNECTING");
 
 		if (!m_Client.GetDeviceInfo()) {
-			Logger.getLogger("global").severe("GetDeviceInfo failed in connect()");
+			Logger.getGlobal().severe("GetDeviceInfo failed in connect()");
 
 			return null;
 		}
@@ -225,14 +219,6 @@ public class Connector {
 			e.printStackTrace();
 		}
 
-		/*
-		// Try to read registers to see if we're really connected
-		if (!m_Client.ReadRegisters()) {
-			Logger.getLogger("global").severe("ReadRegisters failed in connect()");
-
-			return null;
-		}
-		*/
 
 		/*
 		// We're asynchronous so we could possibly get here after the connect sequence when the timer should be stopped/null

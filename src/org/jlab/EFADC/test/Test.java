@@ -112,7 +112,7 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("1.2.3.9", 14999);
+		m_Con = new Connector("129.57.53.60", 14999);
 
 		// Open socket and request device info
 		Future<EFADC_Client> connectFuture = m_Con.connect(true);	// debugging on
@@ -158,7 +158,7 @@ public class Test {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+	/*
 		try {
 			m_NetworkClient.SetRawOutputFile("ped_out.bin");
 		} catch (IOException e) {
@@ -190,6 +190,7 @@ public class Test {
 
 		Logger.getLogger("Registers after acquisition");
 		m_DeviceClient.ReadRegisters();
+	*/
 	}
 
 
@@ -197,7 +198,9 @@ public class Test {
 	private void init() {
 
 		// Need to enable EFADC's
-		((ETS_Client)m_DeviceClient).SendSetRegisters(0);
+		m_DeviceClient.SendSetRegisters(0);
+
+		Logger.getGlobal().info("Reading EFADC registers");
 
 		((ETS_Client)m_DeviceClient).ReadEFADCRegisters();
 

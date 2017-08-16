@@ -262,6 +262,10 @@ public class EFADC_RegisterSet extends RegisterSet {
 		
 		return strB.toString();
 	}
+
+	public ChannelBuffer encode() {
+		return encode(false);
+	}
 	
 	public ChannelBuffer encode(boolean header) {
 		int[] regs = getRegisters();
