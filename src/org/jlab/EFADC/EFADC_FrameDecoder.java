@@ -17,13 +17,13 @@ import java.util.logging.Logger;
 public class EFADC_FrameDecoder extends FrameDecoder {
 
 	private static final short VERIFY_BIT = 1;
-	
-	private static final Logger logger = Logger.getLogger("global");
-	
+
 	int lastTrig = -1;
 	int eventSize = 0;
 
-	protected Object processDataPacket(ChannelBuffer buf, int mark) {
+	private Client client = null;
+
+	protected Object processDataPacket(ChannelBuffer buf, int mark, boolean connected) {
 		if (buf.readableBytes() < 10)	//4 from header + 6 more to calculate event length
 			return null;
 
@@ -36,7 +36,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 		if (temp == 0x5a5a) {
 			buf.readUnsignedInt();
-			logger.info("Skipping buffer preload...");
+			Logger.getGlobal().info("Skipping buffer preload...");
 			return null;
 		}
 
@@ -70,7 +70,16 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			return null;
 		}
 
+		// This may be a premature data packet before the device is actually connected, skip it
+		if (!connected) {
+			Logger.getGlobal().warning(String.format("Device not yet in connected state, ignoring data packet (%d bytes)", eventSize + 10));
+
+			buf.skipBytes(eventSize + 10);
+			return null;
+		}
+
 		buf.skipBytes(10);
+
 		ChannelBuffer frame = buf.readBytes(eventSize);
 
 		EFADC_DataEvent theEvent = new EFADC_DataEvent();
@@ -87,12 +96,11 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 		theEvent.decode(frame);
 
-
 		if (NetworkClient.flag_Verbose) {
 			int pad = frame.readUnsignedShort();
 
 			if (pad != 0) {
-				logger.info(String.format("Data alignment error: 0x%04x  sums %d  samples %d  trigId %d", pad, theEvent.chanCount, theEvent.sampleCount, theEvent.trigId));
+				Logger.getGlobal().warning(String.format("Data alignment error: 0x%04x  sums %d  samples %d  trigId %d", pad, theEvent.chanCount, theEvent.sampleCount, theEvent.trigId));
 				//logger.info(str);
 			}
 		}
@@ -120,7 +128,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				return regs;
 
 			} else
-				Logger.getLogger("global").warning("0303 Command returning CMP registers?");
+				Logger.getGlobal().warning("0303 Command returning CMP registers?");
 
 		} else if (type == 0x0304) {
 
@@ -132,10 +140,10 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			//Calculate total frame size, when reading from the CMP, first register that normally belongs to all EFADCs is only read once
 			int frameSize = CMP_RegisterSet.DATA_SIZE_READ_BYTES + (nADC * (EFADC_RegisterSet.DATA_SIZE_BYTES));
 
-			Logger.getLogger("global").info(String.format("CMP Reg Decode, %04x regHeader, %d ADC's, %d frame size, %d readable", regHeader, nADC, frameSize, buf.readableBytes()));
+			Logger.getGlobal().info(String.format("CMP Reg Decode, %04x regHeader, %d ADC's, %d frame size, %d readable", regHeader, nADC, frameSize, buf.readableBytes()));
 
 			if (buf.readableBytes() < frameSize + 4) {
-				Logger.getLogger("global").warning(String.format("Not enough bytes in buffer to read CMP regs, need %d have %d", frameSize + 4, buf.readableBytes()));
+				Logger.getGlobal().warning(String.format("Not enough bytes in buffer to read CMP regs, need %d have %d", frameSize + 4, buf.readableBytes()));
 				return null;
 			}
 
@@ -170,7 +178,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 		int type = buf.getUnsignedShort(mark + 2);	// skip 4
 		
 		if (header != 0x5a5a) {
-			logger.info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastTrig, eventSize));
+			Logger.getGlobal().info(String.format("bad header: %04x  type: 0x%04x  lastTrig: %d  lastEventSize: %d", header, type, lastTrig, eventSize));
 
 			if (NetworkClient.flag_Verbose) {
 				int readable = buf.readableBytes();
@@ -181,17 +189,28 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					byte b = buf.getByte(j);
 					out += String.format("%02x ", b);
 				}
-				logger.info(out);
+				Logger.getGlobal().info(out);
 			}
 
 			return null;
 		} //else
-			//Logger.getLogger("global").info("decodeFrame()");
+			//Logger.getGlobal().info("decodeFrame()");
 		
 		switch (type) {
 			case 0x0301:
 			case 0x0302: {
-				return processDataPacket(buf, mark);
+
+				// Check if we're in connected state before trying to parse a data packet
+				// There is a bug where the device will send a data packet as the first response
+				// after a powerup
+
+				// Get the device via global context
+				if (client == null)
+					client = ((EFADC_ChannelContext)ctx.getAttachment()).getDeviceClient();
+
+				// client may still be null after this if it isn't connected
+
+				return processDataPacket(buf, mark, (client != null && client.isConnected()));
 			}
 
 			case 0x0303:
@@ -206,7 +225,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			case 0x030A: {
 				int ver;
 
-				Logger.getLogger("global").info("DeviceInfo received");
+				Logger.getGlobal().info("DeviceInfo received");
 
 				buf.skipBytes(4);
 				ver = buf.readUnsignedShort();
@@ -238,7 +257,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				System.out.println();
 				*/
 				
-				//Logger.getLogger("global").info("Stray buffer " + count + " bytes long");
+				//Logger.getGlobal().info("Stray buffer " + count + " bytes long");
 			
 				return buf.readBytes(count);
 		}

@@ -100,6 +100,12 @@ public class NetworkClient {
 		return o((Bootstrap)b, c);
 	}
 
+
+	public EFADC_ChannelContext getGlobalContext() {
+		return m_GlobalContext;
+	}
+
+
 	public void initIdleHandler() {
 		m_IdleStateHandler = new IdleStateHandler(m_WheelTimer, 60, 30, 0);
 
@@ -187,7 +193,7 @@ public class NetworkClient {
 		Bootstrap b = t._1;
 		m_UDPChannel = t._2;
 
-		Logger.getLogger("global").info("m_UDPChannel connected: " + m_UDPChannel.isConnected() + "  open: " + m_UDPChannel.isOpen());
+		Logger.getGlobal().info("m_UDPChannel connected: " + m_UDPChannel.isConnected() + "  open: " + m_UDPChannel.isOpen());
 
 		//b.setOption("connectTimeoutMillis", 10000);
 
@@ -240,7 +246,7 @@ public class NetworkClient {
 			m_EchoHandlerContext = p.getContext("echo");
 			m_EchoHandlerContext.setAttachment(m_GlobalContext);
 
-			Logger.getLogger("global").info("Echo handler initialized");
+			Logger.getGlobal().info("Echo handler initialized");
 
 		} else {
 			try {
@@ -248,7 +254,7 @@ public class NetworkClient {
 			} catch (NoSuchElementException e) {
 			}
 
-			Logger.getLogger("global").info("Echo handler disabled");
+			Logger.getGlobal().info("Echo handler disabled");
 		}
 	}
 
@@ -273,7 +279,7 @@ public class NetworkClient {
 	public void setDebug(boolean val) {
 		flag_Verbose = val;
 
-		Logger.getLogger("global").info("Debug mode " + (flag_Verbose ? "enabled" : "disabled"));
+		Logger.getGlobal().info("Debug mode " + (flag_Verbose ? "enabled" : "disabled"));
 	}
 
 
@@ -293,7 +299,7 @@ public class NetworkClient {
 		try {
 			p.remove("handler");
 		} catch (NoSuchElementException e) {
-			Logger.getLogger("global").info("setHandler :: No existing handler to remove");
+			Logger.getGlobal().info("setHandler :: No existing handler to remove");
 		}
 
 		p.addLast("handler", handler);
@@ -312,7 +318,7 @@ public class NetworkClient {
 		try {
 			p.remove("decoder");
 		} catch (NoSuchElementException e) {
-			Logger.getLogger("global").info("setDecoder :: No existing decoder to remove");
+			Logger.getGlobal().info("setDecoder :: No existing decoder to remove");
 		}
 
 		p.addBefore("handler", "decoder", decoder);
@@ -403,7 +409,7 @@ public class NetworkClient {
 			m_GlobalContext.setObject(echoFuture);
 
 			if (((EFADC_ChannelContext)m_EchoHandlerContext.getAttachment()).getObject() != echoFuture) {
-				Logger.getLogger("global").warning("Echo future not attached to global context!");
+				Logger.getGlobal().warning("Echo future not attached to global context!");
 			} //else
 			//logger.info("Echo future attached successfully at " + m_GlobalContext.getLastUpdated());
 
@@ -429,7 +435,7 @@ public class NetworkClient {
 
 		if (echoFuture != null) {
 			if (!echoFuture.awaitUninterruptibly(2000)) {
-				Logger.getLogger("global").info("Error waiting on command echo");
+				Logger.getGlobal().info("Error waiting on command echo");
 				return false;
 			}
 

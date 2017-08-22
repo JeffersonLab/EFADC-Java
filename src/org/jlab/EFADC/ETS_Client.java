@@ -203,7 +203,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 		matrix.setCoincident(detA, detB, val, reverse);
 
 		/*
-		Logger.getLogger("global").info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
+		Logger.getGlobal().info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
 				detA, detB,
 				val ? "ON" : "OFF",
 				type == CMP_RegisterSet.MatrixType.AND ? "AND" : "OR",

@@ -56,7 +56,7 @@ public class ReplayController {
 
 		m_ThrottleTime = 25;
 
-		Logger.getLogger("global").info("ReplayController initialized");
+		Logger.getGlobal().info("ReplayController initialized");
 	}
 
 	public void setThrottle(long ms) {
@@ -86,7 +86,7 @@ public class ReplayController {
 		if (m_ReplayFileChannel == null)
 			return 0;
 		
-		Logger.getLogger("global").info("Allocating replay buffer");
+		Logger.getGlobal().info("Allocating replay buffer");
 
 		//ByteBuffer replayBuffer = ByteBuffer.allocate(1048576);	// 1MB
 		ByteBuffer replayBuffer = ByteBuffer.allocate(524288);	// 512K
@@ -102,7 +102,7 @@ public class ReplayController {
 		try {
 			long maxSize = m_ReplayFileChannel.size();
 
-			Logger.getLogger("global").info(maxSize + " bytes to replay");
+			Logger.getGlobal().info(maxSize + " bytes to replay");
 
 			while (bytesRead < maxSize) {
 				
@@ -116,7 +116,7 @@ public class ReplayController {
 				// The documentation says this wraps the NIO buffer's current slice, which should be the entire buffer
 				ChannelBuffer wrappedBuffer = ChannelBuffers.wrappedBuffer(replayBuffer);
 
-				//Logger.getLogger("global").info(bytesRead + " bytes replayed...");
+				//Logger.getGlobal().info(bytesRead + " bytes replayed...");
 
 				// Sends the received line to the server
 				lastWriteFuture = replayChannel.write(wrappedBuffer);
@@ -129,7 +129,7 @@ public class ReplayController {
 
 		} finally {
 			
-			Logger.getLogger("global").info("Cleaning up replay stuff");
+			Logger.getGlobal().info("Cleaning up replay stuff");
 
 			// Wait until all messages are flushed before closing the channel
 			if (lastWriteFuture != null) {
@@ -138,7 +138,7 @@ public class ReplayController {
 			replayChannel.close();
 
 			if (!replayChannel.getCloseFuture().awaitUninterruptibly(2000))
-				Logger.getLogger("global").info("Timeout while closing bound replay client channel");
+				Logger.getGlobal().info("Timeout while closing bound replay client channel");
 
 			cleanup();
 		}
@@ -148,7 +148,7 @@ public class ReplayController {
 
 	public void cleanup() {
 		if (!m_ServerChannel.close().awaitUninterruptibly(2000))
-			Logger.getLogger("global").info("Timeout while closing bound replay server channel");
+			Logger.getGlobal().info("Timeout while closing bound replay server channel");
 
 		try {
 			m_ReplayFileChannel.close();

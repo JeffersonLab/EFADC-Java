@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class EFADC_EchoHandler extends SimpleChannelHandler {
 
-	private static final Logger logger = Logger.getLogger("global");
+	private static final Logger logger = Logger.getGlobal();
 
 	
 	ChannelBuffer echoBuffer;

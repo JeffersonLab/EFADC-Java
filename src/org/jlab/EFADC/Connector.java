@@ -38,7 +38,7 @@ public class Connector {
 		//m_Handler = handler;
 		m_ConnectState = ConnectState.DISCONNECTED;
 
-		Logger.getLogger("global").info("new Connector, state DISCONNECTED");
+		Logger.getGlobal().info("new Connector, state DISCONNECTED");
 
 		try {
 			m_Client = new NetworkClient(/*address, port, true*/);
@@ -72,7 +72,7 @@ public class Connector {
 		 */
 		@Override
 		public void deviceInfoReceived(DeviceInfo info) {
-			Logger.getLogger("global").info("in ConnectFuture deviceInfoReceived()");
+			Logger.getGlobal().info("in ConnectFuture deviceInfoReceived()");
 
 			if (m_ConnectState == ConnectState.CONNECTING) {
 
@@ -85,6 +85,9 @@ public class Connector {
 
 					// Install ETS frame decoder in place of default EFADC decoder
 					m_Client.setDecoder(new ETS_FrameDecoder((ETS_Client)m_Device));
+
+					// Link the specific hw device to the socket thru our global context
+					m_Client.getGlobalContext().setDeviceClient(m_Device);
 
 					Logger.getGlobal().log(Level.FINE, "    > Installed ETS Client/FrameDecoder");
 				} else
@@ -112,12 +115,13 @@ public class Connector {
 			if (m_ConnectState == ConnectState.CONNECTING) {
 				m_ConnectState = ConnectState.CONNECTED;
 
+				m_Device.setConnected(true);
+
 				Logger.getGlobal().info("ConnectHandler.registersReceived(), state -> CONNECTED");
 				Logger.getGlobal().info(registers.toString());
 
 				// This is required to detect if we connected to a CMP/ETS or standalone EFADC
 				// TODO: I think we already know at this point... But this shouldn't hurt any
-				//m_Device.setRegisterSet(registers);
 
 				try {
 					reply.put(m_Device);
@@ -126,7 +130,7 @@ public class Connector {
 					state = State.CANCELLED;
 				}
 
-				//Logger.getLogger("global").info("Connected to EFADC/CMP");
+				//Logger.getGlobal().info("Connected to EFADC/CMP");
 			}
 		}
 
@@ -234,7 +238,7 @@ public class Connector {
 
 		m_ConnectState = ConnectState.CONNECTED;
 
-		Logger.getLogger("global").info("in finishConnect(), state CONNECTED");
+		Logger.getGlobal().info("in finishConnect(), state CONNECTED");
 
 		//m_ConnectTimeout.stop();
 		//m_ConnectTimeout.removeActionListener(m_TimerAL);
@@ -251,7 +255,7 @@ public class Connector {
 		// This is redundant, remove eventually
 		m_Handler.connected(m_Client);
 
-		Logger.getLogger("global").info("Connected to EFADC/CMP");
+		Logger.getGlobal().info("Connected to EFADC/CMP");
 	}
 	*/
 }

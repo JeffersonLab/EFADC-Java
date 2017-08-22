@@ -51,7 +51,7 @@ public class MatrixRegisterEncoder {
 			buffer.writeInt(orVal);
 			buffer.writeInt(andVal);
 
-			//Logger.getLogger("global").info(String.format("[%d] %08x    %08x", i, orVal, andVal));
+			//Logger.getGlobal().info(String.format("[%d] %08x    %08x", i, orVal, andVal));
 		}
 
 		return buffer;
@@ -87,7 +87,7 @@ public class MatrixRegisterEncoder {
 			for (int j = 0; j < 3; j++) {
 				if (!entries.hasMoreElements() && buffer.readerIndex() == buffer.capacity()) {
 
-					Logger.getLogger("global").severe("Invalid register matrix size" + entries);
+					Logger.getGlobal().severe("Invalid register matrix size" + entries);
 					return null;
 				}
 
@@ -99,7 +99,7 @@ public class MatrixRegisterEncoder {
 
 			buffer.writeShort(field & 0xffff);
 
-			Logger.getLogger("global").info(String.format("[%d] %04x", i, field & 0xffff));
+			Logger.getGlobal().info(String.format("[%d] %04x", i, field & 0xffff));
 		}
 
 		return buffer;

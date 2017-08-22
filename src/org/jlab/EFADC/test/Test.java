@@ -76,7 +76,7 @@ public class Test {
 		public void registersReceived(RegisterSet regs) {
 			super.registersReceived(regs);
 
-			//Logger.getLogger("global").info("registersReceived");
+			//Logger.getGlobal().info("registersReceived");
 
 			// This cast should be avoided, put setRegisterSet in the Client interface?
 			m_DeviceClient.setRegisterSet(regs);
@@ -84,13 +84,13 @@ public class Test {
 
 		@Override
 		public void eventReceived(EFADC_DataEvent event) {
-			//Logger.getLogger("global").info("Unaggregated event received");
+			//Logger.getGlobal().info("Unaggregated event received");
 			nEvents++;
 		}
 
 		@Override
 		public void eventSetReceived(EventSet set) {
-			//Logger.getLogger("global").info("Got EventSet of size: " + set.size());
+			//Logger.getGlobal().info("Got EventSet of size: " + set.size());
 
 			if (set.size() == 1) {
 				nSingleEvents++;
@@ -144,7 +144,7 @@ public class Test {
 
 		/** TODO: Implement device selection
 		if (m_NetworkClient.IsCMP()) {
-			Logger.getLogger("global").info("CMP Detected, telling new handler");
+			Logger.getGlobal().info("CMP Detected, telling new handler");
 			((AbstractClientHandler)m_Handler).SetCMP(true);
 		}
 		*/
@@ -169,7 +169,7 @@ public class Test {
 		m_DeviceClient.ReadRegisters();
 
 
-		Logger.getLogger("global").info("Running pedestal acquisition...");
+		Logger.getGlobal().info("Running pedestal acquisition...");
 		pedestals();
 
 		Collection<EventSet> events = new LinkedList<>();
@@ -178,7 +178,7 @@ public class Test {
 
 		int eventCount = testHandler.getEventQueue().drainTo(events);
 
-		Logger.getLogger("global").info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
+		Logger.getGlobal().info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
 				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
 
 
@@ -320,10 +320,10 @@ public class Test {
 
 
 	private static void setupLogging() {
-		Logger.getLogger("global").setUseParentHandlers(false);
+		Logger.getGlobal().setUseParentHandlers(false);
 		Handler h = new ConsoleHandler();
 		h.setFormatter(new ErrorFormatter());
-		Logger.getLogger("global").addHandler(h);
+		Logger.getGlobal().addHandler(h);
 	}
 
 
@@ -575,7 +575,7 @@ public class Test {
 
 
 		if (!theClient.ReadRegisters()) {
-			Logger.getLogger("global").info("Error reading registers");
+			Logger.getGlobal().info("Error reading registers");
 			System.exit(-1);
 		}
 
@@ -586,17 +586,17 @@ public class Test {
 
 
 		if (flag_Run || flag_SelfTrig) {
-			Logger.getLogger("global").info("Run Starting...");
+			Logger.getGlobal().info("Run Starting...");
 
 			theClient.getRegisterSet().setSync(true);
 			if (!theClient.SendSetRegisters()) {
-				Logger.getLogger("global").info("Error setting registers");
+				Logger.getGlobal().info("Error setting registers");
 				System.exit(-1);
 			}
 
 			theClient.getRegisterSet().setSync(false);
 			if (!theClient.SendSetRegisters()) {
-				Logger.getLogger("global").info("Error setting registers");
+				Logger.getGlobal().info("Error setting registers");
 				System.exit(-1);
 			}
 
@@ -613,7 +613,7 @@ public class Test {
 			} catch (InterruptedException e) {
 			}
 
-			Logger.getLogger("global").info("Stopping...");
+			Logger.getGlobal().info("Stopping...");
 
 			if (!theClient.StopCollection())
 				System.out.println("Error stopping data collection");
@@ -621,7 +621,7 @@ public class Test {
 
 
 		if (!theClient.ReadRegisters()) {
-			Logger.getLogger("global").info("Error reading registers");
+			Logger.getGlobal().info("Error reading registers");
 			System.exit(-1);
 		}
 
@@ -632,7 +632,7 @@ public class Test {
 
 			float rate = events / (time * 1.0f);
 
-			Logger.getLogger("global").info(String.format("%d events, %f KHz, %d missed", events, rate, theClient.getHandler().getMissedEventCount()));
+			Logger.getGlobal().info(String.format("%d events, %f KHz, %d missed", events, rate, theClient.getHandler().getMissedEventCount()));
 		}
 
 

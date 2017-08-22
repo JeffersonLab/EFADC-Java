@@ -36,7 +36,7 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 
 		m_TreeSize = nSize;
 
-		//Logger.getLogger("global").info("new EFADC_EventAggregator()");
+		//Logger.getGlobal().info("new EFADC_EventAggregator()");
 	}
 
 

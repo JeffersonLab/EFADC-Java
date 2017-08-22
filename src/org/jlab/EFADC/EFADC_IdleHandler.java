@@ -43,7 +43,7 @@ public class EFADC_IdleHandler extends IdleStateAwareChannelHandler{
 
 				// This should only happen if a disconnect occurs due to the writer idle handler which sends a
 				// register read command, to which we should expect a response
-				//Logger.getLogger("global").info("Reader idle, closing channel");
+				//Logger.getGlobal().info("Reader idle, closing channel");
 				//evt.getChannel().close();
 
 				// Just throw some efadc exception
@@ -51,7 +51,7 @@ public class EFADC_IdleHandler extends IdleStateAwareChannelHandler{
 			}
 
 		} else if (evt.getState() == IdleState.WRITER_IDLE) {
-			Logger.getLogger("global").info("Writer idle, sending ReadRegisters");
+			Logger.getGlobal().info("Writer idle, sending ReadRegisters");
 
 			//This will trigger an echo handler error because it is not initiated thru SendCommand...
 			client.SendCommand(Command.ReadRegisters());

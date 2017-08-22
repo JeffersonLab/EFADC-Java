@@ -41,6 +41,7 @@ public interface Client {
 	public boolean SendLCDData(int line, String text);
 
 	public boolean IsCMP();
+	boolean isConnected();
 
 	public boolean SetDACValues(int[] values);
 

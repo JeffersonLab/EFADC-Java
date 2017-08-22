@@ -22,6 +22,7 @@ public class EFADC_Client implements Client {
 	boolean						m_AcquisitionActive = false;
 
 	protected NetworkClient		m_NetworkClient;
+	boolean isConnected = false;
 
 
 	public EFADC_Client() {
@@ -51,11 +52,17 @@ public class EFADC_Client implements Client {
 			m_NetworkClient.initIdleHandler();
 
 		} else
-			Logger.getLogger("global").info("Idle handler disabled");
+			Logger.getGlobal().info("Idle handler disabled");
 
 
 		// TODO add accessors to modify tree size and handler
 		//m_EventAggregator = new EFADC_EventAggregator(10);
+	}
+
+	public boolean isConnected() { return isConnected; }
+
+	public void setConnected(boolean val) {
+		isConnected = val;
 	}
 
 	public NetworkClient networkClient() {
@@ -75,8 +82,6 @@ public class EFADC_Client implements Client {
 	public boolean getCollectState() {
 		return m_AcquisitionActive;
 	}
-
-
 
 
 	public void setRegisterSet(RegisterSet regs) {
@@ -181,7 +186,7 @@ public class EFADC_Client implements Client {
 
 					adcReg.setCoincidenceWindowWidth(width);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -225,7 +230,7 @@ public class EFADC_Client implements Client {
 		matrix.setCoincident(detA, detB, val, reverse);
 
 		/*
-		Logger.getLogger("global").info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
+		Logger.getGlobal().info(String.format("SetCoincident(%d, %d, %s, %s, Opp: %s)",
 				detA, detB,
 				val ? "ON" : "OFF",
 				type == CMP_RegisterSet.MatrixType.AND ? "AND" : "OR",
@@ -290,7 +295,7 @@ public class EFADC_Client implements Client {
 
 					adcReg.setIntegrationWindow(window);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -319,7 +324,7 @@ public class EFADC_Client implements Client {
 
 					adcReg.setMode(mode);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -348,7 +353,7 @@ public class EFADC_Client implements Client {
 
 					adcReg.setNSB(window);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -379,7 +384,7 @@ public class EFADC_Client implements Client {
 				try {
 					adcReg = cmpReg.getADCRegisters(adc);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + adc);
 				}
 			}
 
@@ -388,7 +393,7 @@ public class EFADC_Client implements Client {
 		}
 
 		if (adcReg == null) {
-			Logger.getLogger("global").warning("NULL Register Set in SetIntegrationWindow");
+			Logger.getGlobal().warning("NULL Register Set in SetIntegrationWindow");
 			return;
 		}
 
@@ -414,10 +419,10 @@ public class EFADC_Client implements Client {
 
 					adcReg.setSelfTrigger(enable, value);
 
-					Logger.getLogger("global").info(String.format("Setting self trigger ADC %d: %s", i, enable ? "true" : "false"));
+					Logger.getGlobal().info(String.format("Setting self trigger ADC %d: %s", i, enable ? "true" : "false"));
 
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -447,7 +452,7 @@ public class EFADC_Client implements Client {
 
 					adcReg.setSync(val);
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + i);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 				}
 			}
 
@@ -477,18 +482,18 @@ public class EFADC_Client implements Client {
 				adcReg = cmpReg.getADCRegisters(adc);
 
 			} catch (EFADC_InvalidADCException e) {
-				Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
+				Logger.getGlobal().warning("Invalid ADC Selection: " + adc);
 			}
 
-			Logger.getLogger("global").info(String.format("Setting CMP Threshold, chan %d, adc %d, det %d, value %d", det, adc, adcDet, thresh));
+			Logger.getGlobal().info(String.format("Setting CMP Threshold, chan %d, adc %d, det %d, value %d", det, adc, adcDet, thresh));
 
 		} else {
-			Logger.getLogger("global").info("Setting EFADC Threshold");
+			Logger.getGlobal().info("Setting EFADC Threshold");
 			adcReg = (EFADC_RegisterSet)m_Registers;
 		}
 
 		if (adcReg == null) {
-			Logger.getLogger("global").warning("NULL Register Set in SetThreshold");
+			Logger.getGlobal().warning("NULL Register Set in SetThreshold");
 			return;
 		}
 
@@ -548,7 +553,7 @@ public class EFADC_Client implements Client {
 					Thread.sleep(50);
 
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + adc);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + adc);
 					return false;
 
 				} catch (InterruptedException e) {
@@ -609,7 +614,7 @@ public class EFADC_Client implements Client {
 
 			// We need to send the ENTIRE register set a total of 16 * adcCount() times because of the way the registers were implemented in firmware...
 			if (values.length < adcCount * 16) {
-				Logger.getLogger("global").severe(String.format("DAC Values array needs to be %d, currently only %d", adcCount * 16, values.length));
+				Logger.getGlobal().severe(String.format("DAC Values array needs to be %d, currently only %d", adcCount * 16, values.length));
 				return false;
 			}
 
@@ -628,12 +633,12 @@ public class EFADC_Client implements Client {
 					System.arraycopy(values, 16*i, ival, 0, 16);
 
 					if (!sendDACValues(ival, adcReg, selADC)) {
-						Logger.getLogger("global").warning(String.format("Failed setting regs for adc %d/%d", i, adcCount));
+						Logger.getGlobal().warning(String.format("Failed setting regs for adc %d/%d", i, adcCount));
 						return false;
 					}
 
 				} catch (EFADC_InvalidADCException e) {
-					Logger.getLogger("global").warning("Invalid ADC Selection: " + selADC);
+					Logger.getGlobal().warning("Invalid ADC Selection: " + selADC);
 				}
 
 			}

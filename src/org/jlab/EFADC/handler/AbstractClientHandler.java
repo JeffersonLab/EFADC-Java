@@ -39,7 +39,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 	public void SetCMP(boolean val) {
 		isCMP = val;
-		//Logger.getLogger("global").info("SetCMP " + val);
+		//Logger.getGlobal().info("SetCMP " + val);
 		if (isCMP && m_Aggregator == null) {
 			m_Aggregator = new EFADC_EventAggregator(10);
 			m_Aggregator.setHandler((ClientHandler)this);
@@ -218,7 +218,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 				}
 
 
-				//Logger.getLogger("global").info(eRegs.toString());
+				//Logger.getGlobal().info(eRegs.toString());
 
 				/*
 				strB.append("[" + i + "] ");
@@ -227,16 +227,16 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 					strB.append(String.format("%02X ", regs.getRegister(j)));
 				}
 
-				Logger.getLogger("global").info(strB.toString());
-				Logger.getLogger("global").info("Accepted Triggers: " + eRegs.acceptedTrigs);
-				Logger.getLogger("global").info("Missed Triggers: " + eRegs.missedTrigs);
+				Logger.getGlobal().info(strB.toString());
+				Logger.getGlobal().info("Accepted Triggers: " + eRegs.acceptedTrigs);
+				Logger.getGlobal().info("Missed Triggers: " + eRegs.missedTrigs);
 
 				strB.setLength(0);
 				*/
 			}
 
 			if (isCMP == false) {
-				//Logger.getLogger("global").info("Set IsCMP true");
+				//Logger.getGlobal().info("Set IsCMP true");
 				SetCMP(true);
 			}
 		}

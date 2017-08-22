@@ -91,7 +91,7 @@ public class CMP_RegisterSet extends RegisterSet {
 
 			CMP_RegisterSet cRegs = (CMP_RegisterSet)reg;
 
-			Logger.getLogger("global").info("Updating CMP registers");
+			Logger.getGlobal().info("Updating CMP registers");
 
 			for (int i = 1; i < cRegs.getADCCount() + 1; i++) {
 
@@ -203,20 +203,20 @@ public class CMP_RegisterSet extends RegisterSet {
 		try {
 			EFADC_RegisterSet efadcRegs = getADCRegisters(m_SelectedADC == 0 ? 1 : m_SelectedADC);	// selected adc index is 1 greater because 0 selects all
 
-			//Logger.getLogger("global").info(String.format("CMP_RegisterSet:encode()\n\tADC %d Int Window: %d\n\tCoincidenceWidth: %d",
+			//Logger.getGlobal().info(String.format("CMP_RegisterSet:encode()\n\tADC %d Int Window: %d\n\tCoincidenceWidth: %d",
 			//		m_SelectedADC, efadcRegs.getIntegrationWindow(), efadcRegs.getCoincidenceWindowWidth()));
 
 			// Encode selected EFADC register set
 			buffer.writeBytes(efadcRegs.encode(false));	// dont encode 5a5a header
 		} catch (EFADC_InvalidADCException e) {
-			Logger.getLogger("global").severe("Out of Bounds while selecting ADC: " + m_SelectedADC);
+			Logger.getGlobal().severe("Out of Bounds while selecting ADC: " + m_SelectedADC);
 			return null;
 		}
 
 		// Encode coincidence table entries
 		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 32);	// ~216 bytes
 
-		//Logger.getLogger("global").info(String.format("CoincidenceTableBuf size = %d", matrixBuf.readableBytes()));
+		//Logger.getGlobal().info(String.format("CoincidenceTableBuf size = %d", matrixBuf.readableBytes()));
 
 		buffer.writeBytes(matrixBuf);
 
@@ -224,14 +224,14 @@ public class CMP_RegisterSet extends RegisterSet {
 		// Encode HitOut pulse widths
 		ChannelBuffer regBuf = MatrixRegisterEncoder.encode(m_WidthTable, 16, 4);
 
-		Logger.getLogger("global").info(String.format("WidthTableBuf size = %d", regBuf.readableBytes()));
+		Logger.getGlobal().info(String.format("WidthTableBuf size = %d", regBuf.readableBytes()));
 
 		buffer.writeBytes(regBuf);
 
 		// Encode HitOut Delay
 		regBuf = MatrixRegisterEncoder.encode(m_DelayTable, 16, 4);
 
-		Logger.getLogger("global").info(String.format("DelayTableBuf size = %d", regBuf.readableBytes()));
+		Logger.getGlobal().info(String.format("DelayTableBuf size = %d", regBuf.readableBytes()));
 
 		buffer.writeBytes(regBuf);
 		*/
@@ -261,7 +261,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		// 011 - ADC #3, etc
 		buffer.writeShort(m_SelectedADC & 0x7);
 
-		//Logger.getLogger("global").info(String.format("Reg 143 (Selected ADC): %d", m_SelectedADC & 0x7));
+		//Logger.getGlobal().info(String.format("Reg 143 (Selected ADC): %d", m_SelectedADC & 0x7));
 
 		//Reset back to 0
 		m_SelectedADC = 0;
@@ -280,7 +280,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		buffer.writeShort(0x00ff);	//0x00ff
 		buffer.writeShort(0x00ff);	//0x00ff
 
-		//Logger.getLogger("global").info(String.format("RegisterWriteBuf size = %d", buffer.readableBytes()));
+		//Logger.getGlobal().info(String.format("RegisterWriteBuf size = %d", buffer.readableBytes()));
 
 		/*
 		StringBuilder outStr = new StringBuilder();
@@ -289,7 +289,7 @@ public class CMP_RegisterSet extends RegisterSet {
 			outStr.append(String.format("%02X ", b));
 		}
 
-		Logger.getLogger("global").info(outStr.toString());
+		Logger.getGlobal().info(outStr.toString());
 		*/
 
 		return buffer;
@@ -306,7 +306,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		status[1] = frame.readUnsignedShort();
 		status[2] = frame.readUnsignedShort();
 
-		Logger.getLogger("global").info(String.format("CMP Reg0: %04x Status 1-3:  %04x  %04x  %04x", reg0, status[0], status[1], status[2]));
+		Logger.getGlobal().info(String.format("CMP Reg0: %04x Status 1-3:  %04x  %04x  %04x", reg0, status[0], status[1], status[2]));
 
 		// Should be clear anyway
 		adc.clear();

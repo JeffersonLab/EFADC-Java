@@ -40,7 +40,7 @@ public class CoincidenceMatrix extends AbstractMatrix<BigInteger> implements Mat
 
 		m_Matrix.set(a, (enable ? det.setBit(b) : det.clearBit(b)));
 
-		//Logger.getLogger("global").info(String.format("det %d bit(%d) %d = %s", a, bit, b, enable ? "true" : "false"));
+		//Logger.getGlobal().info(String.format("det %d bit(%d) %d = %s", a, bit, b, enable ? "true" : "false"));
 
 		// Should we do the opposite as well?
 		if (symmetric) {

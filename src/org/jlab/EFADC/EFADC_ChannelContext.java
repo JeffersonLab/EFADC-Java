@@ -5,12 +5,12 @@ package org.jlab.EFADC;
  * User: john
  * Date: 3/13/12
  * Time: 1:28 PM
- * To change this template use File | Settings | File Templates.
  */
 public class EFADC_ChannelContext {
 	private NetworkClient	m_NetworkClient;
 	private Object			m_Object;
 	private long			m_Updated;
+	private Client			m_DeviceClient;
 	
 	public NetworkClient getClient() {
 		return m_NetworkClient;
@@ -27,6 +27,14 @@ public class EFADC_ChannelContext {
 	public void setObject(Object obj) {
 		m_Object = obj;
 		m_Updated = System.currentTimeMillis();
+	}
+
+	public Client getDeviceClient() {
+		return m_DeviceClient;
+	}
+
+	public void setDeviceClient(Client c) {
+		m_DeviceClient = c;
 	}
 
 	public long getLastUpdated() {

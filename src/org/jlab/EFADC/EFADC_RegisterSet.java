@@ -102,7 +102,7 @@ public class EFADC_RegisterSet extends RegisterSet {
 
 	public void update(RegisterSet reg) {
 		if (reg instanceof EFADC_RegisterSet) {
-			Logger.getLogger("global").info("Updating EFADC register set");
+			Logger.getGlobal().info("Updating EFADC register set");
 		}
 	}
 
@@ -161,7 +161,7 @@ public class EFADC_RegisterSet extends RegisterSet {
 		register[REG_1] &= 0xff00;
 		register[REG_1] |= (width & 0x01ff);
 
-		//Logger.getLogger("global").info(String.format("Integration Window: %d\n", getIntegrationWindow()));
+		//Logger.getGlobal().info(String.format("Integration Window: %d\n", getIntegrationWindow()));
 	}
 
 

@@ -40,7 +40,7 @@ public class EFADC_ClientPipelineFactory implements ChannelPipelineFactory {
 			ChannelHandlerContext ctx = p.getContext(handler);
 			
 			if (ctx.getAttachment() == m_Context)
-				Logger.getLogger("global").info("Global context already attached to " + handler);
+				Logger.getGlobal().info("Global context already attached to " + handler);
 
 			ctx.setAttachment(m_Context);
 		}
