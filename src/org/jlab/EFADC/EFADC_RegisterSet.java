@@ -22,6 +22,20 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 
 	static final int EFADC_MATRIX_SIZE = 4;
 
+	static final int HITOUT_WIDTH_1_REG = REG_12;
+	static final int HITOUT_WIDTH_1_BIT = 0;
+	static final int HITOUT_WIDTH_2_REG = REG_12;
+	static final int HITOUT_WIDTH_2_BIT = 8;
+	static final int HITOUT_WIDTH_3_REG = REG_13;
+	static final int HITOUT_WIDTH_3_BIT = 0;
+	static final int HITOUT_WIDTH_4_REG = REG_13;
+	static final int HITOUT_WIDTH_5_BIT = 8;
+	static final int HITOUT_DELAY_1_REG = REG_14;
+	static final int HITOUT_DELAY_2_REG = REG_15;
+	static final int HITOUT_DELAY_3_REG = REG_16;
+	static final int HITOUT_DELAY_4_REG = REG_17;
+
+
 	// Register index constants are defined because the register header (reg #0 in EFADC list) is not a real EFADC register
 	// However it appears in the register readout and is required in the writing of the register block
 	// This is because in a CMP register block, the header is only listed once at the start of the buffer, and not in front of
@@ -79,6 +93,38 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 		return fpgaTemp;
 	}
 
+
+	public int getHitOutDelay(int det) {
+		switch (det) {
+			case 1:
+				return getRegister(HITOUT_DELAY_1_REG) & 0x3fff;
+			case 2:
+				return getRegister(HITOUT_DELAY_2_REG) & 0x3fff;
+			case 3:
+				return getRegister(HITOUT_DELAY_3_REG) & 0x3fff;
+			case 4:
+				return getRegister(HITOUT_DELAY_4_REG) & 0x3fff;
+			default:
+				return -1;
+		}
+	}
+
+
+	public void setHitOutDelay(int det, int val) {
+
+		int masked = val & 0x3fff;
+
+		switch (det) {
+			case 1:
+				setRegister(HITOUT_DELAY_1_REG, masked);
+			case 2:
+				setRegister(HITOUT_DELAY_2_REG, masked);
+			case 3:
+				setRegister(HITOUT_DELAY_3_REG, masked);
+			case 4:
+				setRegister(HITOUT_DELAY_4_REG, masked);
+		}
+	}
 
 	
 	public ChannelBuffer encode(boolean header) {
