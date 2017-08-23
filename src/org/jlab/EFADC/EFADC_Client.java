@@ -462,18 +462,15 @@ public class EFADC_Client implements Client {
 	 * Note: This currently sends these commands to ALL EFADCs in the DAQ network
 	 */
 	public void SetADCPositive() {
-		//Set bit 15 of register2 to 1 to address all ADC's
-		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
+		if (!(m_Registers instanceof EFADC_RegisterSet)) {
+			return;
+		}
 
-		//Write 0x1404 to all ADCs	(this sets 2's compliment)
-		int reg20val = 0x1400 | m_Registers.getADCInvertMask();
+		EFADC_RegisterSet reg = (EFADC_RegisterSet)m_Registers;
 
-		Logger.getLogger("global").info(String.format("SetADCPositive() reg20 value 0x%04x", reg20val));
-
-		m_Registers.setRegister(REG_20, reg20val);
+		reg.armSetPolarityPositive();
 
 		SendSetRegisters(1);
-		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -481,11 +478,9 @@ public class EFADC_Client implements Client {
 			e.printStackTrace();
 		}
 
-		//Write 0xFF01 to all ADCs
-		m_Registers.setRegister(REG_20, 0xFF01);
+		reg.sendADCCmdToAll();
 
 		SendSetRegisters(1);
-		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -500,18 +495,15 @@ public class EFADC_Client implements Client {
 	 * Note: This currently sends these commands to ALL EFADCs in the DAQ network
 	 */
 	public void SetADCNegative() {
-		//Set bit 15 of register2 to 1 to address all ADC's
-		m_Registers.setRegister(REG_2, m_Registers.getRegister(REG_2) | (1 << 15));
+		if (!(m_Registers instanceof EFADC_RegisterSet)) {
+			return;
+		}
 
-		int reg20val = 0x1400;
+		EFADC_RegisterSet reg = (EFADC_RegisterSet)m_Registers;
 
-		Logger.getLogger("global").info(String.format("SetADCNegative() reg20 value 0x%04x", reg20val));
-
-		//Write 0x1400 to all ADCs
-		m_Registers.setRegister(REG_20, reg20val);
+		reg.armSetPolarityNegative();
 
 		SendSetRegisters(1);
-		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);
@@ -519,11 +511,9 @@ public class EFADC_Client implements Client {
 			e.printStackTrace();
 		}
 
-		//Write 0xFF01 to all ADCs (this does a SW transfer)
-		m_Registers.setRegister(REG_20, 0xFF01);
+		reg.sendADCCmdToAll();
 
 		SendSetRegisters(1);
-		//SendSetRegisters(2);
 
 		try {
 			Thread.sleep(10);

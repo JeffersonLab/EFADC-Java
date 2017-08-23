@@ -15,13 +15,15 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
 
     static final int Mode_Mask		= 0xc000; // reg 1 bits 15..14
 
-	protected final int ADC_Invert = 0x0004;
-
     //static final int Reset_Mask = 0x1000; // deprecated in v3
 
     public EFADC_RegistersV3(int header) {
         super(header);
     }
+
+    int getADCInvertMask() {
+    	return ADC_Invert;
+	}
 
     @Override
     public String getRegisterDescription(int i) throws InvalidRegisterException {
@@ -84,7 +86,7 @@ public class EFADC_RegistersV3 extends EFADC_RegistersV2 implements EFADC_Regist
 	 * @param range Voltage range,
 	 */
 	public void setInputRange(int module, int range) {
-		if (m_Version != 0x3500) {
+		if (m_Version < 0x3500) {
 			Logger.getLogger("global").warning("setInputRange feature only available in firmware 0x3500 and above");
 			return;
 		}

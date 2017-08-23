@@ -22,6 +22,12 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 
 	static final int EFADC_MATRIX_SIZE = 4;
 
+	static final int ADC_OutputMode = 0x1400;
+
+	static final int ADC_TwosCompliment = 0x0001;
+	static final int ADC_Invert = 0x0004;
+
+
 	static final int HITOUT_WIDTH_1_REG = REG_12;
 	static final int HITOUT_WIDTH_1_BIT = 0;
 	static final int HITOUT_WIDTH_2_REG = REG_12;
@@ -94,6 +100,48 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 	}
 
 
+	/**
+	 * Arm ADC cmd register to accept incoming positive pulses.
+	 * User should make sure DAC values are set around 500.
+	 */
+	void armSetPolarityPositive() {
+		//Set bit 15 of register2 to 1 to address all ADC's
+		setRegister(REG_2, getRegister(REG_2) | (1 << 15));
+
+		//Write 0x1404 to all ADCs	(this sets 2's compliment)
+		int reg20val = ADC_OutputMode | getADCInvertMask();
+
+		Logger.getLogger("global").info(String.format("SetADCPositive() reg20 value 0x%04x", reg20val));
+
+		setRegister(REG_20, reg20val);
+	}
+
+
+	/**
+	 * Set ADC cmd register to accept incoming negative pulses.
+	 * User should make sure DAC values are set around 3300.
+	 */
+	void armSetPolarityNegative() {
+		//Set bit 15 of register2 to 1 to address all ADC's
+		setRegister(REG_2, getRegister(REG_2) | (1 << 15));
+
+		int reg20val = ADC_OutputMode;
+
+		Logger.getLogger("global").info(String.format("SetADCNegative() reg20 value 0x%04x", reg20val));
+
+		//Write 0x1400 to all ADCs
+		setRegister(REG_20, reg20val);
+	}
+
+
+	/**
+	 * Note: This currently sends these commands to ALL EFADCs in the DAQ network
+	 */
+	void sendADCCmdToAll() {
+		//Write 0xFF01 to all ADCs
+		setRegister(REG_20, 0xFF01);
+	}
+
 	public int getHitOutDelay(int det) {
 		switch (det) {
 			case 1:
@@ -126,7 +174,7 @@ public abstract class EFADC_RegisterSet extends RegisterSet implements EFADC_Reg
 		}
 	}
 
-	
+
 	public ChannelBuffer encode(boolean header) {
 		int[] regs = getRegistersCombined();
 
