@@ -112,7 +112,7 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("129.57.53.60", 14999);
+		m_Con = new Connector("1.2.3.9", 14999);
 
 		// Open socket and request device info
 		Future<EFADC_Client> connectFuture = m_Con.connect(true);	// debugging on
@@ -198,7 +198,18 @@ public class Test {
 	private void init() {
 
 		// Need to enable EFADC's
+
+		Logger.getGlobal().info("\n *** Press ENTER to send SET EFADC registers ***\n");
+		try {
+			System.in.read();
+		} catch (Exception e) {}
+
 		m_DeviceClient.SendSetRegisters(0);
+
+		Logger.getGlobal().info("\n *** Press ENTER to send READ EFADC registers ***\n");
+		try {
+			System.in.read();
+		} catch (Exception e) {}
 
 		Logger.getGlobal().info("Reading EFADC registers");
 
@@ -254,6 +265,7 @@ public class Test {
 		}
 		*/
 
+		System.exit(0);
 	}
 
 
