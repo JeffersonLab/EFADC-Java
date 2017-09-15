@@ -34,6 +34,8 @@ public class EFADC_RegisterSet extends RegisterSet {
 
 	static final byte FUNC_EFADC_REG = (byte)0x00;
 
+	static final double trigDelayNs = 512.0e-9;
+
 	long lastUpdated;
 
 	//Status registers
@@ -200,9 +202,9 @@ public class EFADC_RegisterSet extends RegisterSet {
 	 * Bits 12..0 of Config Register 18 control self trigger rate
 	 * Bit 15 of Config Register 18 must be 0
 	 * @param active
-	 * @param rate
+	 * @param counts Delay count per trigger, 1 count = 512nS
 	 */
-	public void setSelfTrigger(boolean active, int rate) {
+	public void setSelfTrigger(boolean active, int counts) {
 		int regVal = register[REG_1];
 
 		if (active) {
@@ -213,7 +215,7 @@ public class EFADC_RegisterSet extends RegisterSet {
 
 			regVal = register[REG_18];
 
-			regVal = (regVal & 0x7000) | (rate & 0x1fff);
+			regVal = (regVal & 0x7000) | (counts & 0x1fff);
 
 			register[REG_18] = regVal;
 
@@ -223,6 +225,17 @@ public class EFADC_RegisterSet extends RegisterSet {
 
 			register[REG_1] = regVal;
 		}
+	}
+
+
+	public void setSelfTriggerRate(double rateHz) {
+		int counts = (int)Math.round(1.0 / (rateHz * trigDelayNs));
+
+		int regVal = register[REG_18];
+
+		regVal = (regVal & 0x7000) | (counts & 0x1fff);
+
+		register[REG_18] = regVal;
 	}
 
 
