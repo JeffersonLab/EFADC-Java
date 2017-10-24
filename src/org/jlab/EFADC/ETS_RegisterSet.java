@@ -75,6 +75,14 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 				register[i] = newRegs[i];
 			}
 		}
+
+		for (int i = 0; i < status.length; i++) {
+			if (status[i] != reg.status[i]) {
+				status[i] = reg.status[i];
+			}
+		}
+
+		lastUpdated = System.currentTimeMillis();
 	}
 
 
@@ -88,6 +96,20 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		// module has index origin 1
 		adc.set(regs.module() - 1, regs);
+	}
+
+	/**
+	 * @param n Index of ADC from 1 to num ADC's
+	 * @param r Registers to set
+	 */
+	public void setADCRegisters(int n, ETS_EFADC_RegisterSet r) throws EFADC_InvalidADCException {
+		if (n < 1 || n > adc.size() + 1) {
+			throw new EFADC_InvalidADCException();
+		}
+
+		Logger.getGlobal().info(String.format("setADCRegisters: %d", n));
+
+		adc.set(n - 1, r);
 	}
 
 
@@ -160,21 +182,6 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		}
 
 		return adcReg;
-	}
-
-
-	/**
-	 * @param n Index of ADC from 1 to num ADC's
-	 * @param r Registers to set
-	 */
-	public void setADCRegisters(int n, ETS_EFADC_RegisterSet r) throws EFADC_InvalidADCException {
-		if (n < 1 || n > adc.size() + 1) {
-			throw new EFADC_InvalidADCException();
-		}
-
-		Logger.getGlobal().info(String.format("setADCRegisters: %d", n));
-
-		adc.set(n - 1, r);
 	}
 
 

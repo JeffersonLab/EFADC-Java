@@ -9,6 +9,7 @@ import org.jlab.EFADC.logging.ErrorFormatter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -45,6 +46,8 @@ public class Test {
 	ClientHandler m_Handler;
 	Connector m_Con;
 
+	Scanner scanner = new Scanner(System.in);
+
 
 	class TestClientHandler extends BasicClientHandler {
 		LinkedBlockingQueue<EventSet> eventQueue;
@@ -72,15 +75,18 @@ public class Test {
 			Logger.getGlobal().info("in main ClientHandler, connected()");
 		}
 
+		/*
 		@Override
 		public void registersReceived(RegisterSet regs) {
 			super.registersReceived(regs);
 
-			//Logger.getGlobal().info("registersReceived");
+			Logger.getGlobal().info("registersReceived");
 
 			// This cast should be avoided, put setRegisterSet in the Client interface?
-			m_DeviceClient.setRegisterSet(regs);
+			// This is called in the superclass implementation
+			//m_DeviceClient.setRegisterSet(regs);
 		}
+		*/
 
 		@Override
 		public void eventReceived(EFADC_DataEvent event) {
@@ -112,7 +118,7 @@ public class Test {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("1.2.3.9", 14999);
+		m_Con = new Connector("129.57.53.60", 14999);
 
 		// Open socket and request device info
 		Future<EFADC_Client> connectFuture = m_Con.connect(true);	// debugging on
@@ -158,7 +164,7 @@ public class Test {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	/*
+
 		try {
 			m_NetworkClient.SetRawOutputFile("ped_out.bin");
 		} catch (IOException e) {
@@ -168,6 +174,68 @@ public class Test {
 		Logger.getLogger("Registers after Init()");
 		m_DeviceClient.ReadRegisters();
 
+
+		/*
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		startAcquisition();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		stopAcquisition();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		startAcquisition();
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		stopAcquisition();
+		*/
+
+		/*
+		boolean again = true;
+
+		do {
+			Logger.getGlobal().info("\n *** Select C (Collect On), O (Collect Off) or E (Exit) ***\n");
+			String input = "";
+			try {
+				input = scanner.nextLine();
+			} catch (Exception e) {}
+
+			if (input.startsWith("E"))
+				again = false;
+			else if (input.startsWith("C")) {
+				startAcquisition();
+			} else if (input.startsWith("O")) {
+				stopAcquisition();
+			}
+
+		} while (!again);
+		*/
+
+		/*
+		Logger.getGlobal().info("\n *** Press ENTER to run pedestal calibration ***\n");
+		try {
+			scanner.nextLine();
+		} catch (Exception e) {}
+		*/
 
 		Logger.getGlobal().info("Running pedestal acquisition...");
 		pedestals();
@@ -190,7 +258,8 @@ public class Test {
 
 		Logger.getLogger("Registers after acquisition");
 		m_DeviceClient.ReadRegisters();
-	*/
+
+
 	}
 
 
@@ -199,17 +268,21 @@ public class Test {
 
 		// Need to enable EFADC's
 
+		/*
 		Logger.getGlobal().info("\n *** Press ENTER to send SET EFADC registers ***\n");
 		try {
-			System.in.read();
+			scanner.nextLine();
 		} catch (Exception e) {}
+		*/
 
 		m_DeviceClient.SendSetRegisters(0);
 
+		/*
 		Logger.getGlobal().info("\n *** Press ENTER to send READ EFADC registers ***\n");
 		try {
-			System.in.read();
+			scanner.nextLine();
 		} catch (Exception e) {}
+		*/
 
 		Logger.getGlobal().info("Reading EFADC registers");
 
@@ -221,10 +294,6 @@ public class Test {
 			e.printStackTrace();
 		}
 
-		//Sync behavior has changed with the master/slave setup
-		//m_Client.SetSync(true);
-
-		/*
 
 		m_DeviceClient.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
 				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
@@ -249,12 +318,6 @@ public class Test {
 		m_DeviceClient.SetIdentityMatrix();
 
 		m_DeviceClient.SendSetRegisters(1);
-
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-		}
-
 		m_DeviceClient.SendSetRegisters(2);
 
 
@@ -263,9 +326,7 @@ public class Test {
 		} catch (InterruptedException e) {
 
 		}
-		*/
 
-		System.exit(0);
 	}
 
 
@@ -274,6 +335,7 @@ public class Test {
 
 		//m_Client.SendSetRegisters(true);
 
+		Logger.getGlobal().info(">> Start Acquisition");
 
 		try {
 		//	Thread.sleep(50);
@@ -285,6 +347,9 @@ public class Test {
 	}
 
 	private void stopAcquisition() {
+
+		Logger.getGlobal().info(">> Stop Acquisition");
+
 		try {
 			m_DeviceClient.StopCollection();
 
@@ -303,7 +368,6 @@ public class Test {
 
 		//Adjust coincidence window widths so the self triggering correlates
 		m_DeviceClient.SetCoincidenceWindowWidth(50);
-
 
 		m_DeviceClient.SetSelfTrigger(true, 200);	// ~10Khz trigger
 		m_DeviceClient.SendSetRegisters(1);		// Need to send to all efadcs

@@ -1,5 +1,7 @@
 package org.jlab.EFADC;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: john
@@ -30,10 +32,12 @@ public class EFADC_ChannelContext {
 	}
 
 	public Client getDeviceClient() {
+		Logger.getGlobal().info("getDeviceClient: " + m_DeviceClient);
 		return m_DeviceClient;
 	}
 
 	public void setDeviceClient(Client c) {
+		Logger.getGlobal().info("setDeviceClient: " + c);
 		m_DeviceClient = c;
 	}
 

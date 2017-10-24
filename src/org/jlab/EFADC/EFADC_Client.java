@@ -24,6 +24,8 @@ public class EFADC_Client implements Client {
 	protected NetworkClient		m_NetworkClient;
 	boolean isConnected = false;
 
+	public static boolean DEBUG = false;
+
 
 	public EFADC_Client() {
 		m_Registers = new EFADC_RegisterSet();
@@ -580,6 +582,7 @@ public class EFADC_Client implements Client {
 	 * Set all DAC values for a specific efadc register set.  Specific EFADC must be selected beforehand if sending to a CMP.
 	 * @param values DAC Values
 	 * @param reg EFADC Registers
+	 * @param adc EFADC index (starts with 1, 0 will send to all EFADCs)
 	 * @return
 	 */
 	protected boolean sendDACValues(int[] values, EFADC_RegisterSet reg, int adc) {
@@ -663,7 +666,8 @@ public class EFADC_Client implements Client {
 
 	public boolean StopCollection() throws Exception {
 
-		m_NetworkClient.removeTimeoutHandler();
+		if (m_AggregatorEnable)
+			m_NetworkClient.removeTimeoutHandler();
 
 		m_AcquisitionActive = false;
 

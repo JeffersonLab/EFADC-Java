@@ -79,7 +79,7 @@ public class Connector {
 				// Create an m_Device object and request device specific registers
 				// This will complete the Connect process
 
-				if (info.m_Version == ETS_RegisterSet.MIN_VERSION) {
+				if (info.m_Version >= ETS_RegisterSet.MIN_VERSION) {
 					// m_Device was already instantiated as an EFADC_Client, just init the subclass here
 					m_Device = new ETS_Client(m_Client);
 
@@ -99,6 +99,7 @@ public class Connector {
 
 		/**
 		 * Step 2 in the connection process, device specific registers are received,
+		 * sync command is sent
 		 * @param registers
 		 */
 		@Override
@@ -114,6 +115,13 @@ public class Connector {
 
 			if (m_ConnectState == ConnectState.CONNECTING) {
 				m_ConnectState = ConnectState.CONNECTED;
+
+				m_Device.SendSync();
+
+				// Wait required 200 uS
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {}
 
 				m_Device.setConnected(true);
 

@@ -89,8 +89,8 @@ public abstract class Command {
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
-		buf.writeByte(OPCODE_ACT_CMD);
-		buf.writeByte(CMD_ACT_READBACK_ETS);
+		buf.writeByte(OPCODE_ACT_CMD);			// 02
+		buf.writeByte(CMD_ACT_READBACK_ETS);	// 05
 
 		return buf;
 	}

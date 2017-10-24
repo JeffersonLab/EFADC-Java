@@ -21,6 +21,8 @@ public class ETS_Client extends EFADC_Client implements Client {
 	private static final int POLARITY_NEGATIVE_MASK = 0x1400;
 	private static final int POLARITY_POSITIVE_MASK = 0x1401;
 
+	public static final int SET_DELAY=50;
+
 
 	public ETS_Client() {
 		m_Registers = new ETS_RegisterSet(this);
@@ -54,7 +56,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 
 	public void setRegisterSet(ETS_EFADC_RegisterSet regs) {
-		Logger.getGlobal().info("setRegisterSet ETS_EFADC");
+		Logger.getGlobal().info("setRegisterSet ETS_EFADC module: " + regs.module());
 
 		// Assuming m_Registers is already ETS_RegisterSet
 		m_Registers.setEFADCRegisterSet(regs);
@@ -64,9 +66,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 		Logger.getGlobal().info("setRegisterSet ETS: " + regs);
 
 		// Don't replace entirely because we'll lose information
-		// ??
-		//m_Registers.update(regs);
-		m_Registers = regs;
+		m_Registers.update(regs);
 	}
 
 
@@ -93,7 +93,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 			m_NetworkClient.SendCommand(m_Registers);
 
-			Thread.sleep(500);
+			Thread.sleep(SET_DELAY);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -253,7 +253,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	public void SetNSB(int window) {
 		ETS_EFADC_RegisterSet adcReg;
 
-		ETS_RegisterSet etsReg = (ETS_RegisterSet)m_Registers;
+		ETS_RegisterSet etsReg = m_Registers;
 
 
 		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
@@ -276,6 +276,10 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 		int adcCount = Integer.bitCount(mask);
 
+		if (DEBUG)
+			Logger.getGlobal().info(String.format("    values[].len: %d  adcCount: %d  totalCount: %d  mask: %04x",
+				values.length, adcCount, adcCount * 16, mask));
+
 		// We need to send the ENTIRE register set a total of 16 * adcCount() times because of the way the registers were implemented in firmware...
 		if (values.length < adcCount * 16) {
 			Logger.getGlobal().severe(String.format("DAC Values array needs to be %d, currently only %d", adcCount * 16, values.length));
@@ -285,24 +289,34 @@ public class ETS_Client extends EFADC_Client implements Client {
 		int[] ival = new int[16];	// Individual dac values per efadc
 
 		// Individually address each connected & active EFADC
-		// A set to #0 sets ALL EFADC register values
-		for (int adc = 1; adc < 9; adc++, mask >>= 1) {
+
+		for (int adc = 0; adc < 8; adc++, mask >>= 1) {
 			boolean active = (mask & 0x1) == 1;
+
+			if (DEBUG)
+				Logger.getGlobal().info(String.format("    adc %d active: %s", adc+1, (active ? "true" : "false")));
 
 			if (active) {
 
+				// The APi requres an index of 1-N as the 0 idx will address all EFADCs
+				int adcApiIdx = adc + 1;
+
 				try {
-					ETS_EFADC_RegisterSet adcReg = m_Registers.getADCRegisters(adc);
+					ETS_EFADC_RegisterSet adcReg = m_Registers.getADCRegisters(adcApiIdx);
 
 					if (adcReg == null) {
 						Logger.getGlobal().warning("ADC registers null, probably uninitialized...");
 						throw new EFADC_InvalidADCException();
 					}
 
+					if (DEBUG)
+						Logger.getGlobal().info(String.format("    copying values[%d-%d] -> ival", 16*adc, (16*adc)+16));
+
 					System.arraycopy(values, 16*adc, ival, 0, 16);
 
-					if (!sendDACValues(ival, adcReg, adc)) {
-						Logger.getGlobal().warning(String.format("Failed setting regs for adc %d/%d", adc, adcCount));
+					// A set to adc 0 will send to all EFADCs, we're indexing from 0 to 8 to address adc+1
+					if (!sendDACValues(ival, adcReg, adcApiIdx)) {
+						Logger.getGlobal().warning(String.format("Failed setting regs for adc %d/%d", adcApiIdx, adcCount));
 						return false;
 					}
 
@@ -317,6 +331,60 @@ public class ETS_Client extends EFADC_Client implements Client {
 	}
 
 
+	/**
+	 * Enables self triggering for all EFADC register sets
+	 * @param enable
+	 * @param value
+	 */
+	@Override
+	public void SetSelfTrigger(boolean enable, int value) {
+		ETS_EFADC_RegisterSet adcReg;
+
+		ETS_RegisterSet etsReg = m_Registers;
+
+		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
+			try {
+				adcReg = etsReg.getADCRegisters(i);
+
+				if (adcReg != null) {
+					adcReg.setSelfTrigger(enable, value);
+					Logger.getGlobal().info(String.format("Setting self trigger ADC %d: %s", i, enable ? "true" : "false"));
+				}
+
+				} catch (EFADC_InvalidADCException e) {
+				Logger.getGlobal().warning("Invalid ADC Selection: " + i);
+			}
+		}
+	}
+
+
+	/**
+	 * Set Sync for all EFADCs
+	 * @param val
+	 */
+	@Override
+	public void SetSync(boolean val) {
+		ETS_EFADC_RegisterSet adcReg;
+
+		ETS_RegisterSet etsReg = m_Registers;
+
+		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
+			try {
+				adcReg = etsReg.getADCRegisters(i);
+
+				if (adcReg != null) {
+					adcReg.setSync(val);
+					Logger.getGlobal().info(String.format("Setting Sync for ADC %d", i));
+
+				}
+			} catch (EFADC_InvalidADCException e) {
+				Logger.getGlobal().warning("Invalid ADC Selection: " + i);
+			}
+		}
+	}
+
+
+
 	@Override
 	public void SetThreshold(int det, int thresh) {
 
@@ -327,7 +395,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 		int adcDet = det - (adc - 1) * 4;
 
 		try {
-			ETS_EFADC_RegisterSet adcReg = ((ETS_RegisterSet)m_Registers).getADCRegisters(adc);
+			ETS_EFADC_RegisterSet adcReg = m_Registers.getADCRegisters(adc);
 
 			if (adcReg == null) {
 				Logger.getGlobal().warning("NULL Register Set in SetThreshold");

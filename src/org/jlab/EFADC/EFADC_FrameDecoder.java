@@ -204,12 +204,20 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				// There is a bug where the device will send a data packet as the first response
 				// after a powerup
 
+				// Idea, assign client via constructor or other mutator method instead of checking
+				// context each time...?
+
 				// Get the device via global context
-				if (client == null)
-					client = ((EFADC_ChannelContext)ctx.getAttachment()).getDeviceClient();
+				if (client == null) {
+					EFADC_ChannelContext channelContext = (EFADC_ChannelContext)ctx.getAttachment();
+					if (channelContext == null) {
+						Logger.getGlobal().severe("NULL channelContext with non null client!");
+					} else
+						client = channelContext.getDeviceClient();
+				}
 
 				// client may still be null after this if it isn't connected
-
+				// This is a terrible way to check if we're connected, but we need a reference to the client somehow..
 				return processDataPacket(buf, mark, (client != null && client.isConnected()));
 			}
 

@@ -322,9 +322,10 @@ public class NetworkClient {
 		}
 
 		p.addBefore("handler", "decoder", decoder);
-		//p.getContext("handler").setAttachment(m_GlobalContext);
-	}
+		p.getContext("decoder").setAttachment(m_GlobalContext);
 
+		Logger.getGlobal().info("setDecoder: " + decoder);
+	}
 
 
 	public ClientHandler getHandler() {
