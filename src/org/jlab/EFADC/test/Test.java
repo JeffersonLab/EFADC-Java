@@ -237,23 +237,27 @@ public class Test {
 		} catch (Exception e) {}
 		*/
 
-		Logger.getGlobal().info("Running pedestal acquisition...");
-		pedestals();
+		for (int i = 0; i < 5; i++) {
 
-		Collection<EventSet> events = new LinkedList<>();
+			Logger.getGlobal().info("Running pedestal acquisition...");
+			pedestals();
 
-		TestClientHandler testHandler = (TestClientHandler)m_Handler;
+			Collection<EventSet> events = new LinkedList<>();
 
-		int eventCount = testHandler.getEventQueue().drainTo(events);
+			TestClientHandler testHandler = (TestClientHandler)m_Handler;
 
-		Logger.getGlobal().info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
-				m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
+			int eventCount = testHandler.getEventQueue().drainTo(events);
+
+			Logger.getGlobal().info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
+					m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
 
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 		Logger.getLogger("Registers after acquisition");
@@ -310,15 +314,14 @@ public class Test {
 		m_DeviceClient.SetThreshold(5, 1005);
 		m_DeviceClient.SetThreshold(6, 1006);
 		m_DeviceClient.SetThreshold(7, 1007);
-		m_DeviceClient.SetIntegrationWindow(25);
+		m_DeviceClient.SetIntegrationWindow(3);
 
 		m_DeviceClient.SetNSB(50);
 		m_DeviceClient.SetMode(0);
 
 		m_DeviceClient.SetIdentityMatrix();
 
-		m_DeviceClient.SendSetRegisters(1);
-		m_DeviceClient.SendSetRegisters(2);
+		m_DeviceClient.SendSetRegisters(-1);
 
 
 		try {
@@ -370,8 +373,7 @@ public class Test {
 		m_DeviceClient.SetCoincidenceWindowWidth(50);
 
 		m_DeviceClient.SetSelfTrigger(true, 200);	// ~10Khz trigger
-		m_DeviceClient.SendSetRegisters(1);		// Need to send to all efadcs
-		m_DeviceClient.SendSetRegisters(2);
+		m_DeviceClient.SendSetRegisters(-1);	// Need to send to all efadcs
 
 		try {
 			Thread.sleep(100);
@@ -390,8 +392,7 @@ public class Test {
 		stopAcquisition();
 
 		m_DeviceClient.SetSelfTrigger(false, 200);
-		m_DeviceClient.SendSetRegisters(1);
-		m_DeviceClient.SendSetRegisters(2);
+		m_DeviceClient.SendSetRegisters(-1);
 	}
 
 

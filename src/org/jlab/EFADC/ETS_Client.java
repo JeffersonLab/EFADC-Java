@@ -71,7 +71,8 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 
 	/**
-	 * @param adc
+	 * @param adc ADC selection index 1-m for individual ADC, 0 sends all ADCS the same register value
+	 *            -1 sends all ADCs their corresponding stored registers
 	 * @return
 	 */
 	@Override
@@ -79,17 +80,46 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 		// Get connected efadc's
 		int mask = m_Registers.getEFADCMask();
-		int adcBit = 1 << (adc - 1);
 
-		// 0 value will address all efadcs
-		if (adc == 0)
-			adcBit = mask;
 
-		Logger.getGlobal().info(String.format("SendSetRegisters(%d) mask %04x, adcBit %04x",
-				adc, mask, adcBit));
+		if (adc == -1) {
+			// Send all stored register sets to their own EFADC
+			// This will initiate N SendCommands
 
+			for (int pos = 0; pos < 8; pos++) {
+
+				int adcBit = mask & (1 << pos);
+
+				if (adcBit != 0) {
+
+					Logger.getGlobal().info(String.format("SendSetRegisters(%d) mask %04x, adcBit %04x",
+							adc, mask, adcBit));
+
+					sendSelectedRegisters(mask, adcBit);
+				}
+			}
+
+		} else {
+
+			int adcBit = 1 << (adc - 1);
+
+			// 0 value will address all efadcs
+			if (adc == 0)
+				adcBit = mask;
+
+			Logger.getGlobal().info(String.format("SendSetRegisters(%d) mask %04x, adcBit %04x",
+					adc, mask, adcBit));
+
+			sendSelectedRegisters(mask, adcBit);
+		}
+
+		return true;
+	}
+
+
+	private void sendSelectedRegisters(int mask, int adcBit) {
 		try {
-			m_Registers.setEFADC_Mask(mask | adcBit);
+			m_Registers.setEFADC_Mask(mask & adcBit);
 
 			m_NetworkClient.SendCommand(m_Registers);
 
@@ -97,8 +127,6 @@ public class ETS_Client extends EFADC_Client implements Client {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		return true;
 	}
 
 

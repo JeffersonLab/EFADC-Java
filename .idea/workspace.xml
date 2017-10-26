@@ -9,15 +9,8 @@
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="Fix ETS register write">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ETSHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ChannelContext.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ChannelContext.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" afterPath="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
     </list>
     <ignored path="EFADC_java.iws" />
@@ -257,16 +250,27 @@
     <splitter split-orientation="horizontal" split-proportion="0.49259827">
       <split-first>
         <leaf>
-          <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Test.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
-                  <caret line="370" column="0" lean-forward="false" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
+                <state relative-caret-position="402">
+                  <caret line="281" column="39" lean-forward="false" selection-start-line="281" selection-start-column="23" selection-end-line="281" selection-end-column="39" />
                   <folding>
                     <element signature="e#1506#1507#0" expanded="true" />
                     <element signature="e#1555#1556#0" expanded="true" />
-                    <marker date="1508860209000" expanded="true" signature="16583:16734" ph="{...}" />
+                    <element signature="method#parseArguments#0;class#Test#0" expanded="false" />
+                    <marker date="1509033287000" expanded="true" signature="16520:16671" ph="{...}" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Command.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="666">
+                  <caret line="48" column="49" lean-forward="false" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -274,8 +278,8 @@
           <file leaf-file-name="ETS_RegisterSet.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="416">
-                  <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+                <state relative-caret-position="488">
+                  <caret line="208" column="0" lean-forward="true" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="docComment;class#ETS_RegisterSet#0" expanded="false" />
@@ -288,16 +292,16 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ETS_Client.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ETS_Client.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="326">
-                  <caret line="68" column="33" lean-forward="false" selection-start-line="68" selection-start-column="33" selection-end-line="68" selection-end-column="33" />
+                <state relative-caret-position="558">
+                  <caret line="98" column="17" lean-forward="false" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="docComment;class#ETS_Client#0" expanded="false" />
-                    <element signature="e#2877#2878#0" expanded="true" />
-                    <element signature="e#2917#2918#0" expanded="true" />
+                    <element signature="e#3550#3551#0" expanded="true" />
+                    <element signature="e#3590#3591#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -306,21 +310,9 @@
           <file leaf-file-name="AbstractClientHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="278">
-                  <caret line="178" column="41" lean-forward="false" selection-start-line="178" selection-start-column="27" selection-end-line="178" selection-end-column="41" />
+                <state relative-caret-position="1343">
+                  <caret line="178" column="41" lean-forward="false" selection-start-line="178" selection-start-column="41" selection-end-line="178" selection-end-column="41" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EFADC_FrameDecoder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2940">
-                  <caret line="207" column="40" lean-forward="false" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
-                  <folding>
-                    <marker date="1507926134000" expanded="true" signature="8272:8284" ph="//..." />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -349,6 +341,18 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="EFADC_FrameDecoder.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="147">
+                  <caret line="135" column="0" lean-forward="true" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+                  <folding>
+                    <marker date="1507926134000" expanded="true" signature="8272:8284" ph="//..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="ETS_FrameDecoder.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_FrameDecoder.java">
               <provider selected="true" editor-type-id="text-editor">
@@ -365,29 +369,19 @@
           <file leaf-file-name="NetworkClient.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="411">
-                  <caret line="132" column="16" lean-forward="false" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
+                <state relative-caret-position="950">
+                  <caret line="448" column="37" lean-forward="false" selection-start-line="448" selection-start-column="37" selection-end-line="448" selection-end-column="37" />
                   <folding>
                     <element signature="e#3328#3329#0" expanded="true" />
                     <element signature="e#3357#3358#0" expanded="true" />
+                    <element signature="e#8707#8708#0" expanded="true" />
+                    <element signature="e#8741#8742#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="RegisterSet.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="840">
-                  <caret line="58" column="10" lean-forward="false" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
-                  <folding>
-                    <marker date="1505317433000" expanded="true" signature="2395:2399" ph="{...}" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EFADC_Client.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EFADC_Client.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="1092">
@@ -404,10 +398,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ETS_EFADC_RegisterSet.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ETS_EFADC_RegisterSet.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_EFADC_RegisterSet.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1260">
+                <state relative-caret-position="702">
                   <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -454,6 +448,7 @@
       <find>m_AggregatorEnable</find>
       <find>null</find>
       <find>setRegisterSet</find>
+      <find>SendSetRegisters</find>
     </findStrings>
     <replaceStrings>
       <replace>getGlobal()</replace>
@@ -495,17 +490,17 @@
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/Client.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/CMP_RegisterSet.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ChannelContext.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ETSHandler.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java" />
-        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java" />
+        <option value="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
       </list>
     </option>
   </component>
@@ -948,7 +943,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505505691357</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="data collection implemented">
+      <created>1508860277700</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1508860277700</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -991,7 +993,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23153296" sideWeight="0.49668247" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24785802" sideWeight="0.7091954" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.50157356" order="9" side_tool="false" content_ui="tabs" x="1196" y="576" width="1322" height="729" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.50157356" order="9" side_tool="false" content_ui="tabs" x="1167" y="388" width="1322" height="697" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1051,7 +1053,8 @@
     <MESSAGE value="ETS setup  and config procedure" />
     <MESSAGE value="Fix ETS register write" />
     <MESSAGE value="self trigger rate" />
-    <option name="LAST_COMMIT_MESSAGE" value="self trigger rate" />
+    <MESSAGE value="data collection implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="data collection implemented" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1130,24 +1133,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java</url>
-          <line>381</line>
+          <line>375</line>
           <properties />
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java</url>
-          <line>177</line>
-          <properties />
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java</url>
-          <line>94</line>
-          <properties />
-          <option name="timeStamp" value="38" />
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="40" />
+      <option name="time" value="45" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1169,7 +1160,8 @@
           <folding>
             <element signature="e#1506#1507#0" expanded="true" />
             <element signature="e#1555#1556#0" expanded="true" />
-            <marker date="1508860209000" expanded="true" signature="16583:16734" ph="{...}" />
+            <element signature="method#parseArguments#0;class#Test#0" expanded="false" />
+            <marker date="1509033287000" expanded="true" signature="16520:16671" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1250,7 +1242,8 @@
           <folding>
             <element signature="e#1506#1507#0" expanded="true" />
             <element signature="e#1555#1556#0" expanded="true" />
-            <marker date="1508860209000" expanded="true" signature="16583:16734" ph="{...}" />
+            <element signature="method#parseArguments#0;class#Test#0" expanded="false" />
+            <marker date="1509033287000" expanded="true" signature="16520:16671" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1393,14 +1386,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="31" column="32" lean-forward="false" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1423,27 +1408,6 @@
           <caret line="81" column="45" lean-forward="false" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
           <folding>
             <marker date="1505317433000" expanded="true" signature="10274:10358" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="58" column="10" lean-forward="false" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
-          <folding>
-            <marker date="1505317433000" expanded="true" signature="2395:2399" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_EFADC_RegisterSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;class#ETS_EFADC_RegisterSet#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1491,17 +1455,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="132" column="16" lean-forward="false" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
-          <folding>
-            <element signature="e#3328#3329#0" expanded="true" />
-            <element signature="e#3357#3358#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1520,13 +1473,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2940">
-          <caret line="207" column="40" lean-forward="false" selection-start-line="207" selection-start-column="40" selection-end-line="207" selection-end-column="40" />
-          <folding>
-            <marker date="1507926134000" expanded="true" signature="8272:8284" ph="//..." />
-          </folding>
+        <state relative-caret-position="225">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="178" column="41" lean-forward="false" selection-start-line="178" selection-start-column="41" selection-end-line="178" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1545,26 +1504,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/Client.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-          <folding />
+        <state relative-caret-position="840">
+          <caret line="58" column="10" lean-forward="false" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
+          <folding>
+            <marker date="1505317433000" expanded="true" signature="2395:2399" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="178" column="41" lean-forward="false" selection-start-line="178" selection-start-column="27" selection-end-line="178" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="950">
+          <caret line="448" column="37" lean-forward="false" selection-start-line="448" selection-start-column="37" selection-end-line="448" selection-end-column="37" />
+          <folding>
+            <element signature="e#3328#3329#0" expanded="true" />
+            <element signature="e#3357#3358#0" expanded="true" />
+            <element signature="e#8707#8708#0" expanded="true" />
+            <element signature="e#8741#8742#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="135" column="0" lean-forward="true" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+          <folding>
+            <marker date="1507926134000" expanded="true" signature="8272:8284" ph="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state relative-caret-position="488">
+          <caret line="208" column="0" lean-forward="true" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#ETS_RegisterSet#0" expanded="false" />
@@ -1576,27 +1552,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_EFADC_RegisterSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="370" column="0" lean-forward="false" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
+        <state relative-caret-position="702">
+          <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding>
-            <element signature="e#1506#1507#0" expanded="true" />
-            <element signature="e#1555#1556#0" expanded="true" />
-            <marker date="1508860209000" expanded="true" signature="16583:16734" ph="{...}" />
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#ETS_EFADC_RegisterSet#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="68" column="33" lean-forward="false" selection-start-line="68" selection-start-column="33" selection-end-line="68" selection-end-column="33" />
+        <state relative-caret-position="558">
+          <caret line="98" column="17" lean-forward="false" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#ETS_Client#0" expanded="false" />
-            <element signature="e#2877#2878#0" expanded="true" />
-            <element signature="e#2917#2918#0" expanded="true" />
+            <element signature="e#3550#3551#0" expanded="true" />
+            <element signature="e#3590#3591#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="48" column="49" lean-forward="false" selection-start-line="48" selection-start-column="49" selection-end-line="48" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="281" column="39" lean-forward="false" selection-start-line="281" selection-start-column="23" selection-end-line="281" selection-end-column="39" />
+          <folding>
+            <element signature="e#1506#1507#0" expanded="true" />
+            <element signature="e#1555#1556#0" expanded="true" />
+            <element signature="method#parseArguments#0;class#Test#0" expanded="false" />
+            <marker date="1509033287000" expanded="true" signature="16520:16671" ph="{...}" />
           </folding>
         </state>
       </provider>
