@@ -83,3 +83,7 @@ packet.txt
 *.jar
 
 *.tlsh
+
+.idea/
+.idea/*
+docs/
