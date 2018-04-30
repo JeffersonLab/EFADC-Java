@@ -7,54 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="Fix ETS register write">
+      <change afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EFADC_java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/EFADC_java.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/CMP_RegisterSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_AcquisitionIdleException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_AlreadyConnectedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_BufferWriter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ChannelContext.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ClientPipelineFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ConnectionException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_DataEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_EchoHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_EventAggregator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Exception.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_IdleHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_InvalidADCException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_LCDMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_RegisterSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_SamplesEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_EFADC_RegisterSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_FrameDecoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_RegisterSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/EventSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/NetworkClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/Tuple2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/command/CommandEncoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/logging/ErrorFormatter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/AbstractMatrix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/CoincidenceMatrix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/Matrix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixEncoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/matrix/RegisterMatrix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/replay/ReplayController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/replay/ReplayHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" afterDir="false" />
     </list>
     <ignored path="EFADC_java.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -290,11 +247,60 @@
     <favorites_list name="EFADC_java" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Test.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="555">
+                  <caret line="53" column="27" selection-start-line="53" selection-start-column="27" selection-end-line="53" selection-end-column="27" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TestClientHandler.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="77">
+                  <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Connector.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/Connector.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="43">
+                  <caret line="16" column="22" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="22" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="ConnectorTest.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="403">
+                  <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JUnit4 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -378,6 +384,9 @@
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/command/Command.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/ETS_Client.java" />
         <option value="$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
+        <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" />
+        <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" />
       </list>
     </option>
   </component>
@@ -459,6 +468,27 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="EFADC" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="EFADC_java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EFADC_java_3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="EFADC" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EFADC_java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EFADC_java_3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EFADC_java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EFADC_java_3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="EFADC" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -492,6 +522,8 @@
     <property name="OverrideImplement.combined" value="true" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Applications/Kmax1020/netty-3.9.5.Final.jar!/" />
     <property name="options.lastSelected" value="reference.projectsettings.compiler.javacompiler" />
@@ -506,12 +538,18 @@
     <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.jlab.EFADC" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.jlab.EFADC.matrix" />
       <recent name="org.jlab.EFADC.test" />
       <recent name="org.jlab.EFADC.replay" />
       <recent name="org.jlab.EFADC.command" />
       <recent name="org.jlab.EFADC.handler" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -526,7 +564,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ConnectorTest">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -545,6 +583,29 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="ConnectorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EFADC_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jlab.EFADC.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jlab.EFADC" />
+      <option name="MAIN_CLASS_NAME" value="org.jlab.EFADC.ConnectorTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <patterns />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -709,6 +770,15 @@
       <JdkChoice value="FROM_MODULE" />
       <method />
     </configuration>
+    <list>
+      <item itemvalue="Application.EFADC_Test" />
+      <item itemvalue="JUnit.ConnectorTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ConnectorTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="StructureViewFactory">
     <option name="ACTIVE_ACTIONS" value="ALPHA_COMPARATOR,SHOW_ANONYMOUS,SHOW_FIELDS,SHOW_INHERITED" />
@@ -762,6 +832,14 @@
     <option name="localTasksCounter" value="6" />
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="ConnectorTest - 2018.04.30 at 14h 07m 19s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.04.30 at 14h 08m 41s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
       <are-packages-shown value="false" />
@@ -784,19 +862,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2560" height="1414" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32873562" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.99424875" visible="true" weight="0.1854714" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" sideWeight="0.7076749" weight="0.3298466" />
-      <window_info anchor="bottom" x="617" y="732" width="995" height="589" id="Run" order="3" type="FLOATING" weight="0.3047404" />
+      <window_info anchor="bottom" x="517" y="449" width="995" height="589" id="Run" order="3" type="FLOATING" weight="0.3047404" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.24668874" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3294753" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5015456" visible="true" weight="0.23471008" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5009488" visible="true" weight="0.23471008" />
       <window_info anchor="bottom" id="Statistic" order="0" sideWeight="0.49842644" weight="0.3294753" />
-      <window_info id="Structure" order="0" sideWeight="0.4984544" side_tool="true" visible="true" weight="0.23471008" />
+      <window_info id="Structure" order="0" sideWeight="0.49905124" side_tool="true" visible="true" weight="0.23471008" />
       <window_info anchor="right" id="Ant Build" order="1" sideWeight="0.7091954" weight="0.24785802" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="bottom" x="1167" y="388" width="1322" height="697" id="Debug" order="9" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
@@ -806,7 +886,6 @@
       <window_info anchor="bottom" id="Application Servers" order="11" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Problems" order="13" />
-      <window_info active="true" anchor="bottom" id="Messages" order="7" sideWeight="0.99424875" visible="true" weight="0.18595679" />
       <window_info anchor="right" id="Commander" order="0" sideWeight="0.7076749" weight="0.39902082" />
       <window_info anchor="bottom" id="Changes" order="12" weight="0.32873562" />
       <window_info anchor="right" id="LuaJ" order="7" />
@@ -955,47 +1034,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="217" column="17" />
-          <folding>
-            <element signature="e#1506#1507#0" expanded="true" />
-            <element signature="e#1555#1556#0" expanded="true" />
-            <element signature="method#parseArguments#0;class#Test#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="209" column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="29" column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="304" />
-          <folding>
-            <element signature="e#1426#1427#0" expanded="true" />
-            <element signature="e#1450#1451#0" expanded="true" />
-            <element signature="e#1637#1638#0" expanded="true" />
-            <element signature="e#1668#1669#0" expanded="true" />
-            <element signature="e#15216#15217#0" expanded="true" />
-            <element signature="e#15270#15271#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_ClientPipelineFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1359,6 +1397,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/Connector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="43">
+          <caret line="16" column="22" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="53" column="27" selection-start-line="53" selection-start-column="27" selection-end-line="53" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
@@ -1375,6 +1444,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
