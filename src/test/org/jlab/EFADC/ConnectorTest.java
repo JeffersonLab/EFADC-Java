@@ -23,6 +23,9 @@ public class ConnectorTest {
 
 	@Before
 	public void setUp() throws Exception {
+
+		TestCommon.setupLogging();
+
 		m_Handler = new TestClientHandler();
 
 		m_Con = new Connector("129.57.53.60", 14999);

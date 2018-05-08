@@ -109,14 +109,6 @@ public class Test {
 	}
 
 
-	private static void setupLogging() {
-		Logger.getGlobal().setUseParentHandlers(false);
-		Handler h = new ConsoleHandler();
-		h.setFormatter(new ErrorFormatter());
-		Logger.getGlobal().addHandler(h);
-	}
-
-
 	private static void parseArguments(String[] args, EFADC_Client client) {
 		int i = 0, j;
 		String arg;
@@ -307,7 +299,7 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 
-		setupLogging();
+		//setupLogging();
 
 		new Test();
 
