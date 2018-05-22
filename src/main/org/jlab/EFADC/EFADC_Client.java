@@ -22,7 +22,7 @@ public class EFADC_Client implements Client {
 	boolean						m_AcquisitionActive = false;
 
 	protected NetworkClient		m_NetworkClient;
-	boolean isConnected = false;
+	private boolean isConnected = false;
 
 	public static boolean DEBUG = false;
 
