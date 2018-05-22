@@ -78,7 +78,15 @@ public class EFADC_DataEvent extends AbstractEvent implements EFADC_Event {
 	}
 
 	public long getTimestamp() {
-		return (buf.getInt(2) << 16) | buf.getShort(6);
+
+		long high = buf.getInt(2);
+		high <<= 16;
+
+		int low = buf.getShort(6);
+		//prevent sign extension
+		low &= 0x0000ffff;
+
+		return high | low;
 	}
 
 	public int getTriggerId() {
