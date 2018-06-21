@@ -150,7 +150,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			buf.skipBytes(4);	// Dont skip over register header
 			ChannelBuffer frame = buf.readBytes(frameSize);
 
-			CMP_RegisterSet regs = new CMP_RegisterSet(nADC);
+			CMP_RegisterSet regs = RegisterFactory.InitCMPRegisters(nADC);
 			regs.decode(frame);
 			return regs;
 

@@ -41,7 +41,7 @@ public class ETS_FrameDecoder extends EFADC_FrameDecoder {
 
 			ChannelBuffer frame = buf.readBytes(frameSize);
 
-			ETS_RegisterSet regs = new ETS_RegisterSet(m_Client);
+			ETS_RegisterSet regs = RegisterFactory.InitETSRegisters(m_Client);
 			regs.decode(frame);
 			return regs;
 

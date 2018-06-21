@@ -7,10 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="Fix ETS register write">
-      <change afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/TestCommon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/RegisterFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_FrameDecoder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_FrameDecoder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_RegisterSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_RegisterSet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/CMP_RegisterSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/CMP_RegisterSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_FrameDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_FrameDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_FrameDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_FrameDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" afterDir="false" />
     </list>
     <ignored path="EFADC_java.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -249,41 +257,97 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="565">
-                  <caret line="301" column="10" selection-start-line="301" selection-start-column="10" selection-end-line="301" selection-end-column="10" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestCommon.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestCommon.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Connector.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/Connector.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1182">
+                <state>
                   <caret line="16" column="22" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ConnectorTest.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ConnectorTest.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2163">
-                  <caret line="184" column="15" lean-forward="true" selection-start-line="184" selection-start-column="15" selection-end-line="184" selection-end-column="15" />
+                <state relative-caret-position="378">
+                  <caret line="184" column="15" selection-start-line="184" selection-start-column="15" selection-end-line="184" selection-end-column="15" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MatrixRegisterEncoder.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="589">
+                  <caret line="62" selection-start-line="62" selection-end-line="62" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AbstractMatrix.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="240">
+                  <caret line="17" column="42" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="42" />
+                  <folding>
+                    <element signature="e#543#544#0" expanded="true" />
+                    <element signature="e#568#569#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ETS_RegisterSet.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="268">
+                  <caret line="58" column="58" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CMP_RegisterSet.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/CMP_RegisterSet.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="520">
+                  <caret line="59" selection-start-line="59" selection-end-line="59" />
+                  <folding>
+                    <element signature="e#1320#1321#0" expanded="true" />
+                    <element signature="e#1334#1335#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ETS_Client.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_Client.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="331">
+                  <caret line="393" column="16" selection-start-line="393" selection-start-column="16" selection-end-line="393" selection-end-column="16" />
+                  <folding>
+                    <element signature="e#3273#3274#0" expanded="true" />
+                    <element signature="e#3313#3314#0" expanded="true" />
+                    <element signature="e#3550#3551#0" expanded="true" />
+                    <element signature="e#3590#3591#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="RegisterFactory.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/RegisterFactory.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="300">
+                  <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EFADC_Client.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_Client.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="210">
+                  <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
                 </state>
               </provider>
             </entry>
@@ -292,14 +356,32 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="TestClientHandler.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EFADC_FrameDecoder.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_FrameDecoder.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="420">
+                  <caret line="152" column="74" selection-start-line="152" selection-start-column="74" selection-end-line="152" selection-end-column="74" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TestClientHandler.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="33" column="10" lean-forward="true" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
+                <state relative-caret-position="360">
+                  <caret line="33" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ETS_FrameDecoder.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_FrameDecoder.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="570">
+                  <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
                 </state>
               </provider>
             </entry>
@@ -359,6 +441,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="efadcv3" />
+      </map>
+    </option>
   </component>
   <component name="GitLogSettings">
     <option name="myDateState">
@@ -400,6 +487,14 @@
         <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/TestCommon.java" />
         <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java" />
         <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_Client.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_FrameDecoder.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/RegisterFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_FrameDecoder.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/CMP_RegisterSet.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java" />
       </list>
     </option>
   </component>
@@ -416,7 +511,7 @@
   <component name="MavenRunner">
     <option name="jreName" value="1.6" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="22" />
     <option name="width" value="2560" />
     <option name="height" value="1414" />
@@ -504,8 +599,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -710,78 +805,9 @@
       <properties />
       <listeners />
     </configuration>
-    <configuration default="true" type="JarApplication" factoryName="JAR Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="SCRATCH_FILE_ID" value="0" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="EFADC_java" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
-    </configuration>
-    <configuration default="true" type="XSLT" factoryName="XSLT">
-      <option name="myOutputFile" />
-      <option name="myOpenOutputFile" value="false" />
-      <option name="myOpenInBrowser" value="false" />
-      <option name="mySmartErrorHandling" value="true" />
-      <option name="myRunnerPort" value="34873" />
-      <option name="myVmArguments" />
-      <option name="myWorkingDirectory" />
-      <option name="myModule" />
-      <option name="myJdk" />
-      <parameters />
-      <OutputType value="CONSOLE" save-to-file="false" />
-      <FileType name="XML" />
-      <JdkChoice value="FROM_MODULE" />
-      <method />
     </configuration>
     <list>
       <item itemvalue="Application.EFADC_Test" />
@@ -789,6 +815,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ConnectorTest" />
         <item itemvalue="JUnit.ConnectorTest" />
       </list>
     </recent_temporary>
@@ -846,10 +873,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ConnectorTest - 2018.04.30 at 14h 07m 19s.xml">
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 47m 32s.xml">
       <configuration name="ConnectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ConnectorTest - 2018.04.30 at 14h 08m 41s.xml">
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 47m 47s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 49m 51s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 50m 27s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 53m 46s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 14h 54m 48s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 15h 00m 24s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 15h 20m 02s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 15h 30m 29s.xml">
+      <configuration name="ConnectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ConnectorTest - 2018.06.19 at 15h 31m 43s.xml">
       <configuration name="ConnectorTest" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -874,24 +925,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="2560" height="1414" extended-state="0" />
+    <frame x="-2" y="22" width="2560" height="1414" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32873562" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.99424875" weight="0.1854714" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" sideWeight="0.7076749" weight="0.3298466" />
-      <window_info anchor="bottom" x="517" y="449" width="995" height="589" id="Run" order="3" type="FLOATING" weight="0.3047404" />
+      <window_info anchor="bottom" x="1437" y="557" width="995" height="589" id="Run" order="3" type="FLOATING" weight="0.3047404" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.24668874" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3294753" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23648648" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49825785" visible="true" weight="0.24046105" />
       <window_info anchor="bottom" id="Statistic" order="0" sideWeight="0.49842644" weight="0.3294753" />
-      <window_info id="Structure" order="0" side_tool="true" visible="true" weight="0.23648648" />
+      <window_info anchor="bottom" id="Find" order="2" visible="true" weight="0.33462134" />
+      <window_info id="Structure" order="0" sideWeight="0.5017422" side_tool="true" visible="true" weight="0.24046105" />
       <window_info anchor="right" id="Ant Build" order="1" sideWeight="0.7091954" weight="0.24785802" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" x="1167" y="388" width="1322" height="697" id="Debug" order="9" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
+      <window_info anchor="bottom" x="536" y="545" width="1322" height="697" id="Debug" order="9" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="right" id="Code Iris" order="4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -904,15 +957,14 @@
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Changes" order="12" weight="0.32873562" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.33564815" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.99424875" visible="true" weight="0.1854714" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Application Servers" order="12" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.24668874" />
       <window_info anchor="bottom" id="Problems" order="14" />
-      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.99424875" weight="0.28703704" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.51929015" visible="true" weight="0.22676727" />
       <window_info id="Structure" order="0" sideWeight="0.48070988" side_tool="true" visible="true" weight="0.22676727" />
       <window_info anchor="right" id="Commander" order="0" sideWeight="0.7076749" weight="0.39902082" />
@@ -924,7 +976,6 @@
       <window_info anchor="right" id="LuaJ" order="7" />
       <window_info id="UI Designer" order="3" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="JetGradle" order="6" />
       <window_info anchor="bottom" x="1214" y="624" width="1322" height="729" id="Debug" order="11" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.3294753" />
@@ -932,8 +983,8 @@
       <window_info anchor="bottom" id="Find" order="2" weight="0.33564815" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Statistic" order="0" sideWeight="0.49842644" weight="0.3294753" />
-      <window_info anchor="bottom" id="Application Servers" order="12" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.99424875" weight="0.28703704" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="right" id="JetGradle" order="6" />
       <window_info anchor="right" id="Maven Projects" order="4" sideWeight="0.7076749" weight="0.3298466" />
       <window_info id="Favorites" order="4" side_tool="true" />
     </layout-to-restore>
@@ -1032,8 +1083,14 @@
           <properties />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java</url>
+          <line>242</line>
+          <properties />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="45" />
+      <option name="time" value="48" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1047,19 +1104,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_FrameDecoder.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EventSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/Connector.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/RegisterSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/AbstractClientHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/BasicClientHandler.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/RegisterMatrix.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_EventAggregator.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EventSet.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/Matrix.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixEncoder.java" />
-    <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/AbstractMatrix.java" />
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/EFADC_DataEvent.java" />
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/CoincidenceMatrix.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/src.zip!/java/math/BigInteger.java">
@@ -1123,10 +1167,24 @@
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/handler/ClientHandler.java" />
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/DeviceInfo.java" />
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/test/Test.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_DataEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="33" column="10" lean-forward="true" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
+        <state relative-caret-position="561">
+          <caret line="46" column="55" selection-start-line="46" selection-start-column="55" selection-end-line="46" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4275">
+          <caret line="301" column="10" selection-start-line="301" selection-start-column="10" selection-end-line="301" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestCommon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1135,32 +1193,127 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/Connector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1182">
+        <state>
           <caret line="16" column="22" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestCommon.java">
+    <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/TestClientHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="360">
+          <caret line="33" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/test/Test.java">
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_IdleHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="565">
-          <caret line="301" column="10" selection-start-line="301" selection-start-column="10" selection-end-line="301" selection-end-column="10" />
+        <state relative-caret-position="225">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2163">
-          <caret line="184" column="15" lean-forward="true" selection-start-line="184" selection-start-column="15" selection-end-line="184" selection-end-column="15" />
+        <state relative-caret-position="378">
+          <caret line="184" column="15" selection-start-line="184" selection-start-column="15" selection-end-line="184" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="10" column="53" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="53" />
+          <folding>
+            <element signature="e#273#274#0" expanded="true" />
+            <element signature="e#296#297#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="393" column="16" selection-start-line="393" selection-start-column="16" selection-end-line="393" selection-end-column="16" />
+          <folding>
+            <element signature="e#3273#3274#0" expanded="true" />
+            <element signature="e#3313#3314#0" expanded="true" />
+            <element signature="e#3550#3551#0" expanded="true" />
+            <element signature="e#3590#3591#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_FrameDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/EFADC_FrameDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="152" column="74" selection-start-line="152" selection-start-column="74" selection-end-line="152" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/RegisterFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="17" column="42" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="42" />
+          <folding>
+            <element signature="e#543#544#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/CMP_RegisterSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="e#1320#1321#0" expanded="true" />
+            <element signature="e#1334#1335#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="58" column="58" selection-start-line="58" selection-start-column="58" selection-end-line="58" selection-end-column="58" />
         </state>
       </provider>
     </entry>

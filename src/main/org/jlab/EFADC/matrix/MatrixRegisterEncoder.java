@@ -20,23 +20,23 @@ public class MatrixRegisterEncoder {
 	 *
 	 * @param mOR OR table entry
 	 * @param mAND AND table entry
-	 * @param size Field size of each entry in the encoded matrix (bits)
+	 * @param fieldWidthBits Field size of each entry in the encoded matrix (bits)
 	 * @param offset Bitwise offset of each entry in each encoded field
 	 * @param order
 	 * @return Encoded matrix
 	 */
-	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int size, int offset, int order) {
+	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits, int offset, int order) {
 
-		assert(size == 0);
+		assert fieldWidthBits != 0;
 
-		int nDetectors = mOR.getBitSize();			// 27
-		int nRegisters = mOR.getRegisterCount();	// 54
+		int nDetectors = mOR.getBitSize();
+		int nRegisters = mOR.getRegisterCount();
 
-		nRegisters /= 2;	// convert to bytes, each register is 16 bits (2 bytes)
+		//nRegisters /= 2;	// convert to bytes, each register is 16 bits (2 bytes)
 
 		// TODO: Calculate correct size
 		// Create buffer large enough to hold the entire encoded matrix
-		ChannelBuffer buffer = buffer(216);
+		ChannelBuffer buffer = buffer(nRegisters * 4);
 
 		//int registerShift = 0;
 

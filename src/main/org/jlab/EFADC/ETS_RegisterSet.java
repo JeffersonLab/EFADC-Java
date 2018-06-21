@@ -1,6 +1,7 @@
 package org.jlab.EFADC;
 
 import org.jboss.netty.buffer.ChannelBuffer;
+import org.jlab.EFADC.matrix.MatrixFactory;
 import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
 
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	private int m_EFADCSelect_Mask = 0;
 
 
-
 	ETS_RegisterSet(ETS_Client client) {
 
 		// This leaves adc arraylist uninitialized
@@ -52,6 +52,15 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 			adc.add(null);
 
 		Logger.getGlobal().info(" ::ETS_RegisterSet()");
+	}
+
+	void initTables() {
+		m_ORTable = MatrixFactory.newCoincidenceMatrix(27, 108);
+		m_ANDTable = MatrixFactory.newCoincidenceMatrix(27, 108);
+
+		// as of ETS 3600 it can still only support 27 EFADC's
+		m_DelayTable = MatrixFactory.newRegisterMatrix(27,7);
+		m_WidthTable = MatrixFactory.newRegisterMatrix(27, 7);
 	}
 
 	public ETS_Client client() {
@@ -230,7 +239,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		}
 
 		// Encode coincidence table entries
-		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 32);	// ~216 bytes
+		// 64 bit field widths
+		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 64);
 
 		buffer.writeBytes(matrixBuf);
 

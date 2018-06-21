@@ -58,13 +58,6 @@ public class CMP_RegisterSet extends RegisterSet {
 		register = new int[NUM_WRITE_REGS];
 		status = new int[NUM_STATUS];
 
-		// 27 is hard coded into the CMP register map as the number of possible detectors
-		m_ORTable = MatrixFactory.newCoincidenceMatrix();
-		m_ANDTable = MatrixFactory.newCoincidenceMatrix();
-
-		m_DelayTable = MatrixFactory.newRegisterMatrix();
-		m_WidthTable = MatrixFactory.newRegisterMatrix();
-
 		m_SelectedADC = 0;	// Preselect all ADC's
 
 		/*
@@ -84,6 +77,16 @@ public class CMP_RegisterSet extends RegisterSet {
 		m_DelayTable.set(5, 0x0000);	//141
 		m_DelayTable.set(6, 0x0000);	//142
 		*/
+	}
+
+	void initTables() {
+
+		// 27 is hard coded into the CMP register map as the number of possible detectors
+		m_ORTable = MatrixFactory.newCoincidenceMatrix(27, 54);
+		m_ANDTable = MatrixFactory.newCoincidenceMatrix(27, 54);
+
+		m_DelayTable = MatrixFactory.newRegisterMatrix(27,7);
+		m_WidthTable = MatrixFactory.newRegisterMatrix(27, 7);
 	}
 
 	public void update(RegisterSet reg) {

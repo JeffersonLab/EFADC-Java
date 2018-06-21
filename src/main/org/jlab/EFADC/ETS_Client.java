@@ -25,7 +25,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 
 	public ETS_Client() {
-		m_Registers = new ETS_RegisterSet(this);
+		m_Registers = RegisterFactory.InitETSRegisters(this);
 
 		m_NetworkClient = new NetworkClient();
 
@@ -33,7 +33,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	}
 
 	public ETS_Client(NetworkClient nc) {
-		m_Registers = new ETS_RegisterSet(this);
+		m_Registers = RegisterFactory.InitETSRegisters(this);
 
 		m_NetworkClient = nc;
 
