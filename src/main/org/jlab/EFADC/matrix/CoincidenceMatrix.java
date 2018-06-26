@@ -15,7 +15,7 @@ public class CoincidenceMatrix extends AbstractMatrix<BigInteger> implements Mat
 	}
 
 
-	void initMatrix() {
+	protected void initMatrix() {
 
 		m_Matrix.clear();
 

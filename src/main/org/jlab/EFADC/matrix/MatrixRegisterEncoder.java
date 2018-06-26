@@ -58,9 +58,16 @@ public class MatrixRegisterEncoder {
 
 	}
 
-
-	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int size) {
-		return encode(mOR, mAND, size, 0, 0);
+	/**
+	 * Encodes a pair of coincident matrices ready to send directly to an EFADC/CMP system
+	 *
+	 * @param mOR OR table entry
+	 * @param mAND AND table entry
+	 * @param fieldWidthBits Field size of each entry in the encoded matrix (bits)
+	 * @return Encoded matrix
+	 */
+	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits) {
+		return encode(mOR, mAND, fieldWidthBits, 0, 0);
 	}
 
 

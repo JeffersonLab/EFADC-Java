@@ -47,5 +47,5 @@ public abstract class AbstractMatrix<T extends Number> {
 		return m_Matrix.elements();
 	}
 
-	abstract void initMatrix();
+	abstract protected void initMatrix();
 }

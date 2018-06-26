@@ -2,7 +2,9 @@ package org.jlab.EFADC;
 
 import org.jlab.EFADC.handler.ClientHandler;
 import org.jlab.EFADC.test.Test;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,8 +23,8 @@ public class ConnectorTest {
 	private Connector m_Con;
 	private NetworkClient m_NetworkClient;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public void oneTimeSetUp() throws Exception {
 
 		TestCommon.setupLogging();
 
@@ -55,7 +57,14 @@ public class ConnectorTest {
 		m_NetworkClient.setHandler(m_Handler);
 	}
 
-	private void init() {
+	@AfterClass
+	public void oneTimeTearDown() {
+
+		m_NetworkClient.cleanup();
+	}
+
+	@Before
+	public void init() {
 		Logger.getGlobal().info("Running initialization...");
 
 		m_DeviceClient.SendSetRegisters(0);
@@ -179,16 +188,9 @@ public class ConnectorTest {
 		m_DeviceClient.SendSetRegisters(-1);
 	}
 
-	@org.junit.Test
-	public void testInit() {
-
-		init();
-
-	}
 
 	@org.junit.Test
 	public void testPedestals() {
-		init();
 
 		for (int i = 0; i < 5; i++) {
 
