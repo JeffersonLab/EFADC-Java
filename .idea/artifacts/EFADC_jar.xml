@@ -10,7 +10,7 @@
     </properties>
     <root id="archive" name="EFADC.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/EFADC/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="EFADC_java" />
     </root>

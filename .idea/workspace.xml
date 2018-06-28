@@ -7,16 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18d23d3f-9226-47ef-b7e4-ed214ad4ef25" name="Default" comment="Fix ETS register write">
-      <change afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/CoincidenceMatrixTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/MatrixRegisterEncoderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_Client.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_FrameDecoder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_FrameDecoder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_RegisterSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EFADC_java/org/jlab/EFADC/ETS_RegisterSet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" afterDir="false" />
     </list>
     <ignored path="EFADC_java.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -276,8 +269,8 @@
           <file leaf-file-name="MatrixRegisterEncoder.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="900">
-                  <caret line="65" column="82" selection-start-line="65" selection-start-column="82" selection-end-line="65" selection-end-column="82" />
+                <state relative-caret-position="415">
+                  <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
                 </state>
               </provider>
             </entry>
@@ -285,8 +278,17 @@
           <file leaf-file-name="MatrixRegisterEncoderTest.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/MatrixRegisterEncoderTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+                <state relative-caret-position="2467">
+                  <caret line="211" selection-start-line="211" selection-end-line="211" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MatrixEncoder.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixEncoder.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="525">
+                  <caret line="39" column="19" lean-forward="true" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -294,8 +296,8 @@
           <file leaf-file-name="CoincidenceMatrixTest.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/CoincidenceMatrixTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="675">
-                  <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+                <state relative-caret-position="555">
+                  <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
                 </state>
               </provider>
             </entry>
@@ -303,24 +305,11 @@
           <file leaf-file-name="CoincidenceMatrix.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="30" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="30" />
+                <state relative-caret-position="180">
+                  <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
                   <folding>
                     <element signature="e#273#274#0" expanded="true" />
                     <element signature="e#296#297#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="AbstractMatrix.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="630">
-                  <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
-                  <folding>
-                    <element signature="e#543#544#0" expanded="true" />
-                    <element signature="e#568#569#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -507,6 +496,7 @@
         <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/ConnectorTest.java" />
         <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java" />
         <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java" />
+        <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixEncoder.java" />
         <option value="$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" />
         <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/CoincidenceMatrixTest.java" />
         <option value="$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/MatrixRegisterEncoderTest.java" />
@@ -669,7 +659,7 @@
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -703,7 +693,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MatrixEncoderTest">
+  <component name="RunManager" selected="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -774,6 +764,98 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EFADC_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jlab.EFADC.matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jlab.EFADC.matrix" />
+      <option name="MAIN_CLASS_NAME" value="org.jlab.EFADC.matrix.MatrixRegisterEncoderTest" />
+      <option name="METHOD_NAME" value="testRegisterEncode_2x2_AND_Symmetric" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EFADC_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jlab.EFADC.matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jlab.EFADC.matrix" />
+      <option name="MAIN_CLASS_NAME" value="org.jlab.EFADC.matrix.MatrixRegisterEncoderTest" />
+      <option name="METHOD_NAME" value="testRegisterEncode_Double_AND" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Single_AND" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EFADC_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jlab.EFADC.matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jlab.EFADC.matrix" />
+      <option name="MAIN_CLASS_NAME" value="org.jlab.EFADC.matrix.MatrixRegisterEncoderTest" />
+      <option name="METHOD_NAME" value="testRegisterEncode_Single_AND" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Single_AND_Symmetric" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EFADC_java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jlab.EFADC.matrix.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.jlab.EFADC.matrix" />
+      <option name="MAIN_CLASS_NAME" value="org.jlab.EFADC.matrix.MatrixRegisterEncoderTest" />
+      <option name="METHOD_NAME" value="testRegisterEncode_Single_AND_Symmetric" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -879,10 +961,17 @@
       <item itemvalue="JUnit.MatrixEncoderTest" />
       <item itemvalue="JUnit.CoincidenceMatrixTest" />
       <item itemvalue="JUnit.ConnectorTest" />
+      <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Single_AND" />
+      <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Single_AND_Symmetric" />
+      <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" />
+      <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ConnectorTest" />
+        <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" />
+        <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" />
+        <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Single_AND" />
+        <item itemvalue="JUnit.MatrixRegisterEncoderTest.testRegisterEncode_Single_AND_Symmetric" />
         <item itemvalue="JUnit.ConnectorTest" />
       </list>
     </recent_temporary>
@@ -943,39 +1032,53 @@
       <option name="project" value="LOCAL" />
       <updated>1529594049942</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="matrix encoder tests">
+      <created>1530042464941</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1530042464941</updated>
+    </task>
+    <task id="LOCAL-00008" summary="matrix tests">
+      <created>1530207891841</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1530207891841</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 47m 47s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_Single_AND_Symmetric - 2018.06.28 at 11h 23m 50s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Single_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 50m 08s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_Single_AND - 2018.06.28 at 11h 23m 55s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Single_AND" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 52m 24s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_Double_AND - 2018.06.28 at 11h 35m 59s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 55m 16s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_Double_AND - 2018.06.28 at 11h 36m 13s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 55m 32s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_Double_AND - 2018.06.28 at 11h 36m 31s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_Double_AND" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 56m 13s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_2x2_AND_Symmetric - 2018.06.28 at 11h 44m 38s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 56m 28s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_2x2_AND_Symmetric - 2018.06.28 at 11h 45m 07s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 14h 58m 56s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_2x2_AND_Symmetric - 2018.06.28 at 11h 45m 22s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CoincidenceMatrixTest - 2018.06.26 at 15h 43m 29s.xml">
-      <configuration name="CoincidenceMatrixTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_2x2_AND_Symmetric - 2018.06.28 at 11h 46m 36s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MatrixEncoderTest - 2018.06.26 at 15h 46m 26s.xml">
-      <configuration name="MatrixEncoderTest" configurationId="JUnit" />
+    <history-entry file="MatrixRegisterEncoderTest_testRegisterEncode_2x2_AND_Symmetric - 2018.06.28 at 11h 46m 58s.xml">
+      <configuration name="MatrixRegisterEncoderTest.testRegisterEncode_2x2_AND_Symmetric" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView" selected-index="0">
@@ -999,8 +1102,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2" y="22" width="2560" height="1414" extended-state="6" />
-    <editor active="true" />
+    <frame x="-3" y="22" width="2560" height="1414" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32873562" />
@@ -1012,13 +1114,13 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.24668874" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3294753" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49810246" visible="true" weight="0.24046105" />
-      <window_info anchor="bottom" id="Statistic" order="0" sideWeight="0.49842644" visible="true" weight="0.1854714" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4984544" visible="true" weight="0.24046105" />
+      <window_info anchor="bottom" id="Statistic" order="0" sideWeight="0.49842644" weight="0.29520866" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.20092736" />
-      <window_info id="Structure" order="0" sideWeight="0.5018975" side_tool="true" visible="true" weight="0.24046105" />
+      <window_info id="Structure" order="0" sideWeight="0.5015456" side_tool="true" visible="true" weight="0.24046105" />
       <window_info anchor="right" id="Ant Build" order="1" sideWeight="0.7091954" weight="0.24785802" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" x="516" y="486" width="1322" height="697" id="Debug" order="9" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
+      <window_info anchor="bottom" x="1085" y="144" width="1322" height="697" id="Debug" order="9" sideWeight="0.50157356" type="FLOATING" weight="0.3297568" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="right" id="Code Iris" order="4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1081,7 +1183,9 @@
     <MESSAGE value="self trigger rate" />
     <MESSAGE value="data collection implemented" />
     <MESSAGE value="RegisterFactory, coincidence tables" />
-    <option name="LAST_COMMIT_MESSAGE" value="RegisterFactory, coincidence tables" />
+    <MESSAGE value="matrix encoder tests" />
+    <MESSAGE value="matrix tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="matrix tests" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1164,8 +1268,14 @@
           <properties />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/MatrixRegisterEncoderTest.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="50" />
+      <option name="time" value="51" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1179,13 +1289,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty/3.10.6.Final/netty-3.10.6.Final.jar!/org/jboss/netty/buffer/AbstractChannelBuffer.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="104" column="71" selection-start-line="104" selection-start-column="71" selection-end-line="104" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java" />
     <entry file="file://$PROJECT_DIR$/src/org/jlab/EFADC/command/CommandEncoder.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty/3.10.6.Final/netty-3.10.6.Final.jar!/org/jboss/netty/handler/codec/frame/FrameDecoder.class">
@@ -1277,13 +1380,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/RegisterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1356,6 +1452,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1844">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/AbstractMatrix.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
@@ -1367,24 +1470,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/ETS_RegisterSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1844">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="65" column="82" selection-start-line="65" selection-start-column="82" selection-end-line="65" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/CoincidenceMatrix.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="30" />
+        <state relative-caret-position="180">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
           <folding>
             <element signature="e#273#274#0" expanded="true" />
             <element signature="e#296#297#0" expanded="true" />
@@ -1392,17 +1481,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="39" column="19" lean-forward="true" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/org/jlab/EFADC/matrix/MatrixRegisterEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/CoincidenceMatrixTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+        <state relative-caret-position="555">
+          <caret line="41" column="1" lean-forward="true" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/org/jlab/EFADC/matrix/MatrixRegisterEncoderTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+        <state relative-caret-position="2467">
+          <caret line="211" selection-start-line="211" selection-end-line="211" />
         </state>
       </provider>
     </entry>
@@ -1413,8 +1523,8 @@
         <settings>
           <artifact-editor>
             <show-content>
-              <type id="library" />
               <type id="artifact" />
+              <type id="library" />
             </show-content>
           </artifact-editor>
           <last-edited>EFADC:jar</last-edited>
