@@ -12,6 +12,7 @@ import static org.jboss.netty.buffer.ChannelBuffers.buffer;
  * User: john
  * Date: 5/14/13
  */
+@Deprecated
 public class MatrixEncoder {
 
 	private CoincidenceMatrix m_Matrix;

@@ -10,6 +10,17 @@ import java.math.BigInteger;
  */
 public class CoincidenceMatrix extends AbstractMatrix<BigInteger> implements Matrix {
 
+
+	public static void SetIdentityMatrix(int numDet, CoincidenceMatrix matrix) {
+
+		for (int i = 0; i < numDet; i++) {
+			for (int j = 0; j < numDet; j++) {
+				matrix.setCoincident(i, j, i == j, false);
+			}
+		}
+	}
+
+
 	CoincidenceMatrix(int size, int reg) {
 		super(size, reg);
 	}

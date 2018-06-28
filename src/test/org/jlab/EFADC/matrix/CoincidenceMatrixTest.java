@@ -8,23 +8,15 @@ import static org.junit.Assert.*;
 
 public class CoincidenceMatrixTest {
 
-	static void SetIdentityMatrix(int numDet, CoincidenceMatrix matrix) {
-
-		for (int i = 0; i < numDet; i++) {
-			for (int j = 0; j < numDet; j++) {
-				matrix.setCoincident(i, j, i == j, false);
-			}
-		}
-	}
 
 	@Test
-	public void setCoincident() {
+	public void setCoincident_Identity() {
 		//ETS
 		// must specify size 27 even tho the firmware only supports 12? now
-		CoincidenceMatrix orTable = MatrixFactory.newCoincidenceMatrix(27, 108);
+		//CoincidenceMatrix orTable = MatrixFactory.newCoincidenceMatrix(27, 108);
 		CoincidenceMatrix andTable = MatrixFactory.newCoincidenceMatrix(27, 108);
 
-		SetIdentityMatrix(12, andTable);
+		CoincidenceMatrix.SetIdentityMatrix(12, andTable);
 
 		// Expected mapping
 

@@ -38,15 +38,11 @@ public class MatrixRegisterEncoder {
 		// Create buffer large enough to hold the entire encoded matrix
 		ChannelBuffer buffer = buffer(nRegisters * 4);
 
-		//int registerShift = 0;
-
 		for (int i = 0; i < nDetectors; i++) {
 
-			//if (i > 0 && i % 4 == 0)
-			//	registerShift++;
-
-			int orVal =  mOR.getEntry(i)/*.shiftRight(registerShift)*/.intValue() & 0x7ffffff;
-			int andVal = mAND.getEntry(i)/*.shiftRight(registerShift)*/.intValue() & 0x7ffffff;
+			// the 0xfffffff masks off the high 4 bits since they are unused
+			int orVal =  mOR.getEntry(i).intValue() & 0xfffffff;
+			int andVal = mAND.getEntry(i).intValue() & 0xfffffff;
 
 			buffer.writeInt(orVal);
 			buffer.writeInt(andVal);
