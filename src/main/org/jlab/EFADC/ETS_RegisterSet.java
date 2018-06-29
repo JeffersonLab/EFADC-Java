@@ -218,7 +218,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		// Encode EFADC registers
 
-		// Find the first addressed EFADC, this is the set that will be send to all addressed adcs
+		// Find the first addressed EFADC, this is the set that will be sent to all addressed adcs
+		assert addressed > 0;
 		int idx = 0;
 		while ((addressed & 0x1) == 0) {
 			addressed >>= 1;
