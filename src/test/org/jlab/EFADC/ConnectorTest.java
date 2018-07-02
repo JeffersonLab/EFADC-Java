@@ -1,10 +1,10 @@
 package org.jlab.EFADC;
 
 import org.jlab.EFADC.handler.ClientHandler;
-import org.jlab.EFADC.test.Test;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -189,7 +189,7 @@ public class ConnectorTest {
 	}
 
 
-	@org.junit.Test
+	@Test
 	public void testPedestals() {
 
 		for (int i = 0; i < 5; i++) {

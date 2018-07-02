@@ -1,22 +1,6 @@
 package org.jlab.EFADC.test;
 
 import org.jlab.EFADC.*;
-import org.jlab.EFADC.handler.AbstractClientHandler;
-import org.jlab.EFADC.handler.BasicClientHandler;
-import org.jlab.EFADC.handler.ClientHandler;
-import org.jlab.EFADC.logging.ErrorFormatter;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
 
 /**
  * org.jlab.EFADC.test
@@ -24,7 +8,7 @@ import java.util.logging.Logger;
  * User: john
  * Date: 4/18/13
  */
-public class Test {
+public class Main {
 
 	static boolean flag_Run = false;
 	static boolean flag_SelfTrig = false;
@@ -42,7 +26,7 @@ public class Test {
 	static int[] pedestal;
 
 
-	Test() {
+	Main() {
 
 		/*
 		try {
@@ -301,7 +285,7 @@ public class Test {
 
 		//setupLogging();
 
-		new Test();
+		new Main();
 
 		/*
 
