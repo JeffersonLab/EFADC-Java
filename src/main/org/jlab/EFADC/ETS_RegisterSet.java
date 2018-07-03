@@ -127,15 +127,16 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	 */
 	@Override
 	public int getADCCount() {
-		return Integer.bitCount(getEFADCMask());
+		return Integer.bitCount(getEFADCConnectedMask());
 	}
 
 
 	/**
+	 * This is reported in status 2 of an ETS register read
 	 * @return Bit mask of connected EFADC devices
 	 */
-	public int getEFADCMask() {
-		return status[1] & 0x007f;
+	public int getEFADCConnectedMask() {
+		return status[1] & 0x00ff;
 	}
 
 
@@ -206,13 +207,15 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		// EFADC enable, we don't ever need to disable a connected efadc, so just use the same bits
 		// that were reported in the status indicating which are connected
-		int connected = getEFADCMask() << 8;
+		int connected = getEFADCConnectedMask() << 8;
 		int addressed = m_EFADCSelect_Mask;
 
+		// bits 15..8 should be an exact copy of the connected mask we've previously read, with bits 7..0
+		// representing which units to apply the following efadc register values to
 		int reg0 = connected | addressed;
 
 		Logger.getGlobal().log(Level.FINE, String.format("ETSRegEncode %04x connected, %04x addressed, reg0: %04x",
-				getEFADCMask(), addressed, reg0));
+				getEFADCConnectedMask(), addressed, reg0));
 
 		buffer.writeShort(reg0);
 
@@ -323,7 +326,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		StringBuffer strB = new StringBuffer("ETS Register Set: ");
 
 		strB.append(String.format("Version: %04x ", status[0]));
-		strB.append(String.format("EFADC_Mask: %04x", getEFADCMask()));
+		strB.append(String.format("EFADC_Mask: %04x", getEFADCConnectedMask()));
 		//strB.append(String.format("Accepted Triggers: %d\n", acceptedTrigs));
 		//strB.append(String.format("Missed Triggers: %d\n", missedTrigs));
 		//strB.append(String.format("Something Else: %04X\n", unknown));

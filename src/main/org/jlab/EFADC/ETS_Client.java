@@ -79,7 +79,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	public boolean SendSetRegisters(int adc) {
 
 		// Get connected efadc's
-		int mask = m_Registers.getEFADCMask();
+		int mask = m_Registers.getEFADCConnectedMask();
 
 
 		if (adc == -1) {
@@ -117,6 +117,11 @@ public class ETS_Client extends EFADC_Client implements Client {
 	}
 
 
+	/**
+	 *
+	 * @param mask
+	 * @param adcBit
+	 */
 	private void sendSelectedRegisters(int mask, int adcBit) {
 		try {
 			m_Registers.setEFADC_Mask(mask & adcBit);
@@ -157,7 +162,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	 */
 	private void setADCPolarity(int polarity) {
 
-		int mask = m_Registers.getEFADCMask();
+		int mask = m_Registers.getEFADCConnectedMask();
 
 		// Individually address each connected & active EFADC
 		// A set to #0 sets ALL EFADC register values
@@ -197,7 +202,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	@Override
 	public void SetCoincidenceWindowWidth(int width) {
 
-		int mask = m_Registers.getEFADCMask();
+		int mask = m_Registers.getEFADCConnectedMask();
 
 		// Individually address each connected & active EFADC
 		// A set to #0 sets ALL EFADC register values
@@ -284,7 +289,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 		ETS_RegisterSet etsReg = m_Registers;
 
 
-		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
+		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCConnectedMask()) + 1; i++) {
 			try {
 				adcReg = etsReg.getADCRegisters(i);
 
@@ -300,7 +305,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	@Override
 	public boolean SetDACValues(int[] values) {
 
-		int mask = m_Registers.getEFADCMask();
+		int mask = m_Registers.getEFADCConnectedMask();
 
 		int adcCount = Integer.bitCount(mask);
 
@@ -370,7 +375,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 		ETS_RegisterSet etsReg = m_Registers;
 
-		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
+		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCConnectedMask()) + 1; i++) {
 			try {
 				adcReg = etsReg.getADCRegisters(i);
 
@@ -396,7 +401,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 		ETS_RegisterSet etsReg = m_Registers;
 
-		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCMask()) + 1; i++) {
+		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCConnectedMask()) + 1; i++) {
 			try {
 				adcReg = etsReg.getADCRegisters(i);
 
