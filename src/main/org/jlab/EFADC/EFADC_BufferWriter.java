@@ -12,6 +12,9 @@ import org.jboss.netty.channel.*;
 
 import java.nio.channels.FileChannel;
 
+/**
+ * Network pipeline handler to write buffer bytes directly to disk.
+ */
 public class EFADC_BufferWriter extends SimpleChannelUpstreamHandler {
 
 	FileChannel outChan = null;

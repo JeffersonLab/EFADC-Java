@@ -12,7 +12,7 @@ public class RegisterMatrix extends AbstractMatrix<Integer> implements Matrix {
 		super(size, reg);
 	}
 
-	void initMatrix() {
+	protected void initMatrix() {
 		m_Matrix.clear();
 
 		for (int i = 0; i < m_Size; i++)

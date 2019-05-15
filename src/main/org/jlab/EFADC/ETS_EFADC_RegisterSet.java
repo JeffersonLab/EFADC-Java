@@ -8,6 +8,7 @@ import static org.jboss.netty.buffer.ChannelBuffers.buffer;
 
 /**
  * Created by john on 7/27/17.
+ * RegisterSet used by individual EFADC modules in an ETS system.
  */
 public class ETS_EFADC_RegisterSet extends EFADC_RegisterSet {
 
