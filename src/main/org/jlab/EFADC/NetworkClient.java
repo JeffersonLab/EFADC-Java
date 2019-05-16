@@ -14,6 +14,7 @@ import org.jboss.netty.handler.codec.frame.FrameDecoder;
 import org.jboss.netty.handler.timeout.IdleStateHandler;
 import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
 import org.jboss.netty.util.HashedWheelTimer;
+import org.jboss.netty.util.ThreadNameDeterminer;
 import org.jboss.netty.util.Timer;
 import org.jlab.EFADC.command.Command;
 import org.jlab.EFADC.handler.ClientHandler;
@@ -50,7 +51,10 @@ public class NetworkClient {
 	private ReadTimeoutHandler 	m_AcquisitionReadTimeoutHandler;
 
 	public NetworkClient() {
-		m_UDPClientChannelFactory = new OioDatagramChannelFactory(Executors.newCachedThreadPool());
+
+
+		m_UDPClientChannelFactory = new OioDatagramChannelFactory(Executors.newCachedThreadPool(),
+				ThreadNameDeterminer.CURRENT);
 
 		m_WheelTimer = new HashedWheelTimer();
 

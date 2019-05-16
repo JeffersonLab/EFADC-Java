@@ -39,7 +39,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 	public void SetCMP(boolean val) {
 		isCMP = val;
-		//Logger.getGlobal().info("SetCMP " + val);
+		Logger.getGlobal().info("SetCMP " + val);
 		if (isCMP && m_Aggregator == null) {
 			m_Aggregator = new EFADC_EventAggregator(10);
 			m_Aggregator.setHandler((ClientHandler)this);
@@ -113,9 +113,8 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 
 			lastEventID = event.trigId;
 
-
 			if (isCMP) {
-				// Aggregate events from a CMP
+				// Aggregate events from a CMP or ETS
 
 				if (m_Aggregator == null) {
 					Logger.getGlobal().info("Aggregator null, iscmp = " + isCMP);
@@ -178,11 +177,21 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			ETS_RegisterSet eRegs = (ETS_RegisterSet)regs;
 			eRegs.client().setRegisterSet(eRegs);
 
+			if (isCMP == false) {
+				Logger.getGlobal().info("Set IsCMP true");
+				SetCMP(true);
+			}
+
 		} else if (regs instanceof ETS_EFADC_RegisterSet) {
 			//Logger.getGlobal().info("  >>registersReceived::ETS_EFADC_RegisterSet");
 
 			ETS_EFADC_RegisterSet eRegs = (ETS_EFADC_RegisterSet)regs;
 			eRegs.client().setRegisterSet(eRegs);
+
+			if (isCMP == false) {
+				Logger.getGlobal().info("Set IsCMP true");
+				SetCMP(true);
+			}
 
 		} else if (regs instanceof EFADC_RegisterSet) {
 			//Logger.getGlobal().info("  >>registersReceived::EFADC_RegisterSet");
@@ -196,6 +205,7 @@ public abstract class AbstractClientHandler extends SimpleChannelUpstreamHandler
 			Logger.getGlobal().info("  Accepted Triggers: " + eRegs.getAcceptedTrigs());
 			Logger.getGlobal().info("  Missed Triggers: " + eRegs.getMissedTrigs());
 
+			Logger.getGlobal().info("Set IsCMP false");
 			isCMP = false;
 
 		} else if (regs instanceof CMP_RegisterSet) {

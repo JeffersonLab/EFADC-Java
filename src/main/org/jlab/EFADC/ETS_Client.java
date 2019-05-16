@@ -4,6 +4,7 @@ import org.jlab.EFADC.command.Command;
 import org.jlab.EFADC.matrix.CoincidenceMatrix;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.jlab.EFADC.RegisterSet.REG_2;
@@ -40,10 +41,18 @@ public class ETS_Client extends EFADC_Client implements Client {
 		m_NetworkClient.setInterCommandDelay(50);
 	}
 
+	/**
+	 * Send 02 05 command to read back ETS registers
+	 * @return
+	 */
 	public boolean ReadRegisters() {
 		return m_NetworkClient.SendCommand(Command.ReadETSRegisters());
 	}
 
+	/**
+	 * Send 02 03 command to read back ETS_EFADC registers
+	 * @return
+	 */
 	public boolean ReadEFADCRegisters() {
 		return m_NetworkClient.SendCommand(Command.ReadRegisters());
 	}
@@ -73,7 +82,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 	/**
 	 * @param adc ADC selection index 1-m for individual ADC, 0 sends all ADCS the same register value
 	 *            -1 sends all ADCs their corresponding stored registers
-	 * @return
+	 * @return true
 	 */
 	@Override
 	public boolean SendSetRegisters(int adc) {
@@ -118,9 +127,9 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 
 	/**
-	 *
-	 * @param mask
-	 * @param adcBit
+	 * Send a register set to a specific ADC
+	 * @param mask ADC connected mask as reported by the ETS
+	 * @param adcBit ADC bit, LSB = adc 0
 	 */
 	private void sendSelectedRegisters(int mask, int adcBit) {
 		try {
@@ -280,21 +289,20 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 	/**
 	 * Set NSB for all EFADCs
-	 * @param window
+	 * @param samples Number of samples lookback in data buffer
 	 */
 	@Override
-	public void SetNSB(int window) {
+	public void SetNSB(int samples) {
 		ETS_EFADC_RegisterSet adcReg;
 
 		ETS_RegisterSet etsReg = m_Registers;
-
 
 		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCConnectedMask()) + 1; i++) {
 			try {
 				adcReg = etsReg.getADCRegisters(i);
 
 				if (adcReg != null)
-					adcReg.setNSB(window);
+					adcReg.setNSB(samples);
 			} catch (EFADC_InvalidADCException e) {
 				Logger.getGlobal().warning("Invalid ADC Selection: " + i);
 			}
@@ -309,8 +317,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 		int adcCount = Integer.bitCount(mask);
 
-		if (DEBUG)
-			Logger.getGlobal().info(String.format("    values[].len: %d  adcCount: %d  totalCount: %d  mask: %04x",
+		Logger.getGlobal().log(Level.FINER, String.format("    values[].len: %d  adcCount: %d  totalCount: %d  mask: %04x",
 				values.length, adcCount, adcCount * 16, mask));
 
 		// We need to send the ENTIRE register set a total of 16 * adcCount() times because of the way the registers were implemented in firmware...
@@ -326,12 +333,11 @@ public class ETS_Client extends EFADC_Client implements Client {
 		for (int adc = 0; adc < 8; adc++, mask >>= 1) {
 			boolean active = (mask & 0x1) == 1;
 
-			if (DEBUG)
-				Logger.getGlobal().info(String.format("    adc %d active: %s", adc+1, (active ? "true" : "false")));
+			Logger.getGlobal().log(Level.FINE, String.format("    adc %d active: %s", adc+1, (active ? "true" : "false")));
 
 			if (active) {
 
-				// The APi requres an index of 1-N as the 0 idx will address all EFADCs
+				// The API requres an index of 1-N as the 0 idx will address all EFADCs
 				int adcApiIdx = adc + 1;
 
 				try {
@@ -342,8 +348,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 						throw new EFADC_InvalidADCException();
 					}
 
-					if (DEBUG)
-						Logger.getGlobal().info(String.format("    copying values[%d-%d] -> ival", 16*adc, (16*adc)+16));
+					Logger.getGlobal().log(Level.FINEST, String.format("    copying values[%d-%d] -> ival", 16*adc, (16*adc)+16));
 
 					System.arraycopy(values, 16*adc, ival, 0, 16);
 
@@ -366,11 +371,11 @@ public class ETS_Client extends EFADC_Client implements Client {
 
 	/**
 	 * Enables self triggering for all EFADC register sets
-	 * @param enable
-	 * @param value
+	 * @param enable true to enable, false to disable
+	 * @param counts Delay count per trigger, 1 count = 512nS
 	 */
 	@Override
-	public void SetSelfTrigger(boolean enable, int value) {
+	public void SetSelfTrigger(boolean enable, int counts) {
 		ETS_EFADC_RegisterSet adcReg;
 
 		ETS_RegisterSet etsReg = m_Registers;
@@ -380,8 +385,8 @@ public class ETS_Client extends EFADC_Client implements Client {
 				adcReg = etsReg.getADCRegisters(i);
 
 				if (adcReg != null) {
-					adcReg.setSelfTrigger(enable, value);
-					Logger.getGlobal().info(String.format("Setting self trigger ADC %d: %s", i, enable ? "true" : "false"));
+					adcReg.setSelfTrigger(enable, counts);
+					Logger.getGlobal().log(Level.FINE, String.format("Setting self trigger ADC %d: %s", i, enable ? "true" : "false"));
 				}
 
 				} catch (EFADC_InvalidADCException e) {
@@ -400,6 +405,8 @@ public class ETS_Client extends EFADC_Client implements Client {
 		ETS_EFADC_RegisterSet adcReg;
 
 		ETS_RegisterSet etsReg = m_Registers;
+
+		// the bitCount of the connected mask represents the number of connected efadc units
 
 		for (int i = 1; i < Integer.bitCount(etsReg.getEFADCConnectedMask()) + 1; i++) {
 			try {

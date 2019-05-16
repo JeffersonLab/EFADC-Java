@@ -1,8 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.channel.ChannelPipeline;
 import org.jlab.EFADC.handler.BasicClientHandler;
-import org.jlab.EFADC.handler.ClientHandler;
 
 import java.util.concurrent.*;
 import java.util.logging.Level;
@@ -18,7 +16,6 @@ public class Connector {
 
 	private NetworkClient m_Client;
 	private EFADC_Client m_Device;
-	private ClientHandler m_Handler, m_TempHandler;
 
 	private ConnectState m_ConnectState;
 	private ConnectFuture m_ConnectFuture;
@@ -34,11 +31,10 @@ public class Connector {
 	private enum State {WAITING, DONE, CANCELLED}
 
 
-	public Connector(String address, int port/*, ClientHandler handler*/) {
-		//m_Handler = handler;
+	public Connector(String address, int port) {
 		m_ConnectState = ConnectState.DISCONNECTED;
 
-		Logger.getGlobal().info("new Connector, state DISCONNECTED");
+		Logger.getGlobal().log(Level.FINE,"new Connector, state DISCONNECTED");
 
 		try {
 			m_Client = new NetworkClient(/*address, port, true*/);
@@ -46,7 +42,6 @@ public class Connector {
 			m_Client.setAddress(address, port);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
 		}
 
 	}
@@ -72,7 +67,7 @@ public class Connector {
 		 */
 		@Override
 		public void deviceInfoReceived(DeviceInfo info) {
-			Logger.getGlobal().info("in ConnectFuture deviceInfoReceived()");
+			Logger.getGlobal().entering("ConnectFuture", "deviceInfoReceived");
 
 			if (m_ConnectState == ConnectState.CONNECTING) {
 
@@ -89,12 +84,14 @@ public class Connector {
 					// Link the specific hw device to the socket thru our global context
 					m_Client.getGlobalContext().setDeviceClient(m_Device);
 
-					Logger.getGlobal().log(Level.FINE, "    > Installed ETS Client/FrameDecoder");
+					Logger.getGlobal().log(Level.FINER, "    > Installed ETS Client/FrameDecoder");
 				} else
-					Logger.getGlobal().log(Level.FINE, "    > Retained EFADC Client/FrameDecoder");
+					Logger.getGlobal().log(Level.FINER, "    > Retained EFADC Client/FrameDecoder");
 
 				m_Device.ReadRegisters();
 			}
+
+			Logger.getGlobal().exiting("ConnectFuture", "deviceInfoReceived");
 		}
 
 		/**
@@ -105,7 +102,7 @@ public class Connector {
 		@Override
 		public void registersReceived(RegisterSet registers) {
 
-			Logger.getGlobal().log(Level.FINE, "in ConnectFuture registersReceived()");
+			Logger.getGlobal().entering("ConnectFuture", "registersReceived");
 
 			super.registersReceived(registers);
 
@@ -120,13 +117,13 @@ public class Connector {
 
 				// Wait required 200 uS
 				try {
-					Thread.sleep(1);
+					Thread.sleep(5);
 				} catch (InterruptedException e) {}
 
 				m_Device.setConnected(true);
 
-				Logger.getGlobal().info("ConnectHandler.registersReceived(), state -> CONNECTED");
-				Logger.getGlobal().info(registers.toString());
+				Logger.getGlobal().log(Level.FINE, "ConnectHandler.registersReceived(), state -> CONNECTED");
+				Logger.getGlobal().log(Level.FINER, registers::toString);
 
 				// This is required to detect if we connected to a CMP/ETS or standalone EFADC
 				// TODO: I think we already know at this point... But this shouldn't hurt any
@@ -140,6 +137,8 @@ public class Connector {
 
 				//Logger.getGlobal().info("Connected to EFADC/CMP");
 			}
+
+			Logger.getGlobal().exiting("ConnectFuture", "registersReceived");
 		}
 
 
@@ -217,7 +216,7 @@ public class Connector {
 		}
 
 		m_ConnectState = ConnectState.CONNECTING;
-		Logger.getGlobal().info(" => GetDeviceInfo() :: state -> CONNECTING");
+		Logger.getGlobal().log(Level.FINE," => GetDeviceInfo() :: state -> CONNECTING");
 
 		if (!m_Client.GetDeviceInfo()) {
 			Logger.getGlobal().severe("GetDeviceInfo failed in connect()");
@@ -241,29 +240,4 @@ public class Connector {
 		return m_ConnectFuture;
 	}
 
-	/*
-	private void finishConnect() {
-
-		m_ConnectState = ConnectState.CONNECTED;
-
-		Logger.getGlobal().info("in finishConnect(), state CONNECTED");
-
-		//m_ConnectTimeout.stop();
-		//m_ConnectTimeout.removeActionListener(m_TimerAL);
-		//m_ConnectTimeout = null;
-
-
-		// Remove the temporary ClientHandler
-		m_Client.getPipeline().remove("handler");
-
-		m_Client.setHandler(m_Handler);
-
-		m_ConnectFuture.setDone(m_Client);
-
-		// This is redundant, remove eventually
-		m_Handler.connected(m_Client);
-
-		Logger.getGlobal().info("Connected to EFADC/CMP");
-	}
-	*/
 }

@@ -80,7 +80,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		for (int i = 0; i < newRegs.length; i++) {
 			if (register[i] != newRegs[i]) {
-				Logger.getGlobal().info(String.format("Updating %d, %04x -> %04x", i+1, register[i], newRegs[i]));
+				Logger.getGlobal().log(Level.FINE, String.format("Updating %d, %04x -> %04x", i+1, register[i], newRegs[i]));
 				register[i] = newRegs[i];
 			}
 		}
@@ -185,7 +185,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		ETS_EFADC_RegisterSet adcReg = adc.get(n - 1);
 		if (adcReg == null) {
-			Logger.getGlobal().info(String.format("ADC %d registers null, generating default...", n));
+			Logger.getGlobal().log(Level.FINE, String.format("ADC %d registers null, generating default...", n));
 
 			adcReg = new ETS_EFADC_RegisterSet(m_Client, n);
 			adc.set(n - 1, adcReg);

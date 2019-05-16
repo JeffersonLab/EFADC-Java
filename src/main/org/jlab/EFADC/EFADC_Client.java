@@ -440,7 +440,6 @@ public class EFADC_Client implements Client {
 	 * Set Sync for all EFADCs
 	 * @param val
 	 */
-	@Deprecated
 	public void SetSync(boolean val) {
 		EFADC_RegisterSet adcReg;
 

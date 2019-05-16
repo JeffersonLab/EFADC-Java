@@ -15,40 +15,40 @@ public interface Client {
 
 	//public void Init();
 
-	public void SetADCPositive();
-	public void SetADCNegative();
+	void SetADCPositive();
+	void SetADCNegative();
 
-	public void SetCoincidenceWindowWidth(int width);
+	void SetCoincidenceWindowWidth(int width);
 
-	public void SetANDCoincident(int detA, int detB, boolean val, boolean reverse);
-	public void SetORCoincident(int detA, int detB, boolean val, boolean reverse);
+	void SetANDCoincident(int detA, int detB, boolean val, boolean reverse);
+	void SetORCoincident(int detA, int detB, boolean val, boolean reverse);
 
-	public void SetIdentityMatrix();
-	public void SetZeroMatrix();
+	void SetIdentityMatrix();
+	void SetZeroMatrix();
 
-	public void SetIntegrationWindow(int window);
-	public void SetIntegrationWindow(int adc, int window);
-	public void SetMode(int mode);
+	void SetIntegrationWindow(int window);
+	void SetIntegrationWindow(int adc, int window);
+	void SetMode(int mode);
 
-	public void SetNSB(int window);
+	void SetNSB(int window);
 
-	public void SetSelfTrigger(boolean enable, int value);
-	public void SetSync(boolean val);
-	public void SetThreshold(int det, int thresh);
+	void SetSelfTrigger(boolean enable, int value);
+	void SetSync(boolean val);
+	void SetThreshold(int det, int thresh);
 
-	public boolean SendSetRegisters(int adc);
+	boolean SendSetRegisters(int adc);
 
-	public boolean SendLCDData(int line, String text);
+	boolean SendLCDData(int line, String text);
 
-	public boolean IsCMP();
+	boolean IsCMP();
 	boolean isConnected();
 
-	public boolean SetDACValues(int[] values);
+	boolean SetDACValues(int[] values);
 
-	public boolean StartCollection() throws Exception;
-	public boolean StopCollection() throws Exception;
+	boolean StartCollection() throws Exception;
+	boolean StopCollection() throws Exception;
 
-	public boolean ReadRegisters();
+	boolean ReadRegisters();
 
 	//public void SetRawOutputFile(File file) throws IOException;
 	//public void SetRawOutputFile(String filename) throws IOException;

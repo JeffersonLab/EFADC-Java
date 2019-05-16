@@ -18,13 +18,13 @@ import static org.junit.Assert.*;
 
 public class ConnectorTest {
 
-	private Client m_DeviceClient;
-	private ClientHandler m_Handler;
-	private Connector m_Con;
-	private NetworkClient m_NetworkClient;
+	private static Client m_DeviceClient;
+	private static ClientHandler m_Handler;
+	private static Connector m_Con;
+	private static NetworkClient m_NetworkClient;
 
 	@BeforeClass
-	public void oneTimeSetUp() throws Exception {
+	public static void oneTimeSetUp() throws Exception {
 
 		TestCommon.setupLogging();
 
@@ -58,7 +58,7 @@ public class ConnectorTest {
 	}
 
 	@AfterClass
-	public void oneTimeTearDown() {
+	public static void oneTimeTearDown() {
 
 		m_NetworkClient.cleanup();
 	}
@@ -87,8 +87,14 @@ public class ConnectorTest {
 		}
 
 
-		m_DeviceClient.SetDACValues(new int[] {3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
-				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
+		m_DeviceClient.SetDACValues(new int[] {
+				// EFADC 1
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+
+				// EFADC 2
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
 
 
 		// This should be called last because it internally calls SendSetRegisters
