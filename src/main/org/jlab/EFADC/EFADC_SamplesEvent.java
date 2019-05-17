@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 /**
  * org.jlab.EFADC
@@ -15,7 +15,7 @@ public class EFADC_SamplesEvent {
 	public int channel;
 	public int[] samples;
 
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 
 		trigId = frame.readUnsignedShort();
 		channel = frame.readUnsignedShort();

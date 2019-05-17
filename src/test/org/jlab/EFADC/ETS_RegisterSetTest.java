@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -229,7 +229,7 @@ public class ETS_RegisterSetTest {
 
 		regs.setEFADC_Mask(0x01);
 
-		ChannelBuffer buf = regs.encode();
+		ByteBuf buf = regs.encode();
 
 		if (buf == null) {
 			fail("encode retured null");

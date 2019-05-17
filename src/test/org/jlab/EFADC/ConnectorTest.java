@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
@@ -54,7 +55,7 @@ public class ConnectorTest {
 		m_NetworkClient = m_DeviceClient.networkClient();
 
 		// Aha! We need to detect if the old handler was a CMP or not
-		m_NetworkClient.setHandler(m_Handler);
+		m_NetworkClient.setClientListener(m_Handler);
 	}
 
 	@AfterClass
@@ -209,8 +210,8 @@ public class ConnectorTest {
 
 			int eventCount = testHandler.getEventQueue().drainTo(events);
 
-			Logger.getGlobal().info(String.format("Acquisition Complete, handler events: %d, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
-					m_Handler.getEventCount(), events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
+			Logger.getGlobal().info(String.format("Acquisition Complete, queue events: %d, nEventSets: %d, nEvents: %d, singleEvents: %d",
+					events.size(), testHandler.nEventSets, testHandler.nEventSets, testHandler.nSingleEvents));
 
 
 			try {

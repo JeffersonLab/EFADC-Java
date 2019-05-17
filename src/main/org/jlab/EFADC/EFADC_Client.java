@@ -50,12 +50,14 @@ public class EFADC_Client implements Client {
 
 		m_NetworkClient.setAddress(address, port);
 
+		/*
 		if (enableIdleTimer) {
 			m_NetworkClient.initIdleHandler();
 
 		} else
 			Logger.getGlobal().info("Idle handler disabled");
 
+		 */
 
 		// TODO add accessors to modify tree size and handler
 		//m_EventAggregator = new EFADC_EventAggregator(10);

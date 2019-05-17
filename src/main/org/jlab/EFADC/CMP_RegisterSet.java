@@ -1,13 +1,13 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 import org.jlab.EFADC.matrix.*;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
 
 /**
  * org.jlab.EFADC
@@ -192,10 +192,10 @@ public class CMP_RegisterSet extends RegisterSet {
 	 * Reg 150 and 151 are reserved
 	 * @return
 	 */
-	public ChannelBuffer encode() {
+	public ByteBuf encode() {
 		//int[] regs = getRegisters();
 
-		ChannelBuffer buffer = buffer(5 + DATA_SIZE_WRITE_BYTES);
+		ByteBuf buffer = buffer(5 + DATA_SIZE_WRITE_BYTES);
 
 		buffer.writeByte((byte)0x5a);
 		buffer.writeByte((byte)0x5a);
@@ -217,7 +217,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		}
 
 		// Encode coincidence table entries
-		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 32);	// ~216 bytes
+		ByteBuf matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 32);	// ~216 bytes
 
 		//Logger.getGlobal().info(String.format("CoincidenceTableBuf size = %d", matrixBuf.readableBytes()));
 
@@ -299,7 +299,7 @@ public class CMP_RegisterSet extends RegisterSet {
 	}
 
 
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 		//super.decode(frame, NUM_REGS);
 
 		// Read register 0 which only appears once (instead of before each EFADC register block)
@@ -318,7 +318,7 @@ public class CMP_RegisterSet extends RegisterSet {
 		for (int i = 0; i < m_NumADC; i++) {
 
 			// Read EFADC configuration and status
-			ChannelBuffer adcBuf = frame.readBytes(EFADC_RegisterSet.DATA_SIZE_BYTES);
+			ByteBuf adcBuf = frame.readBytes(EFADC_RegisterSet.DATA_SIZE_BYTES);
 
 			EFADC_RegisterSet adcReg = new EFADC_RegisterSet();
 			adcReg.decode(adcBuf);

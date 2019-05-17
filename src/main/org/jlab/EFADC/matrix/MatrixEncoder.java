@@ -1,10 +1,12 @@
 package org.jlab.EFADC.matrix;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+
+import io.netty.buffer.ByteBuf;
 
 import java.math.BigInteger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
+
 
 /**
  * org.jlab.EFADC.matrix
@@ -40,14 +42,14 @@ public class MatrixEncoder {
 	 * @param order
 	 * @return
 	 */
-	public ChannelBuffer encode(int size, int offset, int order) {
+	public ByteBuf encode(int size, int offset, int order) {
 
 		assert(size == 0);
 
 		int nDetectors = m_Matrix.getBitSize();
 
 		// Create buffer large enough to hold the entire encoded matrix
-		ChannelBuffer buffer = buffer(nDetectors * size);
+		ByteBuf buffer = buffer(nDetectors * size);
 
 		for (int i = 0; i < nDetectors; i++) {
 
@@ -63,7 +65,7 @@ public class MatrixEncoder {
 
 	}
 
-	public ChannelBuffer encode(int size) {
+	public ByteBuf encode(int size) {
 		return encode(size, 0, 0);
 	}
 }

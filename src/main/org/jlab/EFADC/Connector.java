@@ -1,6 +1,8 @@
 package org.jlab.EFADC;
 
-import org.jlab.EFADC.handler.BasicClientHandler;
+import io.netty.buffer.ByteBuf;
+import io.netty.handler.codec.DatagramPacketDecoder;
+import org.jlab.EFADC.handler.ClientHandler;
 
 import java.util.concurrent.*;
 import java.util.logging.Level;
@@ -47,7 +49,7 @@ public class Connector {
 	}
 
 
-	class ConnectFuture extends BasicClientHandler implements Future<EFADC_Client> {
+	class ConnectFuture implements ClientHandler, Future<EFADC_Client> {
 
 		private volatile State state = State.WAITING;
 		private final BlockingQueue<EFADC_Client> reply = new ArrayBlockingQueue<>(1);
@@ -94,6 +96,27 @@ public class Connector {
 			Logger.getGlobal().exiting("ConnectFuture", "deviceInfoReceived");
 		}
 
+
+		@Override
+		public void connected(Client client) {
+
+		}
+
+		@Override
+		public void bufferReceived(ByteBuf buffer) {
+
+		}
+
+		@Override
+		public void eventReceived(EFADC_DataEvent event) {
+
+		}
+
+		@Override
+		public void eventSetReceived(EventSet set) {
+
+		}
+
 		/**
 		 * Step 2 in the connection process, device specific registers are received,
 		 * sync command is sent
@@ -104,7 +127,7 @@ public class Connector {
 
 			Logger.getGlobal().entering("ConnectFuture", "registersReceived");
 
-			super.registersReceived(registers);
+			//super.registersReceived(registers);
 
 			lastSet = registers;
 
@@ -209,7 +232,7 @@ public class Connector {
 			m_Client.connect();
 
 			Logger.getGlobal().log(Level.FINE, " => setHandler()");
-			m_Client.setHandler(m_ConnectFuture);
+			m_Client.setClientListener(m_ConnectFuture);
 		} catch (EFADC_AlreadyConnectedException e) {
 			Logger.getGlobal().severe("Already connected?");
 			return null;

@@ -1,8 +1,9 @@
 package org.jlab.EFADC.command;
 
-import org.jboss.netty.buffer.ChannelBuffer;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import io.netty.buffer.ByteBuf;
+
+import static io.netty.buffer.Unpooled.buffer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,8 +30,8 @@ public abstract class Command {
 	static final int ADC_MASTER_TO_SLAVE_REG = 0xFF00;  // write 1 to this register to transfer data from Master Shift Reg to Salve
 	static final int ADC_CLK_OUT_DELAY_REG = 0x1700;
 
-	public static ChannelBuffer SendSync() {
-		ChannelBuffer buf = buffer(4);
+	public static ByteBuf SendSync() {
+		ByteBuf buf = buffer(4);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -40,8 +41,8 @@ public abstract class Command {
 		return buf;
 	}
 
-	public static ChannelBuffer StartCollection() {
-		ChannelBuffer buf = buffer(4);
+	public static ByteBuf StartCollection() {
+		ByteBuf buf = buffer(4);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -51,8 +52,8 @@ public abstract class Command {
 		return buf;
 	}
 
-	public static ChannelBuffer StopCollection() {
-		ChannelBuffer buf = buffer(18);
+	public static ByteBuf StopCollection() {
+		ByteBuf buf = buffer(18);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -62,8 +63,8 @@ public abstract class Command {
 		return buf;
 	}
 
-	public static ChannelBuffer GetDeviceInfo() {
-		ChannelBuffer buf = buffer(18);
+	public static ByteBuf GetDeviceInfo() {
+		ByteBuf buf = buffer(18);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -73,8 +74,8 @@ public abstract class Command {
 		return buf;
 	}
 
-	public static ChannelBuffer ReadRegisters() {
-		ChannelBuffer buf = buffer(18);
+	public static ByteBuf ReadRegisters() {
+		ByteBuf buf = buffer(18);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -84,8 +85,8 @@ public abstract class Command {
 		return buf;
 	}
 
-	public static ChannelBuffer ReadETSRegisters() {
-		ChannelBuffer buf = buffer(18);
+	public static ByteBuf ReadETSRegisters() {
+		ByteBuf buf = buffer(18);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);
@@ -95,8 +96,8 @@ public abstract class Command {
 		return buf;
 	}
 	
-	public static ChannelBuffer TestData() {
-		ChannelBuffer buf = buffer(18);
+	public static ByteBuf TestData() {
+		ByteBuf buf = buffer(18);
 
 		buf.writeByte((byte)0x5a);
 		buf.writeByte((byte)0x5a);

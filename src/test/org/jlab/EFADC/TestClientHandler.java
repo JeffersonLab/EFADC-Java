@@ -1,11 +1,12 @@
 package org.jlab.EFADC;
 
-import org.jlab.EFADC.handler.BasicClientHandler;
+import io.netty.buffer.ByteBuf;
+import org.jlab.EFADC.handler.ClientHandler;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-public class TestClientHandler extends BasicClientHandler {
+public class TestClientHandler implements ClientHandler {
 	LinkedBlockingQueue<EventSet> eventQueue;
 
 	public int nEventSets = 0;
@@ -24,11 +25,17 @@ public class TestClientHandler extends BasicClientHandler {
 		return eventQueue;
 	}
 
+
 	@Override
 	public void connected(Client client) {
 		//m_Client = client;
 
 		Logger.getGlobal().info("in main ClientHandler, connected()");
+	}
+
+	@Override
+	public void bufferReceived(ByteBuf buffer) {
+
 	}
 
 		/*
@@ -61,6 +68,11 @@ public class TestClientHandler extends BasicClientHandler {
 		nEventSets++;
 
 		eventQueue.add(set);
+	}
+
+	@Override
+	public void registersReceived(RegisterSet regs) {
+
 	}
 
 	@Override

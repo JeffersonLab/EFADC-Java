@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,7 +14,7 @@ public class ETS_EFADC_RegisterSetTest {
 
 		ETS_EFADC_RegisterSet regs = new ETS_EFADC_RegisterSet(client, 1);
 
-		ChannelBuffer buf = regs.encode();
+		ByteBuf buf = regs.encode();
 
 		int[] expected = new int[] {
 				0x000a,

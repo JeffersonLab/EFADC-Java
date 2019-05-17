@@ -7,15 +7,17 @@
 //
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.*;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 /**
  * Network pipeline handler to write buffer bytes directly to disk.
  */
-public class EFADC_BufferWriter extends SimpleChannelUpstreamHandler {
+public class EFADC_BufferWriter extends SimpleChannelInboundHandler<ByteBuf> {
 
 	FileChannel outChan = null;
 
@@ -24,11 +26,17 @@ public class EFADC_BufferWriter extends SimpleChannelUpstreamHandler {
 	}
 	
 	@Override
-	public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-		if (outChan != null)
-			outChan.close();
+	public void channelUnregistered(ChannelHandlerContext ctx) {
+		if (outChan != null) {
+			try {
+				outChan.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
+	/*
 	@Override
 	public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
 	
@@ -36,13 +44,21 @@ public class EFADC_BufferWriter extends SimpleChannelUpstreamHandler {
 			MessageEvent me = (MessageEvent)e;
 			Object mo = me.getMessage();
 			
-			if (mo instanceof ChannelBuffer) {
-				ChannelBuffer buf = (ChannelBuffer)mo;
+			if (mo instanceof ByteBuf) {
+				ByteBuf buf = (ByteBuf) mo;
 
-				outChan.write(buf.toByteBuffer());
+				outChan.write(buf);
 			}
 		}
 	
 		super.handleUpstream(ctx, e);
+	}
+	 */
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
+		if (outChan != null) {
+			outChan.write(byteBuf.nioBuffer());
+		}
 	}
 }

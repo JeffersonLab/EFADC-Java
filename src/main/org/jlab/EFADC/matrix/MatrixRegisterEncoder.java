@@ -1,11 +1,11 @@
 package org.jlab.EFADC.matrix;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
 
 /**
  * org.jlab.EFADC.matrix
@@ -25,7 +25,7 @@ public class MatrixRegisterEncoder {
 	 * @param order
 	 * @return Encoded matrix
 	 */
-	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits, int offset, int order) {
+	public static ByteBuf encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits, int offset, int order) {
 
 		assert fieldWidthBits != 0;
 
@@ -36,7 +36,7 @@ public class MatrixRegisterEncoder {
 
 		// TODO: Calculate correct size
 		// Create buffer large enough to hold the entire encoded matrix
-		ChannelBuffer buffer = buffer(nRegisters * 4);
+		ByteBuf buffer = buffer(nRegisters * 4);
 
 		for (int i = 0; i < nDetectors; i++) {
 
@@ -62,7 +62,7 @@ public class MatrixRegisterEncoder {
 	 * @param fieldWidthBits Field size of each entry in the encoded matrix (bits)
 	 * @return Encoded matrix
 	 */
-	public static ChannelBuffer encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits) {
+	public static ByteBuf encode(CoincidenceMatrix mOR, CoincidenceMatrix mAND, int fieldWidthBits) {
 		return encode(mOR, mAND, fieldWidthBits, 0, 0);
 	}
 
@@ -74,13 +74,13 @@ public class MatrixRegisterEncoder {
 	 * @param bitsPerEntry Number of bits each entry uses per field
 	 * @return Encoded matrix
 	 */
-	public static ChannelBuffer encode(RegisterMatrix m, int fieldWidth, int bitsPerEntry) {
+	public static ByteBuf encode(RegisterMatrix m, int fieldWidth, int bitsPerEntry) {
 
 		int nEntries = m.getBitSize();
 
 		int nRegisters = (int)Math.round((nEntries * bitsPerEntry / 16) + 0.5);
 
-		ChannelBuffer buffer = buffer(nRegisters * 2);
+		ByteBuf buffer = buffer(nRegisters * 2);
 
 		Enumeration<Integer> entries = m.elements();
 

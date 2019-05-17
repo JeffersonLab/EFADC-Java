@@ -1,10 +1,12 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+
+import io.netty.buffer.ByteBuf;
 
 import java.util.logging.Logger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
+
 
 /**
  * Created by john on 7/27/17.
@@ -65,7 +67,7 @@ public class ETS_EFADC_RegisterSet extends EFADC_RegisterSet {
 	 * @return
 	 */
 	@Override
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 
 		// Read register 0 which is the efadc select information
 		// This is already read in FrameDecoder and used as the constructor parameter
@@ -88,10 +90,10 @@ public class ETS_EFADC_RegisterSet extends EFADC_RegisterSet {
 	 *
 	 * @return
 	 */
-	public ChannelBuffer encode() {
+	public ByteBuf encode() {
 		int[] regs = getRegisters();
 
-		ChannelBuffer buffer = buffer(regs.length * 2);
+		ByteBuf buffer = buffer(regs.length * 2);
 
 		for (int reg : regs) {
 			buffer.writeShort(reg);

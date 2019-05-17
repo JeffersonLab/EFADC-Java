@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 import java.util.logging.Logger;
 
@@ -15,7 +15,7 @@ public class ETS_FrameDecoder extends EFADC_FrameDecoder {
 		m_Client = client;
 	}
 
-	protected Object processRegisterPacket(int type, ChannelBuffer buf, int mark) {
+	protected Object processRegisterPacket(int type, ByteBuf buf, int mark) {
 
 		int regHeader = buf.getUnsignedShort(mark + 4);
 
@@ -39,7 +39,7 @@ public class ETS_FrameDecoder extends EFADC_FrameDecoder {
 				return null;
 			}
 
-			ChannelBuffer frame = buf.readBytes(frameSize);
+			ByteBuf frame = buf.readBytes(frameSize);
 
 			ETS_RegisterSet regs = RegisterFactory.InitETSRegisters(m_Client);
 			regs.decode(frame);
@@ -64,7 +64,7 @@ public class ETS_FrameDecoder extends EFADC_FrameDecoder {
 				return null;
 			}
 
-			ChannelBuffer frame = buf.readBytes(frameSize);
+			ByteBuf frame = buf.readBytes(frameSize);
 
 			ETS_EFADC_RegisterSet regs = new ETS_EFADC_RegisterSet(m_Client, moduleId);
 

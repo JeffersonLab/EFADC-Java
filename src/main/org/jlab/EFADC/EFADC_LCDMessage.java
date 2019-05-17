@@ -8,11 +8,11 @@
 
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 import java.io.UnsupportedEncodingException;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
 
 public class EFADC_LCDMessage {
 
@@ -24,9 +24,9 @@ public class EFADC_LCDMessage {
 	static final byte LCD_2ndLineStartAdr =			(byte)0x40; // address of first char on second line
 	static final byte LCD_SetDdrTo2ndLineStartAdr =	(byte)0xC0;
 	
-	public static ChannelBuffer encode(int line, String message) {
+	public static ByteBuf encode(int line, String message) {
 
-		ChannelBuffer buffer = buffer(71);
+		ByteBuf buffer = buffer(71);
 
 		byte[] ascii;
 

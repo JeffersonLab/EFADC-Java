@@ -1,10 +1,8 @@
 package org.jlab.EFADC.matrix;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jlab.EFADC.RegisterSet;
+import io.netty.buffer.ByteBuf;
 import org.junit.Test;
 
-import java.math.BigInteger;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +20,7 @@ public class MatrixRegisterEncoderTest {
 
 		CoincidenceMatrix.SetIdentityMatrix(numDetectors, andTable);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {
@@ -48,7 +46,7 @@ public class MatrixRegisterEncoderTest {
 
 		andTable.setCoincident(0, 1, true, false);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {
@@ -80,7 +78,7 @@ public class MatrixRegisterEncoderTest {
 
 		andTable.setCoincident(0, 1, true, true);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {
@@ -113,7 +111,7 @@ public class MatrixRegisterEncoderTest {
 		andTable.setCoincident(0, 2, true, false);
 		andTable.setCoincident(1, 3, true, false);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {
@@ -152,7 +150,7 @@ public class MatrixRegisterEncoderTest {
 		andTable.setCoincident(0, 2, true, true);
 		andTable.setCoincident(1, 3, true, true);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {
@@ -193,7 +191,7 @@ public class MatrixRegisterEncoderTest {
 		andTable.setCoincident(1, 2, true, true);
 		andTable.setCoincident(1, 3, true, true);
 
-		ChannelBuffer encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
+		ByteBuf encodedBuf = MatrixRegisterEncoder.encode(orTable, andTable, 64);
 
 		// encoded buffer should start with register 21 (for ETS)
 		for (int i = 0; i < numDetectors; i++) {

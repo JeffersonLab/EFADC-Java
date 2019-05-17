@@ -4,6 +4,7 @@ import org.jlab.EFADC.logging.ErrorFormatter;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TestCommon {
@@ -13,5 +14,7 @@ public class TestCommon {
 		Handler h = new ConsoleHandler();
 		h.setFormatter(new ErrorFormatter());
 		Logger.getGlobal().addHandler(h);
+
+		h.setLevel(Level.FINER);
 	}
 }

@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 import java.util.logging.Logger;
 
@@ -46,7 +46,7 @@ public abstract class RegisterSet {
 
 	public abstract void update(RegisterSet reg);
 
-	public abstract ChannelBuffer encode();
+	public abstract ByteBuf encode();
 
 	public enum MatrixType {
 		OR,
@@ -76,7 +76,7 @@ public abstract class RegisterSet {
 	 * @param nRegs Number of registers to decode, each register is a 16 bit word
 	 * @return
 	 */
-	public final boolean decode(ChannelBuffer frame, int nRegs) {
+	public final boolean decode(ByteBuf frame, int nRegs) {
 
 		StringBuilder strB = new StringBuilder();
 

@@ -8,11 +8,11 @@
 
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 import java.util.logging.Logger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
 
 public class EFADC_RegisterSet extends RegisterSet {
 
@@ -276,14 +276,14 @@ public class EFADC_RegisterSet extends RegisterSet {
 		return strB.toString();
 	}
 
-	public ChannelBuffer encode() {
+	public ByteBuf encode() {
 		return encode(false);
 	}
 	
-	public ChannelBuffer encode(boolean header) {
+	public ByteBuf encode(boolean header) {
 		int[] regs = getRegisters();
 
-		ChannelBuffer buffer = buffer((header ? 7 : 2) + regs.length * 2);
+		ByteBuf buffer = buffer((header ? 7 : 2) + regs.length * 2);
 
 		if (header) {
 			buffer.writeByte((byte)0x5a);
@@ -310,7 +310,7 @@ public class EFADC_RegisterSet extends RegisterSet {
 		return missedTrigs;
 	}
 	
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 
 		super.decode(frame, NUM_REGS);
 

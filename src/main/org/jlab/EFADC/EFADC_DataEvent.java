@@ -7,7 +7,7 @@
 //
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 
 public class EFADC_DataEvent {
 
@@ -32,7 +32,7 @@ public class EFADC_DataEvent {
 		chanActive = new boolean[16];
 	}
 	
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 		//Timestamp
 		/*
 		int t1 = frame.readUnsignedShort();

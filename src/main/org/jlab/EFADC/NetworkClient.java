@@ -1,23 +1,19 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.bootstrap.Bootstrap;
-import org.jboss.netty.bootstrap.ClientBootstrap;
-import org.jboss.netty.bootstrap.ConnectionlessBootstrap;
-import org.jboss.netty.channel.*;
-import org.jboss.netty.channel.socket.ClientSocketChannelFactory;
-import org.jboss.netty.channel.socket.DatagramChannel;
-import org.jboss.netty.channel.socket.DatagramChannelConfig;
-import org.jboss.netty.channel.socket.DatagramChannelFactory;
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
-import org.jboss.netty.channel.socket.oio.OioDatagramChannelFactory;
-import org.jboss.netty.handler.codec.frame.FrameDecoder;
-import org.jboss.netty.handler.timeout.IdleStateHandler;
-import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
-import org.jboss.netty.util.HashedWheelTimer;
-import org.jboss.netty.util.ThreadNameDeterminer;
-import org.jboss.netty.util.Timer;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.DatagramPacket;
+import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.codec.DatagramPacketDecoder;
+import io.netty.handler.codec.DatagramPacketEncoder;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.jlab.EFADC.command.Command;
-import org.jlab.EFADC.handler.ClientHandler;
+import org.jlab.EFADC.command.CommandEncoder;
+import org.jlab.EFADC.handler.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,10 +21,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.FileChannel;
 import java.util.NoSuchElementException;
-import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.jlab.EFADC.Tuple2.o;
 
 /**
  * Created by john on 6/13/17.
@@ -37,72 +32,46 @@ public class NetworkClient {
 
 	public static boolean flag_Verbose = false;
 
-	ChannelHandlerContext		m_EchoHandlerContext = null;
 	int							m_InterCommandDelay;
-	ChannelPipelineFactory		m_TCPClientPipelineFactory, m_UDPClientPipelineFactory;
 	int 						m_TCPPort, m_UDPPort;
 	InetSocketAddress			m_TCPSocketAddress, m_UDPSocketAddress;
-	ClientSocketChannelFactory	m_TCPClientChannelFactory;
-	DatagramChannelFactory		m_UDPClientChannelFactory;
-	Channel 					m_UDPChannel = null, m_TCPChannel = null;
+	Channel						m_UDPChannel = null, m_TCPChannel = null;
 	EFADC_ChannelContext		m_GlobalContext;
-	Timer						m_WheelTimer = null;
-	ChannelHandler 				m_IdleStateHandler = null;
-	private ReadTimeoutHandler 	m_AcquisitionReadTimeoutHandler;
+	ChannelHandler				m_IdleStateHandler = null;
+	private ReadTimeoutHandler m_AcquisitionReadTimeoutHandler;
+	private Bootstrap			m_Bootstrap = null;
 
 	public NetworkClient() {
-
-
-		m_UDPClientChannelFactory = new OioDatagramChannelFactory(Executors.newCachedThreadPool(),
-				ThreadNameDeterminer.CURRENT);
-
-		m_WheelTimer = new HashedWheelTimer();
 
 		m_GlobalContext = new EFADC_ChannelContext();
 		m_GlobalContext.setClient(this);
 
-		m_UDPClientPipelineFactory = new EFADC_ClientPipelineFactory(m_GlobalContext);
+		EventLoopGroup workerGroup = new NioEventLoopGroup();
+
+		Bootstrap b = new Bootstrap();
+		b.group(workerGroup);
+		b.channel(NioDatagramChannel.class);
+		b.handler(new ChannelInitializer<NioDatagramChannel>() {
+
+			@Override
+			protected void initChannel(NioDatagramChannel ch) throws Exception {
+
+				// why do we get the decode ref here?
+				EFADC_FrameDecoder decoder = new EFADC_FrameDecoder();
+
+				ch.pipeline().addLast("udpEncoder", new DatagramPacketEncoder(new CommandEncoder()));
+				ch.pipeline().addLast("regEncoder", new DatagramPacketEncoder(new RegisterEncoder()));
+				//ch.pipeline().addLast("encoder", new CommandEncoder());
+				ch.pipeline().addLast("decoder", new DatagramPacketDecoder(decoder));
+				//ch.pipeline().addLast("decoder", decoder);
+				ch.pipeline().addLast("deviceInfoHandler", new DeviceInfoHandler(m_GlobalContext));
+			}
+
+		});
+
+		m_Bootstrap = b;
 	}
 
-	private Tuple2<Bootstrap, Channel> InitConnectionlessChannel(ChannelFactory f, ChannelPipelineFactory pf, int port) {
-		ConnectionlessBootstrap b = new ConnectionlessBootstrap(f);
-
-		b.setPipelineFactory(pf);
-
-		SetSocketOptions(b);
-
-		Channel c = b.bind(new InetSocketAddress(port));
-		//Channel c = b.bind(m_UDPSocketAddress);
-
-		return o((Bootstrap)b, c);
-	}
-
-
-	private Tuple2<Bootstrap, Channel> InitConnectedChannel(ChannelFactory f, ChannelPipelineFactory pf, InetSocketAddress sa) {
-		ClientBootstrap b = new ClientBootstrap(f);
-
-		SetSocketOptions(b);
-
-		b.setPipelineFactory(pf);
-
-		ChannelFuture future = b.connect(sa);
-		future.awaitUninterruptibly();
-
-		assert future.isDone();
-
-		Channel c = null;
-
-		if (future.isCancelled()) {
-			// Connection attempt cancelled by user
-		} else if (!future.isSuccess()) {
-			future.getCause().printStackTrace();
-		} else {
-			// Connection established successfully
-			c = future.getChannel();
-		}
-
-		return o((Bootstrap)b, c);
-	}
 
 
 	public EFADC_ChannelContext getGlobalContext() {
@@ -110,25 +79,13 @@ public class NetworkClient {
 	}
 
 
-	public void initIdleHandler() {
-		m_IdleStateHandler = new IdleStateHandler(m_WheelTimer, 60, 30, 0);
-
-		// Don't set attachment for IdleStateHandler or it will throw ClassCastException on Windows
-		// So we initialize it down here
-
-		try {
-			m_UDPClientPipelineFactory.getPipeline().addFirst("idlestate", m_IdleStateHandler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public void initReadTimeoutHandler() {
 		// Insert read timeout handler into the pipeline
-		m_AcquisitionReadTimeoutHandler = new ReadTimeoutHandler(m_WheelTimer, 1);
+		m_AcquisitionReadTimeoutHandler = new ReadTimeoutHandler( 1);
 
 		try {
-			m_UDPClientPipelineFactory.getPipeline().addFirst("acqTimeout", m_AcquisitionReadTimeoutHandler);
+			m_UDPChannel.pipeline().addFirst("acqTimeout", m_AcquisitionReadTimeoutHandler);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,7 +94,7 @@ public class NetworkClient {
 	public void removeTimeoutHandler() {
 		try {
 			// Remove read timeout handler
-			m_UDPClientPipelineFactory.getPipeline().remove("acqTimeout");
+			m_UDPChannel.pipeline().remove("acqTimeout");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,9 +103,8 @@ public class NetworkClient {
 
 	private void SetSocketOptions(Bootstrap b) {
 		//Enable broadcast
-		b.setOption("broadcast", "false");
-		b.setOption("tcpNoDelay", true);
-
+		b.option(ChannelOption.SO_BROADCAST, false);
+		b.option(ChannelOption.TCP_NODELAY, true);
 
 		// Allow packets as large as up to 1024 bytes (default is 768).
 		// You could increase or decrease this value to avoid truncated packets
@@ -160,14 +116,14 @@ public class NetworkClient {
 		// certain size, depending on router configuration.  IPv4 routers
 		// truncate and IPv6 routers drop a large packet.  That's why it is
 		// safe to send small packets in UDP.
-		b.setOption("receiveBufferSizePredictor", new FixedReceiveBufferSizePredictor(2000));
+		//b.setOption("receiveBufferSizePredictor", new FixedReceiveBufferSizePredictor(2000));
 
 		//This needs to be set higher to avoid the "catching up" behavior where packets are missed near the beginning of an acquisition
-		b.setOption("receiveBufferSize", 1048576);
+		//b.setOption("receiveBufferSize", 1048576);
 		//b.setOption("receiveBufferSizePredictorFactory", new AdaptiveReceiveBufferSizePredictorFactory());
 	}
 
-
+	/*
 	private void InitTCPControlSocket() {
 		m_TCPClientChannelFactory = new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool());
 
@@ -180,6 +136,7 @@ public class NetworkClient {
 		Bootstrap b = t._1;
 		m_TCPChannel = t._2;
 	}
+	 */
 
 
 	public boolean isConnected() {
@@ -189,19 +146,29 @@ public class NetworkClient {
 
 
 	public void connect() throws EFADC_AlreadyConnectedException {
+
+		Logger.getGlobal().entering("connect", "NetworkClient");
+
 		if (m_UDPChannel != null /* && m_UDPChannel.isConnected()*/)
 			throw new EFADC_AlreadyConnectedException();
 
-		Tuple2<Bootstrap, Channel> t = InitConnectionlessChannel(m_UDPClientChannelFactory, m_UDPClientPipelineFactory, m_UDPPort);
 
-		Bootstrap b = t._1;
-		m_UDPChannel = t._2;
+		try {
+			m_UDPChannel = m_Bootstrap.bind(0).sync().channel();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-		Logger.getGlobal().info("m_UDPChannel connected: " + m_UDPChannel.isConnected() + "  open: " + m_UDPChannel.isOpen());
+		Logger.getGlobal().log(Level.FINE, "bound channel");
 
-		//b.setOption("connectTimeoutMillis", 10000);
+		ChannelPipeline p = m_UDPChannel.pipeline();
 
-		DatagramChannelConfig config = ((DatagramChannel)m_UDPChannel).getConfig();
+		p.addLast("registerHandler", new RegisterSetHandler(m_GlobalContext));
+		p.addLast("dataHandler", new DataEventHandler(m_GlobalContext));
+
+		//m_UDPChannel.connect(m_UDPSocketAddress);
+
+		Logger.getGlobal().exiting("connect", "NetworkClient");
 	}
 
 
@@ -209,18 +176,13 @@ public class NetworkClient {
 	 * Close sockets and release factory resources
 	 */
 	public void cleanup() {
-		if (m_WheelTimer != null)
-			m_WheelTimer.stop();
 
 		if (m_UDPChannel != null) {
-
 			ChannelFuture cf = m_UDPChannel.close();
 			cf.awaitUninterruptibly();
-
-			if (m_UDPClientChannelFactory != null)
-				m_UDPClientChannelFactory.releaseExternalResources();
 		}
 
+		/*
 		if (m_TCPChannel != null) {
 
 			if (m_TCPChannel.isConnected()) {
@@ -228,38 +190,8 @@ public class NetworkClient {
 				cf.awaitUninterruptibly();
 			}
 
-			if (m_TCPClientChannelFactory != null)
-				m_TCPClientChannelFactory.releaseExternalResources();
 		}
-
-	}
-
-
-	/**
-	 * Enable or disable the echo response handler.  Disable is only required if it had been previously enabled.
-	 * @param enable
-	 */
-	@Deprecated
-	public void enableEchoResponseHandler(boolean enable) {
-		if (enable && m_EchoHandlerContext == null) {
-			ChannelPipeline p = m_UDPChannel.getPipeline();
-
-			p.addBefore("encoder", "echo", new EFADC_EchoHandler());
-
-			// Technically we don't need to keep a reference to this object anymore since we're using the global context
-			m_EchoHandlerContext = p.getContext("echo");
-			m_EchoHandlerContext.setAttachment(m_GlobalContext);
-
-			Logger.getGlobal().info("Echo handler initialized");
-
-		} else {
-			try {
-				m_UDPChannel.getPipeline().remove("echo");
-			} catch (NoSuchElementException e) {
-			}
-
-			Logger.getGlobal().info("Echo handler disabled");
-		}
+		*/
 	}
 
 
@@ -294,20 +226,10 @@ public class NetworkClient {
 
 	/**
 	 * Set ClientHandler delegate
-	 * @param handler Delegate object
+	 * @param listener Delegate object
 	 */
-	public void setHandler(ClientHandler handler) {
-		ChannelPipeline p = getPipeline();
-
-		// Remove any existing handler
-		try {
-			p.remove("handler");
-		} catch (NoSuchElementException e) {
-			Logger.getGlobal().info("setHandler :: No existing handler to remove");
-		}
-
-		p.addLast("handler", handler);
-		p.getContext("handler").setAttachment(m_GlobalContext);
+	public void setClientListener(ClientHandler listener) {
+		m_GlobalContext.setListener(listener);
 	}
 
 
@@ -315,7 +237,7 @@ public class NetworkClient {
 	 * Replace existing frame decoder
 	 * @param decoder New frame decoder
 	 */
-	public void setDecoder(FrameDecoder decoder) {
+	public void setDecoder(EFADC_FrameDecoder decoder) {
 		ChannelPipeline p = getPipeline();
 
 		// Remove any existing decoder
@@ -325,20 +247,21 @@ public class NetworkClient {
 			Logger.getGlobal().info("setDecoder :: No existing decoder to remove");
 		}
 
-		p.addBefore("handler", "decoder", decoder);
-		p.getContext("decoder").setAttachment(m_GlobalContext);
+		p.addBefore("deviceInfoHandler", "decoder", new DatagramPacketDecoder(decoder));
+
+		decoder.setContext(m_GlobalContext);
 
 		Logger.getGlobal().info("setDecoder: " + decoder);
 	}
 
 
-	public ClientHandler getHandler() {
-		return (ClientHandler) getPipeline().get("handler");
+	public ClientHandler getListener() {
+		return m_GlobalContext.getListener();
 	}
 
 
 	public ChannelPipeline getPipeline() {
-		return m_UDPChannel.getPipeline();
+		return m_UDPChannel.pipeline();
 	}
 
 
@@ -392,7 +315,7 @@ public class NetworkClient {
 		try {
 			pipeline.replace("writer", "writer", writer);
 		} catch (NoSuchElementException e) {
-			pipeline.addBefore("encoder", "writer", writer);
+			pipeline.addBefore("udpEncoder", "writer", writer);
 		}
 	}
 
@@ -403,11 +326,14 @@ public class NetworkClient {
 	 * @return Result of command acknowledgement
 	 */
 	public boolean SendCommand(Object cmd) {
-		if (m_UDPChannel == null || !m_UDPChannel.isOpen())
+		if (m_UDPChannel == null || !m_UDPChannel.isOpen()) {
+			Logger.getGlobal().warning("UDP Channel closed when trying to SendCommand");
 			return false;
+		}
 
 		ChannelFuture echoFuture = null;
 
+		/*
 		if (m_EchoHandlerContext != null) {
 			echoFuture = Channels.future(m_UDPChannel);
 
@@ -418,25 +344,29 @@ public class NetworkClient {
 			} //else
 			//logger.info("Echo future attached successfully at " + m_GlobalContext.getLastUpdated());
 
-			/*
-			echoFuture.addListener(new ChannelFutureListener() {
-				public void operationComplete(ChannelFuture future) {
-					logger.info("Command Echo");
-				}
-			});
-			*/
+
+			//echoFuture.addListener(new ChannelFutureListener() {
+			//	public void operationComplete(ChannelFuture future) {
+			//		logger.info("Command Echo");
+			//	}
+			//});
+
 		}
+		 */
 
 		ChannelFuture writeFuture;
 
 		//Write command object to the pipeline
 
-		if (m_TCPChannel != null && m_TCPChannel.isConnected()) {
+		/*
+		if (m_TCPChannel != null && m_TCPChannel.isActive()) {
 			writeFuture = m_TCPChannel.write(cmd);
 		} else {
 			// Handle case for connectionless datagram channel
-			writeFuture = m_UDPChannel.isConnected() ? m_UDPChannel.write(cmd) : m_UDPChannel.write(cmd, m_UDPSocketAddress);
+			writeFuture = m_UDPChannel.isActive() ? m_UDPChannel.writeAndFlush(cmd) : m_UDPChannel.write(cmd);
 		}
+		*/
+		writeFuture = m_UDPChannel.writeAndFlush(new DefaultAddressedEnvelope<>(cmd, m_UDPSocketAddress));
 
 		if (echoFuture != null) {
 			if (!echoFuture.awaitUninterruptibly(2000)) {
@@ -446,16 +376,15 @@ public class NetworkClient {
 
 		} else {
 
-			writeFuture.addListener(new ChannelFutureListener() {
-				public void operationComplete(ChannelFuture future) {
-					// Wait briefly for command to echo
-					try {
-						Thread.sleep(m_InterCommandDelay);
-					} catch (InterruptedException e) {
-					}
 
+			writeFuture.addListener((ChannelFutureListener) future -> {
+				// Wait briefly for command to echo
+				try {
+					Thread.sleep(m_InterCommandDelay);
+				} catch (InterruptedException e) {
 				}
 			});
+
 		}
 
 		return true;

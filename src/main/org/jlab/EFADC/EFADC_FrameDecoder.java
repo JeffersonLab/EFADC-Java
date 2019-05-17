@@ -7,23 +7,35 @@
 //
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.handler.codec.frame.FrameDecoder;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.MessageToMessageDecoder;
+
+import java.util.List;
 import java.util.logging.Logger;
 
-public class EFADC_FrameDecoder extends FrameDecoder {
+public class EFADC_FrameDecoder extends MessageToMessageDecoder<ByteBuf> {
 
 	private static final short VERIFY_BIT = 1;
+
+	private EFADC_ChannelContext channelContext;
 
 	int lastTrig = -1;
 	int eventSize = 0;
 
 	private Client client = null;
 
-	protected Object processDataPacket(ChannelBuffer buf, int mark, boolean connected) {
+	public void setContext(EFADC_ChannelContext context) {
+		channelContext = context;
+	}
+
+	public EFADC_ChannelContext getContext() {
+		return channelContext;
+	}
+
+	private Object processDataPacket(ByteBuf buf, int mark, boolean connected) {
 		if (buf.readableBytes() < 10)	//4 from header + 6 more to calculate event length
 			return null;
 
@@ -80,7 +92,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 		buf.skipBytes(10);
 
-		ChannelBuffer frame = buf.readBytes(eventSize);
+		ByteBuf frame = buf.readBytes(eventSize);
 
 		EFADC_DataEvent theEvent = new EFADC_DataEvent();
 
@@ -108,7 +120,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 		return theEvent;	//return event as POJO
 	}
 
-	protected Object processRegisterPacket(int type, ChannelBuffer buf, int mark) {
+	protected Object processRegisterPacket(int type, ByteBuf buf, int mark) {
 		if (type == 0x0303) {
 			int regHeader = buf.getUnsignedShort(mark + 4);	// skip 6
 
@@ -120,7 +132,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 					return null;
 
 				buf.skipBytes(6);	// Skip over register header as well
-				ChannelBuffer frame = buf.readBytes(54);
+				ByteBuf frame = buf.readBytes(54);
 
 				EFADC_RegisterSet regs = new EFADC_RegisterSet(regHeader);
 
@@ -148,7 +160,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 			}
 
 			buf.skipBytes(4);	// Dont skip over register header
-			ChannelBuffer frame = buf.readBytes(frameSize);
+			ByteBuf frame = buf.readBytes(frameSize);
 
 			CMP_RegisterSet regs = RegisterFactory.InitCMPRegisters(nADC);
 			regs.decode(frame);
@@ -161,14 +173,13 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 	}
 	
 	@Override
-	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buf) throws Exception {
-		
+	protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> list) throws Exception {
 		if (buf.readableBytes() < 4) {
 			// The header field was not received yet - return null.
 			// This method will be invoked again when more packets are
 			// received and appended to the buffer.
 			//logger.info("buffer has " + buf.readableBytes() + " readable bytes...");
-			return null;
+			return;
 		}
 		
 		int mark = buf.readerIndex();
@@ -192,7 +203,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				Logger.getGlobal().info(out);
 			}
 
-			return null;
+			return;
 		} //else
 			//Logger.getGlobal().info("decodeFrame()");
 		
@@ -209,7 +220,7 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 				// Get the device via global context
 				if (client == null) {
-					EFADC_ChannelContext channelContext = (EFADC_ChannelContext)ctx.getAttachment();
+					//EFADC_ChannelContext channelContext = (EFADC_ChannelContext)ctx.getAttachment();
 					if (channelContext == null) {
 						Logger.getGlobal().severe("NULL channelContext with non null client!");
 					} else
@@ -218,13 +229,15 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 
 				// client may still be null after this if it isn't connected
 				// This is a terrible way to check if we're connected, but we need a reference to the client somehow..
-				return processDataPacket(buf, mark, (client != null && client.isConnected()));
+				list.add(processDataPacket(buf, mark, (client != null && client.isConnected())));
+				break;
 			}
 
 			case 0x0303:
 			case 0x0304:
 			case 0x0305: {
-				return processRegisterPacket(type, buf, mark);
+				list.add(processRegisterPacket(type, buf, mark));
+				break;
 			}
 
 			/*
@@ -238,7 +251,8 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				buf.skipBytes(4);
 				ver = buf.readUnsignedShort();
 
-				return new DeviceInfo(ver);
+				list.add(new DeviceInfo(ver));
+				break;
 			}
 			
 			default:
@@ -267,11 +281,13 @@ public class EFADC_FrameDecoder extends FrameDecoder {
 				
 				//Logger.getGlobal().info("Stray buffer " + count + " bytes long");
 			
-				return buf.readBytes(count);
+				list.add(buf.readBytes(count));
 		}
 
 		// If we got here, I think there is some other problem...
 
 		//return null;
 	}
+
+
 }

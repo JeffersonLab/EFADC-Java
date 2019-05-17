@@ -1,6 +1,6 @@
 package org.jlab.EFADC;
 
-import org.jboss.netty.buffer.ChannelBuffer;
+import io.netty.buffer.ByteBuf;
 import org.jlab.EFADC.matrix.MatrixFactory;
 import org.jlab.EFADC.matrix.MatrixRegisterEncoder;
 
@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.jboss.netty.buffer.ChannelBuffers.buffer;
+import static io.netty.buffer.Unpooled.buffer;
+
 
 /**
  * Created by john on 7/13/17.
@@ -196,8 +197,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 
 	@Override
-	public ChannelBuffer encode() {
-		ChannelBuffer buffer = buffer(5 + DATA_SIZE_WRITE_BYTES);
+	public ByteBuf encode() {
+		ByteBuf buffer = buffer(5 + DATA_SIZE_WRITE_BYTES);
 
 		buffer.writeByte((byte)0x5a);
 		buffer.writeByte((byte)0x5a);
@@ -232,7 +233,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		try {
 			ETS_EFADC_RegisterSet adcReg = getADCRegisters(idx+1);
 
-			ChannelBuffer adcBuf = adcReg.encode();
+			ByteBuf adcBuf = adcReg.encode();
 
 			buffer.writeBytes(adcBuf);
 
@@ -244,7 +245,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 
 		// Encode coincidence table entries
 		// 64 bit field widths
-		ChannelBuffer matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 64);
+		ByteBuf matrixBuf = MatrixRegisterEncoder.encode(m_ORTable, m_ANDTable, 64);
 
 		buffer.writeBytes(matrixBuf);
 
@@ -287,7 +288,7 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 	}
 
 	@Override
-	public boolean decode(ChannelBuffer frame) {
+	public boolean decode(ByteBuf frame) {
 
 		// ETS_FrameDecoder has already verified that we have the required byte count
 

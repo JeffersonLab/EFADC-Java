@@ -5,7 +5,6 @@ import org.jlab.EFADC.handler.ClientHandler;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * org.jlab.EFADC
@@ -24,7 +23,7 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 	// Set of module data containing identical trigger data
 	private LinkedHashMap<Integer, EventSet> m_EventMap;
 
-	private ClientHandler m_Handler = null;
+	private ClientHandler m_Listener = null;
 
 	private int m_TreeSize;
 
@@ -45,12 +44,12 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 
 		m_TreeSize = nSize;
 
-		setHandler(handler);
+		setListener(handler);
 	}
 
 
-	public void setHandler(ClientHandler handler) {
-		m_Handler = handler;
+	public void setListener(ClientHandler handler) {
+		m_Listener = handler;
 	}
 
 
@@ -146,8 +145,8 @@ public class EFADC_EventAggregator /* extends OneToOneDecoder */ {
 
 			Map.Entry<Integer, EventSet> evt = it.next();
 
-			if (m_Handler != null)
-				m_Handler.eventSetReceived(evt.getValue());
+			if (m_Listener != null)
+				m_Listener.eventSetReceived(evt.getValue());
 
 			it.remove();
 		}

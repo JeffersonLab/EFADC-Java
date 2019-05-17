@@ -8,48 +8,55 @@
 
 package org.jlab.EFADC.command;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelHandlerContext;
-import org.jboss.netty.channel.ChannelHandler.Sharable;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageEncoder;
 
-import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
-import org.jlab.EFADC.CMP_RegisterSet;
-import org.jlab.EFADC.EFADC_RegisterSet;
 import org.jlab.EFADC.RegisterSet;
+
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Encode POJO commands to ChannelBuffer
  */
-@Sharable
-public class CommandEncoder extends OneToOneEncoder {
-	
+public class CommandEncoder extends MessageToMessageEncoder<Object> {
+
 	@Override
-	protected Object encode(ChannelHandlerContext ctx, Channel channel, Object obj) throws Exception {
+	protected void encode(ChannelHandlerContext ctx, Object obj, List<Object> out) throws Exception {
 
 		/*if (obj instanceof EFADC_RegisterSet) {
 			EFADC_RegisterSet regSet = (EFADC_RegisterSet)obj;
-			
+
 			return regSet.encode(true);
 
 		} else if (obj instanceof CMP_RegisterSet) {
 			CMP_RegisterSet cmpRegSet = (CMP_RegisterSet)obj;
 
 			return cmpRegSet.encode();
-			
+
 		} */
 
+		/*
 		if (obj instanceof RegisterSet) {
 			RegisterSet reg = (RegisterSet)obj;
 
-			return reg.encode();
+			out.add(reg.encode());
 
-		} if (obj instanceof ChannelBuffer) {
-			ChannelBuffer buf = (ChannelBuffer)obj;
-			return buf;
-			
+			//out.add(wrappedBuffer(reg.encode()));
+
+		}
+		 */
+
+		if (obj instanceof ByteBuf) {
+			ByteBuf buf = (ByteBuf)obj;
+
+			out.add(buf);
+
 		} else
-			return null;
+			Logger.getGlobal().warning("Invalid object type for encoder");
 
 	}
+
+
 }
