@@ -23,7 +23,6 @@ public class DataEventHandler extends SimpleChannelInboundHandler<EFADC_DataEven
 	boolean isCMP = false;
 
 	private EFADC_ChannelContext context;
-	private EFADC_EventAggregator m_Aggregator;
 
 	public DataEventHandler(EFADC_ChannelContext ctx) {
 		this(false);
@@ -68,11 +67,7 @@ public class DataEventHandler extends SimpleChannelInboundHandler<EFADC_DataEven
 		if (context.isCMP()) {
 			// Aggregate events from a CMP or ETS
 
-			if (m_Aggregator == null) {
-				Logger.getGlobal().info("Aggregator null, iscmp = " + isCMP);
-			}
-
-			Object ret = m_Aggregator.process(event);
+			Object ret = context.getAggregator().process(event);
 
 			if (ret instanceof EventSet) {
 

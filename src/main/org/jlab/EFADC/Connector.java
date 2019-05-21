@@ -98,11 +98,6 @@ public class Connector {
 
 
 		@Override
-		public void connected(Client client) {
-
-		}
-
-		@Override
 		public void bufferReceived(ByteBuf buffer) {
 
 		}

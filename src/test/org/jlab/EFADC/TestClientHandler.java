@@ -25,13 +25,15 @@ public class TestClientHandler implements ClientHandler {
 		return eventQueue;
 	}
 
-
+/*
 	@Override
 	public void connected(Client client) {
 		//m_Client = client;
 
 		Logger.getGlobal().info("in main ClientHandler, connected()");
 	}
+
+ */
 
 	@Override
 	public void bufferReceived(ByteBuf buffer) {

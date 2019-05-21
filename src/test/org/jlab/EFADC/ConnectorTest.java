@@ -31,7 +31,7 @@ public class ConnectorTest {
 
 		m_Handler = new TestClientHandler();
 
-		m_Con = new Connector("129.57.53.60", 14999);
+		m_Con = new Connector("129.57.53.60", 4999);
 
 		// Open socket and request device info
 		Future<EFADC_Client> connectFuture = m_Con.connect(true);	// debugging on

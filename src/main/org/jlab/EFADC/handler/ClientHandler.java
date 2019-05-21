@@ -12,7 +12,7 @@ import org.jlab.EFADC.*;
 
 public interface ClientHandler {
 
-	void connected(Client client);
+	//void connected(Client client);
 	void bufferReceived(ByteBuf buffer);
 	void eventReceived(EFADC_DataEvent event);
 	void eventSetReceived(EventSet set);

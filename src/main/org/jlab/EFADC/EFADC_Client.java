@@ -551,7 +551,7 @@ public class EFADC_Client implements Client {
 				try {
 					cmpReg.selectADC(adc);
 
-					m_NetworkClient.SendCommand(m_Registers);
+					m_NetworkClient.SendRegisters(m_Registers);
 
 					Thread.sleep(50);
 
@@ -569,7 +569,7 @@ public class EFADC_Client implements Client {
 
 		} else
 			//We're either sending same register set to all EFADC's on a CMP, or just EFADC registers to a standalone unit
-			return m_NetworkClient.SendCommand(m_Registers);
+			return m_NetworkClient.SendRegisters(m_Registers);
 	}
 
 

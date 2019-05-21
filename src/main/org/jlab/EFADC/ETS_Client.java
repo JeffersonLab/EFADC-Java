@@ -135,7 +135,7 @@ public class ETS_Client extends EFADC_Client implements Client {
 		try {
 			m_Registers.setEFADC_Mask(mask & adcBit);
 
-			m_NetworkClient.SendCommand(m_Registers);
+			m_NetworkClient.SendRegisters(m_Registers);
 
 			Thread.sleep(SET_DELAY);
 		} catch (InterruptedException e) {

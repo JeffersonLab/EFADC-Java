@@ -37,7 +37,7 @@ public class CommandEncoder extends MessageToMessageEncoder<Object> {
 
 		} */
 
-		/*
+/*
 		if (obj instanceof RegisterSet) {
 			RegisterSet reg = (RegisterSet)obj;
 
@@ -46,7 +46,7 @@ public class CommandEncoder extends MessageToMessageEncoder<Object> {
 			//out.add(wrappedBuffer(reg.encode()));
 
 		}
-		 */
+*/
 
 		if (obj instanceof ByteBuf) {
 			ByteBuf buf = (ByteBuf)obj;

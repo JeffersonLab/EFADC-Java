@@ -117,6 +117,8 @@ public class EFADC_FrameDecoder extends MessageToMessageDecoder<ByteBuf> {
 			}
 		}
 
+		frame.release();
+
 		return theEvent;	//return event as POJO
 	}
 

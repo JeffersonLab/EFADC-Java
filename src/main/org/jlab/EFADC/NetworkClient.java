@@ -1,18 +1,12 @@
 package org.jlab.EFADC;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.codec.DatagramPacketDecoder;
-import io.netty.handler.codec.DatagramPacketEncoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.jlab.EFADC.command.Command;
-import org.jlab.EFADC.command.CommandEncoder;
 import org.jlab.EFADC.handler.*;
 
 import java.io.File;
@@ -59,11 +53,12 @@ public class NetworkClient {
 				// why do we get the decode ref here?
 				EFADC_FrameDecoder decoder = new EFADC_FrameDecoder();
 
-				ch.pipeline().addLast("udpEncoder", new DatagramPacketEncoder(new CommandEncoder()));
-				ch.pipeline().addLast("regEncoder", new DatagramPacketEncoder(new RegisterEncoder()));
+				// none of these are needed apparently
+				//ch.pipeline().addLast("udpEncoder", new DatagramPacketEncoder(new CommandEncoder()));
+				//ch.pipeline().addLast("regEncoder", new DatagramPacketEncoder(new RegisterEncoder()));
 				//ch.pipeline().addLast("encoder", new CommandEncoder());
+
 				ch.pipeline().addLast("decoder", new DatagramPacketDecoder(decoder));
-				//ch.pipeline().addLast("decoder", decoder);
 				ch.pipeline().addLast("deviceInfoHandler", new DeviceInfoHandler(m_GlobalContext));
 			}
 
@@ -315,7 +310,7 @@ public class NetworkClient {
 		try {
 			pipeline.replace("writer", "writer", writer);
 		} catch (NoSuchElementException e) {
-			pipeline.addBefore("udpEncoder", "writer", writer);
+			pipeline.addFirst("writer", writer);
 		}
 	}
 
@@ -371,6 +366,71 @@ public class NetworkClient {
 		if (echoFuture != null) {
 			if (!echoFuture.awaitUninterruptibly(2000)) {
 				Logger.getGlobal().info("Error waiting on command echo");
+				return false;
+			}
+
+		} else {
+
+
+			writeFuture.addListener((ChannelFutureListener) future -> {
+				// Wait briefly for command to echo
+				try {
+					Thread.sleep(m_InterCommandDelay);
+				} catch (InterruptedException e) {
+				}
+			});
+
+		}
+
+		return true;
+	}
+
+	public boolean SendRegisters(RegisterSet regs) {
+		if (m_UDPChannel == null || !m_UDPChannel.isOpen()) {
+			Logger.getGlobal().warning("UDP Channel closed when trying to SendCommand");
+			return false;
+		}
+
+		ChannelFuture echoFuture = null;
+
+		/*
+		if (m_EchoHandlerContext != null) {
+			echoFuture = Channels.future(m_UDPChannel);
+
+			m_GlobalContext.setObject(echoFuture);
+
+			if (((EFADC_ChannelContext)m_EchoHandlerContext.getAttachment()).getObject() != echoFuture) {
+				Logger.getGlobal().warning("Echo future not attached to global context!");
+			} //else
+			//logger.info("Echo future attached successfully at " + m_GlobalContext.getLastUpdated());
+
+
+			//echoFuture.addListener(new ChannelFutureListener() {
+			//	public void operationComplete(ChannelFuture future) {
+			//		logger.info("Command Echo");
+			//	}
+			//});
+
+		}
+		 */
+
+		ChannelFuture writeFuture;
+
+		//Write command object to the pipeline
+
+		/*
+		if (m_TCPChannel != null && m_TCPChannel.isActive()) {
+			writeFuture = m_TCPChannel.write(cmd);
+		} else {
+			// Handle case for connectionless datagram channel
+			writeFuture = m_UDPChannel.isActive() ? m_UDPChannel.writeAndFlush(cmd) : m_UDPChannel.write(cmd);
+		}
+		*/
+		writeFuture = m_UDPChannel.writeAndFlush(new DefaultAddressedEnvelope<>(regs.encode(), m_UDPSocketAddress));
+
+		if (echoFuture != null) {
+			if (!echoFuture.awaitUninterruptibly(2000)) {
+				Logger.getGlobal().info("Error waiting on register echo");
 				return false;
 			}
 
