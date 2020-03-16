@@ -16,5 +16,6 @@ public class TestCommon {
 		Logger.getGlobal().addHandler(h);
 
 		h.setLevel(Level.FINER);
+		Logger.getGlobal().setLevel(Level.FINER);
 	}
 }

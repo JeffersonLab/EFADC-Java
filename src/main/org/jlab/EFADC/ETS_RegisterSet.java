@@ -308,14 +308,8 @@ public class ETS_RegisterSet extends CMP_RegisterSet {
 		status[7] = frame.readUnsignedShort();	// MAC 31-16
 		status[8] = frame.readUnsignedShort();	// MAC 15-0
 
-		if (DEBUG) {
-			StringBuilder strB = new StringBuilder();
-
-			for (int i = 0; i < NUM_STATUS; i++)
-				strB.append(String.format("[S%d] %04x\n", i+1, status[i]));
-
-			Logger.getGlobal().info(strB.toString());
-		}
+		for (int i = 0; i < NUM_STATUS; i++)
+			Logger.getGlobal().log(Level.FINE, String.format("[S%d] %04x", i+1, status[i]));
 
 		lastUpdated = System.currentTimeMillis();
 

@@ -95,6 +95,10 @@ public class ConnectorTest {
 
 				// EFADC 2
 				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
+
+				// EFADC 3
+				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300,
 				3300, 3300, 3300, 3300, 3300, 3300, 3300, 3300});
 
 
@@ -109,6 +113,10 @@ public class ConnectorTest {
 		m_DeviceClient.SetThreshold(5, 1005);
 		m_DeviceClient.SetThreshold(6, 1006);
 		m_DeviceClient.SetThreshold(7, 1007);
+		m_DeviceClient.SetThreshold(8, 1008);
+		m_DeviceClient.SetThreshold(9, 1009);
+		m_DeviceClient.SetThreshold(10, 1010);
+		m_DeviceClient.SetThreshold(11, 1011);
 		m_DeviceClient.SetIntegrationWindow(3);
 
 		m_DeviceClient.SetNSB(50);
